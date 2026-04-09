@@ -37,6 +37,8 @@ jobs:
       - name: Build frontend
         run: npm run build
         working-directory: frontend
+        env:
+          BASE_PATH: /Capstone-Design/
 
       - name: Setup Pages
         uses: actions/configure-pages@v5

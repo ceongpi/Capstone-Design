@@ -64,3 +64,23 @@ git push origin main
 - 큰 원본 데이터는 저장소에 포함하지 않습니다.
 - 제외 항목은 `.gitignore`를 따릅니다.
 - 로컬에서 `vite build`가 Windows 샌드박스 제약으로 실패할 수 있으나, GitHub Actions에서는 정상 빌드되도록 배포 워크플로를 추가했습니다.
+- `frontend/vite.config.js`는 `BASE_PATH` 환경변수에 따라 GitHub Pages와 Vercel을 모두 지원하도록 설정되어 있습니다.
+
+## Vercel 배포
+
+이 프로젝트는 Vercel에도 배포할 수 있습니다. Vercel에서는 저장소 하위 경로가 아니라 도메인 루트(`/`)에 배포되므로 추가 코드 수정 없이 사용할 수 있게 설정해두었습니다.
+
+### Vercel 설정값
+
+- Framework Preset: `Vite`
+- Root Directory: `frontend`
+- Build Command: `npm run build`
+- Output Directory: `dist`
+
+### 배포 절차
+
+1. Vercel에서 GitHub 저장소 `ceongpi/Capstone-Design` import
+2. 위 설정값으로 프로젝트 생성
+3. 배포 완료 후 Vercel이 `https://...vercel.app` 주소를 발급
+
+데이터를 갱신한 뒤에는 GitHub에 push하면 Vercel도 자동으로 새 빌드를 수행합니다.
