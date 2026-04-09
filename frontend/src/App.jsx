@@ -16,8 +16,8 @@ import {
 import 'maplibre-gl/dist/maplibre-gl.css';
 import './index.css';
 
-const HOURS = Array.from({ length: 24 }, (_, index) => `${String((index + 4) % 24).padStart(2, '0')}시`);
-const MAP_STYLE = 'https://basemaps.cartocdn.com/gl/positron-gl-style/style.json';
+const EMPTY_ARRAY = [];
+const DATA_URL = `${import.meta.env.BASE_URL}data/selected_routes.json`;
 
 function colorForCrowding(crowding) {
   if (crowding >= 100) return [179, 35, 36, 230];
@@ -31,19 +31,8 @@ function average(values) {
   return values.reduce((sum, value) => sum + value, 0) / values.length;
 }
 
-function buildRouteSeries(route) {
-  return HOURS.map((hour) => ({
-    hour,
-    crowding: route.averages[hour],
-  }));
-}
-
-function buildStopSeries(stop) {
-  return HOURS.map((hour) => ({
-    hour,
-    crowding: stop.hourly[hour].crowding,
-    passengers: stop.hourly[hour].passengers,
-  }));
+function crowdingFromPassengers(passengers, busCapacity) {
+  return Number(((passengers / busCapacity) * 100).toFixed(2));
 }
 
 function buildViewState(route) {
@@ -60,24 +49,38 @@ function buildViewState(route) {
 }
 
 function App() {
-  const [routes, setRoutes] = useState([]);
+  const [dataset, setDataset] = useState(null);
   const [selectedRouteName, setSelectedRouteName] = useState('');
+  const [selectedDate, setSelectedDate] = useState('');
   const [selectedHourIndex, setSelectedHourIndex] = useState(3);
   const [selectedStopSequence, setSelectedStopSequence] = useState(null);
   const [viewState, setViewState] = useState(null);
+  const [errorMessage, setErrorMessage] = useState('');
 
   useEffect(() => {
     let active = true;
 
-    fetch('/data/selected_routes.json')
-      .then((response) => response.json())
+    fetch(DATA_URL)
+      .then((response) => {
+        if (!response.ok) {
+          throw new Error('예측 데이터 파일을 불러오지 못했습니다.');
+        }
+        return response.json();
+      })
       .then((json) => {
         if (!active) return;
-        setRoutes(json);
-        const firstRoute = json[0];
-        setSelectedRouteName(firstRoute.routeName);
-        setSelectedStopSequence(firstRoute.stops[0]?.sequence ?? null);
-        setViewState(buildViewState(firstRoute));
+        const firstRoute = json.routes[0];
+        const initialDate = json.latestActualDate ?? json.timeline[0]?.date ?? '';
+        setDataset(json);
+        setSelectedRouteName(firstRoute?.routeName ?? '');
+        setSelectedDate(initialDate);
+        setSelectedStopSequence(firstRoute?.stops[0]?.sequence ?? null);
+        setViewState(firstRoute ? buildViewState(firstRoute) : null);
+        setErrorMessage('');
+      })
+      .catch((error) => {
+        if (!active) return;
+        setErrorMessage(error.message);
       });
 
     return () => {
@@ -85,49 +88,72 @@ function App() {
     };
   }, []);
 
+  const routes = dataset?.routes ?? EMPTY_ARRAY;
+  const hours = dataset?.hours ?? EMPTY_ARRAY;
+  const timeline = dataset?.timeline ?? EMPTY_ARRAY;
+  const selectedHour = hours[selectedHourIndex] ?? '';
+
   const selectedRoute = useMemo(
     () => routes.find((route) => route.routeName === selectedRouteName) ?? null,
     [routes, selectedRouteName],
   );
 
-  const selectedHour = HOURS[selectedHourIndex];
-
-  useEffect(() => {
-    if (!selectedRoute) return;
-    setSelectedStopSequence((current) => {
-      const exists = selectedRoute.stops.some((stop) => stop.sequence === current);
-      return exists ? current : selectedRoute.stops[0]?.sequence ?? null;
-    });
-    setViewState(buildViewState(selectedRoute));
-  }, [selectedRoute]);
-
-  const selectedStop = useMemo(() => {
+  const selectedSnapshot = useMemo(() => {
     if (!selectedRoute) return null;
-    return selectedRoute.stops.find((stop) => stop.sequence === selectedStopSequence) ?? selectedRoute.stops[0] ?? null;
+    return selectedRoute.snapshots.find((snapshot) => snapshot.date === selectedDate) ?? selectedRoute.snapshots[0] ?? null;
+  }, [selectedDate, selectedRoute]);
+
+  const effectiveSelectedStopSequence = useMemo(() => {
+    if (!selectedRoute) return null;
+    const exists = selectedRoute.stops.some((stop) => stop.sequence === selectedStopSequence);
+    return exists ? selectedStopSequence : selectedRoute.stops[0]?.sequence ?? null;
   }, [selectedRoute, selectedStopSequence]);
 
+  const decoratedStops = useMemo(() => {
+    if (!selectedRoute || !selectedSnapshot || !dataset) return [];
+    return selectedRoute.stops.map((stop, index) => {
+      const passengers = selectedSnapshot.stopPassengers[index][selectedHourIndex];
+      return {
+        ...stop,
+        stopIndex: index,
+        passengers,
+        crowding: crowdingFromPassengers(passengers, dataset.busCapacity),
+        hourlyPassengers: selectedSnapshot.stopPassengers[index],
+      };
+    });
+  }, [dataset, selectedHourIndex, selectedRoute, selectedSnapshot]);
+
+  const selectedStop = useMemo(() => {
+    return decoratedStops.find((stop) => stop.sequence === effectiveSelectedStopSequence) ?? decoratedStops[0] ?? null;
+  }, [decoratedStops, effectiveSelectedStopSequence]);
+
   const summary = useMemo(() => {
-    if (!selectedRoute) return null;
-    const stops = selectedRoute.stops;
-    const stopCrowding = stops.map((stop) => ({
-      ...stop,
-      crowding: stop.hourly[selectedHour].crowding,
-      passengers: stop.hourly[selectedHour].passengers,
+    if (!selectedRoute || !selectedSnapshot || !selectedStop || !dataset) return null;
+    const avgCrowding = average(decoratedStops.map((stop) => stop.crowding));
+    const peakStop = decoratedStops.reduce((best, stop) => (stop.crowding > best.crowding ? stop : best), decoratedStops[0]);
+    const topStops = [...decoratedStops].sort((a, b) => b.crowding - a.crowding).slice(0, 10);
+    const routeSeries = hours.map((hour, index) => ({
+      hour,
+      crowding: selectedSnapshot.averages[index],
     }));
-    const avgCrowding = average(stopCrowding.map((stop) => stop.crowding));
-    const peakStop = stopCrowding.reduce((best, stop) => (stop.crowding > best.crowding ? stop : best), stopCrowding[0]);
+    const stopSeries = selectedStop.hourlyPassengers.map((passengers, index) => ({
+      hour: hours[index],
+      passengers,
+      crowding: crowdingFromPassengers(passengers, dataset.busCapacity),
+    }));
+
     return {
       avgCrowding: avgCrowding.toFixed(2),
       peakStop,
-      topStops: [...stopCrowding].sort((a, b) => b.crowding - a.crowding).slice(0, 10),
-      routeSeries: buildRouteSeries(selectedRoute),
-      stopSeries: selectedStop ? buildStopSeries(selectedStop) : [],
+      topStops,
+      routeSeries,
+      stopSeries,
     };
-  }, [selectedRoute, selectedStop, selectedHour]);
+  }, [dataset, decoratedStops, hours, selectedRoute, selectedSnapshot, selectedStop]);
 
   const layers = useMemo(() => {
     if (!selectedRoute) return [];
-    const mappedStops = selectedRoute.stops.filter((stop) => Number.isFinite(stop.stopLat) && Number.isFinite(stop.stopLon));
+    const mappedStops = decoratedStops.filter((stop) => Number.isFinite(stop.stopLat) && Number.isFinite(stop.stopLon));
 
     return [
       new PathLayer({
@@ -137,7 +163,7 @@ function App() {
             path: mappedStops.map((stop) => [stop.stopLon, stop.stopLat]),
           },
         ],
-        getPath: (d) => d.path,
+        getPath: (item) => item.path,
         getColor: [12, 110, 79, 230],
         widthUnits: 'pixels',
         getWidth: 7,
@@ -145,12 +171,13 @@ function App() {
         rounded: true,
       }),
       new ScatterplotLayer({
-        id: `stops-${selectedRoute.routeName}-${selectedHour}`,
+        id: `stops-${selectedRoute.routeName}-${selectedDate}-${selectedHour}`,
         data: mappedStops,
-        getPosition: (d) => [d.stopLon, d.stopLat],
-        getFillColor: (d) => colorForCrowding(d.hourly[selectedHour].crowding),
-        getLineColor: (d) => (d.sequence === selectedStopSequence ? [255, 255, 255, 255] : [26, 33, 42, 180]),
-        getRadius: (d) => (d.sequence === selectedStopSequence ? 95 : 68),
+        getPosition: (stop) => [stop.stopLon, stop.stopLat],
+        getFillColor: (stop) => colorForCrowding(stop.crowding),
+        getLineColor: (stop) =>
+          stop.sequence === effectiveSelectedStopSequence ? [255, 255, 255, 255] : [26, 33, 42, 180],
+        getRadius: (stop) => (stop.sequence === effectiveSelectedStopSequence ? 95 : 68),
         radiusUnits: 'meters',
         lineWidthUnits: 'pixels',
         getLineWidth: 2,
@@ -164,9 +191,9 @@ function App() {
       }),
       new TextLayer({
         id: `labels-${selectedRoute.routeName}`,
-        data: mappedStops.filter((stop, index) => index % Math.ceil(mappedStops.length / 16) === 0),
-        getPosition: (d) => [d.stopLon, d.stopLat],
-        getText: (d) => d.localStopName,
+        data: mappedStops.filter((_, index) => index % Math.ceil(mappedStops.length / 16) === 0),
+        getPosition: (stop) => [stop.stopLon, stop.stopLat],
+        getText: (stop) => stop.localStopName,
         getSize: 13,
         getColor: [42, 49, 57, 220],
         getPixelOffset: [0, 16],
@@ -176,9 +203,25 @@ function App() {
         pickable: false,
       }),
     ];
-  }, [selectedRoute, selectedHour, selectedStopSequence]);
+  }, [decoratedStops, effectiveSelectedStopSequence, selectedDate, selectedHour, selectedRoute]);
 
-  if (!selectedRoute || !summary || !viewState) {
+  function handleRouteChange(event) {
+    const nextRouteName = event.target.value;
+    const nextRoute = routes.find((route) => route.routeName === nextRouteName);
+    setSelectedRouteName(nextRouteName);
+    setSelectedStopSequence(nextRoute?.stops[0]?.sequence ?? null);
+    setViewState(nextRoute ? buildViewState(nextRoute) : null);
+  }
+
+  function handleDateChange(event) {
+    setSelectedDate(event.target.value);
+  }
+
+  if (errorMessage) {
+    return <div className="loading">{errorMessage}</div>;
+  }
+
+  if (!dataset || !selectedRoute || !selectedSnapshot || !summary || !viewState) {
     return <div className="loading">데이터를 불러오는 중입니다.</div>;
   }
 
@@ -189,14 +232,15 @@ function App() {
           <p className="eyebrow">Capstone Dashboard</p>
           <h1>서울 버스 혼잡도 인터랙티브 맵</h1>
           <p className="subtitle">
-            GTFS 경로 위에 시간대별 정류장 혼잡도를 올리고, 선택한 정류장의 일중 패턴까지 바로 확인할 수 있게 구성했습니다.
+            실측 데이터와 요일 기반 미래 예측을 같은 화면에서 비교할 수 있도록 확장했습니다.
+            날짜를 바꾸면 노선 전체와 정류장 단위 혼잡도가 함께 갱신됩니다.
           </p>
         </div>
         <div className="hero-metrics">
           <div className="stat-card">
             <span>평균 혼잡도</span>
             <strong>{summary.avgCrowding}%</strong>
-            <small>{selectedHour} 기준</small>
+            <small>{selectedSnapshot.label}</small>
           </div>
           <div className="stat-card accent">
             <span>최고 혼잡 정류장</span>
@@ -210,14 +254,21 @@ function App() {
         <aside className="side-panel glass">
           <section>
             <label htmlFor="routeSelect">노선 선택</label>
-            <select
-              id="routeSelect"
-              value={selectedRouteName}
-              onChange={(event) => setSelectedRouteName(event.target.value)}
-            >
+            <select id="routeSelect" value={selectedRouteName} onChange={handleRouteChange}>
               {routes.map((route) => (
                 <option key={route.routeName} value={route.routeName}>
                   {route.routeName}
+                </option>
+              ))}
+            </select>
+          </section>
+
+          <section>
+            <label htmlFor="dateSelect">날짜</label>
+            <select id="dateSelect" value={selectedDate} onChange={handleDateChange}>
+              {timeline.map((item) => (
+                <option key={item.date} value={item.date}>
+                  {item.label}
                 </option>
               ))}
             </select>
@@ -231,7 +282,7 @@ function App() {
                 id="hourRange"
                 type="range"
                 min="0"
-                max={HOURS.length - 1}
+                max={hours.length - 1}
                 value={selectedHourIndex}
                 onChange={(event) => setSelectedHourIndex(Number(event.target.value))}
               />
@@ -244,7 +295,7 @@ function App() {
               {summary.topStops.map((stop) => (
                 <button
                   key={stop.sequence}
-                  className={`stop-chip ${stop.sequence === selectedStopSequence ? 'active' : ''}`}
+                  className={`stop-chip ${stop.sequence === effectiveSelectedStopSequence ? 'active' : ''}`}
                   onClick={() => setSelectedStopSequence(stop.sequence)}
                   type="button"
                 >
@@ -256,12 +307,11 @@ function App() {
           </section>
 
           <section className="legend-block">
-            <p className="section-title">혼잡도 범례</p>
-            <div className="legend-row"><i className="legend-dot cool" /> 40% 미만</div>
-            <div className="legend-row"><i className="legend-dot mild" /> 40% 이상</div>
-            <div className="legend-row"><i className="legend-dot warm" /> 60% 이상</div>
-            <div className="legend-row"><i className="legend-dot hot" /> 80% 이상</div>
-            <div className="legend-row"><i className="legend-dot critical" /> 100% 이상</div>
+            <p className="section-title">예측 모델</p>
+            <div className="legend-row"><i className="legend-dot cool" /> {selectedSnapshot.type === 'actual' ? '실측 데이터' : '예측 데이터'}</div>
+            <div className="legend-row"><i className="legend-dot mild" /> 학습일수 {dataset.model.trainingDateCount}일</div>
+            <div className="legend-row"><i className="legend-dot warm" /> 예측범위 {dataset.model.predictionHorizonDays}일</div>
+            <div className="legend-row"><i className="legend-dot hot" /> 요일-시간-정류장 평균 기반</div>
           </section>
         </aside>
 
@@ -274,6 +324,7 @@ function App() {
             <div className="route-meta">
               <span>{selectedRoute.routeId}</span>
               <span>{selectedRoute.stopCountLocal}개 정류장</span>
+              <span>{selectedSnapshot.type === 'actual' ? '실측' : '예측'}</span>
             </div>
           </div>
           <div className="map-frame">
@@ -288,16 +339,17 @@ function App() {
                       html: `
                         <div style="min-width:180px">
                           <strong>${object.sequence}. ${object.localStopName}</strong><br/>
+                          날짜: ${selectedSnapshot.label}<br/>
                           시간: ${selectedHour}<br/>
-                          재차인원: ${object.hourly[selectedHour].passengers}명<br/>
-                          혼잡도: ${object.hourly[selectedHour].crowding}%
+                          재차인원: ${object.passengers}명<br/>
+                          혼잡도: ${object.crowding}%
                         </div>
                       `,
                     }
                   : null
               }
             >
-              <Map mapStyle={MAP_STYLE} reuseMaps />
+              <Map mapStyle="https://basemaps.cartocdn.com/gl/positron-gl-style/style.json" reuseMaps />
             </DeckGL>
           </div>
         </section>
@@ -310,7 +362,7 @@ function App() {
               <p className="section-title">Route Trend</p>
               <h3>노선 평균 혼잡도</h3>
             </div>
-            <span>{selectedRoute.routeName}</span>
+            <span>{selectedSnapshot.label}</span>
           </div>
           <div className="chart-box">
             <ResponsiveContainer width="100%" height="100%">
@@ -352,7 +404,7 @@ function App() {
           </div>
           {selectedStop ? (
             <p className="stop-caption">
-              {selectedHour} 현재 재차인원 {selectedStop.hourly[selectedHour].passengers}명, 혼잡도 {selectedStop.hourly[selectedHour].crowding}%입니다.
+              {selectedSnapshot.label} {selectedHour} 기준 재차인원 {selectedStop.passengers}명, 혼잡도 {selectedStop.crowding}%입니다.
             </p>
           ) : null}
         </article>
