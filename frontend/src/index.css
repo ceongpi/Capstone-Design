@@ -94,12 +94,13 @@ input {
 }
 
 .hero-panel h1 {
-  font-size: clamp(34px, 4.5vw, 58px);
-  max-width: 12ch;
+  font-size: clamp(32px, 4vw, 52px);
+  max-width: none;
+  white-space: nowrap;
 }
 
 .subtitle {
-  max-width: 62ch;
+  max-width: 56ch;
   color: #3f4a54;
   line-height: 1.7;
   margin-top: 14px;
@@ -129,6 +130,7 @@ input {
   margin: 0;
   color: #4d5964;
   line-height: 1.55;
+  font-size: 14px;
 }
 
 .hero-metrics {
@@ -354,6 +356,10 @@ input {
   min-width: 0;
 }
 
+.view-hidden {
+  display: none;
+}
+
 .view-header {
   padding: 18px 20px;
   display: flex;
@@ -488,8 +494,8 @@ input {
   }
 
   .hero-panel h1 {
-    max-width: none;
-    font-size: clamp(30px, 9vw, 42px);
+    white-space: normal;
+    font-size: clamp(30px, 8vw, 42px);
   }
 
   .map-frame {

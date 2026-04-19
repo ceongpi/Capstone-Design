@@ -282,24 +282,23 @@ function App() {
     <div className="app-shell">
       <header className="hero-panel glass">
         <div className="hero-copy">
-          <p className="eyebrow">User-Centered Bus Insight</p>
-          <h1>언제, 어느 노선을 타야 덜 붐비는지 바로 판단할 수 있는 혼잡도 웹</h1>
+          <p className="eyebrow">USER-CENTERED BUS INSIGHT</p>
+          <h1>버스 혼잡도 한눈에 보기</h1>
           <p className="subtitle">
-            이 화면은 단순히 지도를 보여주는 용도가 아니라, 탑승 전 사용자가 혼잡한 시간대와 정류장을 빠르게 판단하도록 돕기 위한 도구입니다.
-            출근과 등교처럼 시간 선택 여지가 적은 상황에서도 어떤 구간이 특히 붐비는지 한눈에 비교할 수 있도록 설계했습니다.
+            혼잡 시간대와 구간별 혼잡도를 빠르게 확인할 수 있도록 구성했습니다.
           </p>
           <div className="value-points">
             <article className="value-card">
-              <strong>탑승 전 판단</strong>
-              <p>노선, 날짜, 시간대를 바꾸며 실제로 붐비는 구간을 먼저 확인할 수 있습니다.</p>
+              <strong>탑승 전 확인</strong>
+              <p>시간대별 혼잡도 확인</p>
             </article>
             <article className="value-card">
-              <strong>구간 단위 비교</strong>
-              <p>같은 노선 안에서도 어느 정류장 이후에 혼잡이 급격히 커지는지 확인할 수 있습니다.</p>
+              <strong>구간 비교</strong>
+              <p>정류장별 혼잡도 비교</p>
             </article>
             <article className="value-card">
-              <strong>실측과 예측 연결</strong>
-              <p>실측 데이터와 요일 기반 예측을 같은 기준으로 이어서 볼 수 있습니다.</p>
+              <strong>실측예측 연계</strong>
+              <p>실측과 요일별 예측 비교</p>
             </article>
           </div>
         </div>
@@ -326,13 +325,14 @@ function App() {
       <section className="info-strip">
         <article className="definition-panel glass">
           <p className="section-title">혼잡도 기준</p>
-          <h2>사이트에서 쓰는 혼잡도는 정류장별 재차인원을 버스 정원 45명으로 나눈 비율입니다.</h2>
+          <h2>혼잡도는 재차인원을 버스 정원 45명 기준으로 계산한 비율입니다.</h2>
+          <p><strong>공식</strong></p>
           <p>
-            공식: <strong>혼잡도(%) = 재차인원 / 45 × 100</strong>
+            <strong>혼잡도(%) = (재차인원 / 45) × 100</strong>
           </p>
-          <p className="definition-note">
-            100%는 정원 45명과 같은 수준이며, 100%를 넘으면 정원 이상으로 혼잡한 상태로 해석합니다.
-          </p>
+          <p><strong>해석 기준</strong></p>
+          <p className="definition-note">100%: 버스 정원 45명과 같은 수준</p>
+          <p className="definition-note">100% 초과: 정원을 넘는 혼잡 상태</p>
         </article>
 
         <article className="definition-panel glass">
@@ -444,124 +444,122 @@ function App() {
             </div>
           </div>
 
-          {activeView === VIEW_MODES.MAP ? (
-            <section className="map-stage glass">
+          <section className={`map-stage glass ${activeView === VIEW_MODES.MAP ? '' : 'view-hidden'}`}>
+            <div className="panel-head">
+              <div>
+                <p className="section-title">지도 시각화</p>
+                <h3>정류장 위치와 시간대별 혼잡도를 동시에 확인</h3>
+              </div>
+            </div>
+            <div className="map-legend">
+              <span><i className="legend-dot cool" /> 0~39% 여유</span>
+              <span><i className="legend-dot mild" /> 40~59% 보통</span>
+              <span><i className="legend-dot warm" /> 60~79% 혼잡</span>
+              <span><i className="legend-dot hot" /> 80~99% 매우 혼잡</span>
+              <span><i className="legend-dot critical" /> 100% 이상 정원 초과</span>
+            </div>
+            <div className="map-frame">
+              <DeckGL
+                controller
+                layers={layers}
+                viewState={viewState}
+                onViewStateChange={({ viewState: nextViewState }) => setViewState(nextViewState)}
+                getTooltip={({ object }) =>
+                  object
+                    ? {
+                        html: `
+                          <div style="min-width:190px">
+                            <strong>${object.sequence}. ${object.localStopName}</strong><br/>
+                            날짜: ${selectedSnapshot.label}<br/>
+                            시간: ${selectedHour}<br/>
+                            재차인원: ${object.passengers}명<br/>
+                            혼잡도: ${object.crowding}%<br/>
+                            해석: ${crowdingLevelLabel(object.crowding)}
+                          </div>
+                        `,
+                      }
+                    : null
+                }
+              >
+                <Map mapStyle="https://basemaps.cartocdn.com/gl/positron-gl-style/style.json" reuseMaps />
+              </DeckGL>
+            </div>
+          </section>
+
+          <section className={`charts-stack ${activeView === VIEW_MODES.CHARTS ? '' : 'view-hidden'}`}>
+            <article className="chart-panel glass">
               <div className="panel-head">
                 <div>
-                  <p className="section-title">지도 시각화</p>
-                  <h3>정류장 위치와 시간대별 혼잡도를 동시에 확인</h3>
+                  <p className="section-title">Route Trend</p>
+                  <h3>노선 평균 혼잡도 그래프</h3>
                 </div>
+                <span>Y축: 혼잡도(%) / X축: 시간대</span>
               </div>
-              <div className="map-legend">
-                <span><i className="legend-dot cool" /> 0~39% 여유</span>
-                <span><i className="legend-dot mild" /> 40~59% 보통</span>
-                <span><i className="legend-dot warm" /> 60~79% 혼잡</span>
-                <span><i className="legend-dot hot" /> 80~99% 매우 혼잡</span>
-                <span><i className="legend-dot critical" /> 100% 이상 정원 초과</span>
+              <p className="chart-description">
+                선택한 노선의 전체 정류장을 평균했을 때 시간대별 혼잡도가 어떻게 변하는지 보여줍니다.
+              </p>
+              <div className="chart-box">
+                <ResponsiveContainer width="100%" height="100%">
+                  <AreaChart data={summary.routeSeries} margin={{ top: 12, right: 20, left: 8, bottom: 18 }}>
+                    <defs>
+                      <linearGradient id="routeGradient" x1="0" y1="0" x2="0" y2="1">
+                        <stop offset="5%" stopColor="#0b6e4f" stopOpacity={0.45} />
+                        <stop offset="95%" stopColor="#0b6e4f" stopOpacity={0.03} />
+                      </linearGradient>
+                    </defs>
+                    <CartesianGrid strokeDasharray="4 4" stroke="#d8d0c4" />
+                    <XAxis
+                      dataKey="hour"
+                      tick={{ fill: '#5f6770', fontSize: 12 }}
+                      label={{ value: '시간대', position: 'insideBottom', offset: -8 }}
+                    />
+                    <YAxis
+                      tick={{ fill: '#5f6770', fontSize: 12 }}
+                      label={{ value: '혼잡도(%)', angle: -90, position: 'insideLeft' }}
+                    />
+                    <Tooltip content={<CustomTooltip title="노선 평균 혼잡도" unit="%" />} />
+                    <Area type="monotone" dataKey="혼잡도" name="혼잡도" stroke="#0b6e4f" fill="url(#routeGradient)" strokeWidth={3} />
+                  </AreaChart>
+                </ResponsiveContainer>
               </div>
-              <div className="map-frame">
-                <DeckGL
-                  controller
-                  layers={layers}
-                  viewState={viewState}
-                  onViewStateChange={({ viewState: nextViewState }) => setViewState(nextViewState)}
-                  getTooltip={({ object }) =>
-                    object
-                      ? {
-                          html: `
-                            <div style="min-width:190px">
-                              <strong>${object.sequence}. ${object.localStopName}</strong><br/>
-                              날짜: ${selectedSnapshot.label}<br/>
-                              시간: ${selectedHour}<br/>
-                              재차인원: ${object.passengers}명<br/>
-                              혼잡도: ${object.crowding}%<br/>
-                              해석: ${crowdingLevelLabel(object.crowding)}
-                            </div>
-                          `,
-                        }
-                      : null
-                  }
-                >
-                  <Map mapStyle="https://basemaps.cartocdn.com/gl/positron-gl-style/style.json" reuseMaps />
-                </DeckGL>
-              </div>
-            </section>
-          ) : (
-            <section className="charts-stack">
-              <article className="chart-panel glass">
-                <div className="panel-head">
-                  <div>
-                    <p className="section-title">Route Trend</p>
-                    <h3>노선 평균 혼잡도 그래프</h3>
-                  </div>
-                  <span>Y축: 혼잡도(%) / X축: 시간대</span>
-                </div>
-                <p className="chart-description">
-                  선택한 노선의 전체 정류장을 평균했을 때 시간대별 혼잡도가 어떻게 변하는지 보여줍니다.
-                </p>
-                <div className="chart-box">
-                  <ResponsiveContainer width="100%" height="100%">
-                    <AreaChart data={summary.routeSeries} margin={{ top: 12, right: 20, left: 8, bottom: 18 }}>
-                      <defs>
-                        <linearGradient id="routeGradient" x1="0" y1="0" x2="0" y2="1">
-                          <stop offset="5%" stopColor="#0b6e4f" stopOpacity={0.45} />
-                          <stop offset="95%" stopColor="#0b6e4f" stopOpacity={0.03} />
-                        </linearGradient>
-                      </defs>
-                      <CartesianGrid strokeDasharray="4 4" stroke="#d8d0c4" />
-                      <XAxis
-                        dataKey="hour"
-                        tick={{ fill: '#5f6770', fontSize: 12 }}
-                        label={{ value: '시간대', position: 'insideBottom', offset: -8 }}
-                      />
-                      <YAxis
-                        tick={{ fill: '#5f6770', fontSize: 12 }}
-                        label={{ value: '혼잡도(%)', angle: -90, position: 'insideLeft' }}
-                      />
-                      <Tooltip content={<CustomTooltip title="노선 평균 혼잡도" unit="%" />} />
-                      <Area type="monotone" dataKey="혼잡도" name="혼잡도" stroke="#0b6e4f" fill="url(#routeGradient)" strokeWidth={3} />
-                    </AreaChart>
-                  </ResponsiveContainer>
-                </div>
-              </article>
+            </article>
 
-              <article className="chart-panel glass emphasis">
-                <div className="panel-head">
-                  <div>
-                    <p className="section-title">Stop Trend</p>
-                    <h3>{selectedStop?.localStopName ?? '정류장 선택'}</h3>
-                  </div>
-                  <span>{`Y축: 재차인원(명) / X축: 시간대`}</span>
+            <article className="chart-panel glass emphasis">
+              <div className="panel-head">
+                <div>
+                  <p className="section-title">Stop Trend</p>
+                  <h3>{selectedStop?.localStopName ?? '정류장 선택'}</h3>
                 </div>
-                <p className="chart-description">
-                  선택한 정류장에서 시간대별 재차인원이 어떻게 변하는지 보여줍니다. 혼잡도 정의는 정원 45명 기준입니다.
+                <span>{`Y축: 재차인원(명) / X축: 시간대`}</span>
+              </div>
+              <p className="chart-description">
+                선택한 정류장에서 시간대별 재차인원이 어떻게 변하는지 보여줍니다. 혼잡도 정의는 정원 45명 기준입니다.
+              </p>
+              <div className="chart-box">
+                <ResponsiveContainer width="100%" height="100%">
+                  <LineChart data={summary.stopSeries} margin={{ top: 12, right: 20, left: 8, bottom: 18 }}>
+                    <CartesianGrid strokeDasharray="4 4" stroke="#d8d0c4" />
+                    <XAxis
+                      dataKey="hour"
+                      tick={{ fill: '#5f6770', fontSize: 12 }}
+                      label={{ value: '시간대', position: 'insideBottom', offset: -8 }}
+                    />
+                    <YAxis
+                      tick={{ fill: '#5f6770', fontSize: 12 }}
+                      label={{ value: '재차인원(명)', angle: -90, position: 'insideLeft' }}
+                    />
+                    <Tooltip content={<CustomTooltip title="정류장 시간대별 재차인원" unit="명" />} />
+                    <Line type="monotone" dataKey="재차인원" name="재차인원" stroke="#d94841" strokeWidth={3} dot={false} />
+                  </LineChart>
+                </ResponsiveContainer>
+              </div>
+              {selectedStop ? (
+                <p className="stop-caption">
+                  {`${selectedSnapshot.label} ${selectedHour} 기준 ${selectedStop.localStopName} 정류장의 재차인원은 ${selectedStop.passengers}명이고, 혼잡도는 ${selectedStop.crowding}%입니다.`}
                 </p>
-                <div className="chart-box">
-                  <ResponsiveContainer width="100%" height="100%">
-                    <LineChart data={summary.stopSeries} margin={{ top: 12, right: 20, left: 8, bottom: 18 }}>
-                      <CartesianGrid strokeDasharray="4 4" stroke="#d8d0c4" />
-                      <XAxis
-                        dataKey="hour"
-                        tick={{ fill: '#5f6770', fontSize: 12 }}
-                        label={{ value: '시간대', position: 'insideBottom', offset: -8 }}
-                      />
-                      <YAxis
-                        tick={{ fill: '#5f6770', fontSize: 12 }}
-                        label={{ value: '재차인원(명)', angle: -90, position: 'insideLeft' }}
-                      />
-                      <Tooltip content={<CustomTooltip title="정류장 시간대별 재차인원" unit="명" />} />
-                      <Line type="monotone" dataKey="재차인원" name="재차인원" stroke="#d94841" strokeWidth={3} dot={false} />
-                    </LineChart>
-                  </ResponsiveContainer>
-                </div>
-                {selectedStop ? (
-                  <p className="stop-caption">
-                    {`${selectedSnapshot.label} ${selectedHour} 기준 ${selectedStop.localStopName} 정류장의 재차인원은 ${selectedStop.passengers}명이고, 혼잡도는 ${selectedStop.crowding}%입니다.`}
-                  </p>
-                ) : null}
-              </article>
-            </section>
-          )}
+              ) : null}
+            </article>
+          </section>
         </section>
       </main>
     </div>
