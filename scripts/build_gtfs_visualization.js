@@ -16,10 +16,8 @@ const GTFS_FILES = {
 
 const BUS_CAPACITY = 45;
 const PREDICTION_DAYS = 7;
-const TARGET_ROUTE_NAMES = new Set(['140', '171', '성북20']);
 const HOUR_COLUMNS = Array.from({ length: 24 }, (_, index) => `${String((index + 4) % 24).padStart(2, '0')}시`);
 const CSV_FILE_PATTERN = /^노선·정류장 지표\(노선별 차내 재차인원\)_(\d{8})\.csv$/;
-const KOREAN_WEEKDAYS = ['일', '월', '화', '수', '목', '금', '토'];
 const KOREAN_TIMEZONE = 'Asia/Seoul';
 
 function parseCsvLine(line) {
@@ -60,7 +58,7 @@ function normalizeStopName(name) {
     .replace(/\(.*?\)/g, '')
     .replace(/[.\-·,/]/g, '')
     .replace(/\s+/g, '')
-    .replace(/서울북부지방법원검찰청도봉역성황당/g, '서울북부지방법원검찰청도봉역성황당')
+    .replace(/서울북부지방법원검찰청입구성당/g, '서울북부지방법원검찰청입구')
     .trim();
 }
 
@@ -122,9 +120,12 @@ function getCrowdingCsvFiles() {
     .sort((left, right) => left.localeCompare(right, 'ko'));
 }
 
+function decodeEucKr(buffer) {
+  return new TextDecoder('euc-kr').decode(buffer);
+}
+
 function readDailyCrowding(filePath) {
-  const buffer = fs.readFileSync(filePath);
-  const text = new TextDecoder('euc-kr').decode(buffer);
+  const text = decodeEucKr(fs.readFileSync(filePath));
   const lines = text.trim().split(/\r?\n/);
   const header = parseCsvLine(lines[0]);
   const rows = lines.slice(1).map((line) => {
@@ -139,7 +140,7 @@ function readDailyCrowding(filePath) {
   const byRoute = {};
   for (const row of rows) {
     const route = row['노선'];
-    if (!TARGET_ROUTE_NAMES.has(route)) {
+    if (!route) {
       continue;
     }
 
@@ -164,22 +165,27 @@ function readDailyCrowding(filePath) {
 function readAllCrowding() {
   const files = getCrowdingCsvFiles();
   if (!files.length) {
-    throw new Error('혼잡도 CSV 파일을 찾을 수 없습니다.');
+    throw new Error('스마트카드 CSV 파일을 찾을 수 없습니다.');
   }
 
   const byDate = {};
+  const routeNames = new Set();
+
   for (const filename of files) {
     const date = parseDateFromFilename(filename);
     if (!date) {
       continue;
     }
 
-    byDate[date] = readDailyCrowding(path.join(ROOT, filename));
+    const byRoute = readDailyCrowding(path.join(ROOT, filename));
+    byDate[date] = byRoute;
+    Object.keys(byRoute).forEach((routeName) => routeNames.add(routeName));
   }
 
   return {
     dates: Object.keys(byDate).sort(),
     byDate,
+    routeNames: Array.from(routeNames).sort((left, right) => left.localeCompare(right, 'ko')),
   };
 }
 
@@ -207,13 +213,13 @@ async function streamCsv(filePath, onRow, encoding = 'utf8') {
   }
 }
 
-async function findSeoulRoutes() {
+async function findSeoulRoutes(targetRouteNames) {
   const routes = {};
 
   await streamCsv(GTFS_FILES.routes, async (row) => {
     const routeShortName = row.route_short_name;
     const routeId = row.route_id;
-    if (!TARGET_ROUTE_NAMES.has(routeShortName)) {
+    if (!targetRouteNames.has(routeShortName)) {
       return;
     }
     if (!routeId.startsWith('BR_1100_')) {
@@ -371,7 +377,7 @@ function buildRouteBases(latestCrowdingByRoute, routeMap, tripsByRouteId, stopTi
   const extractedStopTimes = [];
   const extractedStops = new Map();
 
-  for (const routeName of Object.keys(routeMap)) {
+  for (const routeName of Object.keys(routeMap).sort((left, right) => left.localeCompare(right, 'ko'))) {
     const route = routeMap[routeName];
     const trip = tripsByRouteId[route.routeId];
     if (!trip) {
@@ -383,6 +389,9 @@ function buildRouteBases(latestCrowdingByRoute, routeMap, tripsByRouteId, stopTi
       ...stopsById[stopTime.stopId],
     }));
     const localStops = latestCrowdingByRoute[routeName] || [];
+    if (!localStops.length) {
+      continue;
+    }
 
     const nameMatchPairs = lcsMatch(localStops, gtfsStops);
     const matchPairs = expandMatchPairs(localStops, gtfsStops, nameMatchPairs);
@@ -504,6 +513,7 @@ function buildPredictionStats(actualSnapshots) {
     for (let stopIndex = 0; stopIndex < snapshot.stopPassengers.length; stopIndex += 1) {
       for (let hourIndex = 0; hourIndex < HOUR_COLUMNS.length; hourIndex += 1) {
         const passengers = snapshot.stopPassengers[stopIndex][hourIndex];
+
         const weekdayStopCell = weekdayStopHour[snapshot.weekdayIndex][stopIndex][hourIndex];
         weekdayStopCell.sum += passengers;
         weekdayStopCell.count += 1;
@@ -544,13 +554,7 @@ function buildPredictedSnapshot(routeBase, stats, date) {
       const weekdayRouteValue = averageFromCell(stats.weekdayRouteHour[weekdayIndex][hourIndex]);
       const routeValue = averageFromCell(stats.routeHour[hourIndex]);
 
-      const predicted =
-        weekdayStopValue ??
-        stopValue ??
-        weekdayRouteValue ??
-        routeValue ??
-        0;
-
+      const predicted = weekdayStopValue ?? stopValue ?? weekdayRouteValue ?? routeValue ?? 0;
       return Math.max(0, Math.round(predicted));
     }),
   );
@@ -644,26 +648,25 @@ function renderHtml(latestRoutes, snapshotLabel) {
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>서울 버스 혼잡 시각화</title>
+  <title>서울 버스 혼잡 요약</title>
   <style>
     body { font-family: "Segoe UI", "Malgun Gothic", sans-serif; margin: 0; background: #f6f1e8; color: #17202a; }
-    .page { max-width: 1100px; margin: 0 auto; padding: 32px 20px 40px; }
+    .page { max-width: 1280px; margin: 0 auto; padding: 32px 20px 40px; }
     .hero { background: #fffaf2; border: 1px solid #d8d0c4; border-radius: 24px; padding: 24px; }
     .hero h1 { margin: 0 0 8px; }
-    .hero p { margin: 0; color: #57616b; }
-    .grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 16px; margin-top: 20px; }
+    .hero p { margin: 0; color: #57616b; line-height: 1.5; }
+    .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 16px; margin-top: 20px; }
     .card { background: #fffaf2; border: 1px solid #d8d0c4; border-radius: 20px; padding: 18px; }
     .card h2 { margin: 0 0 8px; font-size: 20px; }
     .card strong { font-size: 28px; }
     ul { padding-left: 18px; margin: 12px 0 0; }
-    @media (max-width: 900px) { .grid { grid-template-columns: 1fr; } }
   </style>
 </head>
 <body>
   <div class="page">
     <section class="hero">
-      <h1>서울 버스 혼잡도 시각화</h1>
-      <p>정적 HTML은 최신 스냅샷 요약만 제공합니다. 전체 인터랙션과 미래 예측은 React 프론트엔드에서 확인하세요.</p>
+      <h1>서울 버스 혼잡도 요약</h1>
+      <p>정적 HTML에는 최신 스냅샷 요약만 제공합니다. 전체 인터랙션과 미래 예측은 React 프론트엔드에서 확인할 수 있습니다.</p>
       <p style="margin-top: 8px;"><strong>기준 스냅샷:</strong> ${snapshotLabel}</p>
     </section>
     <section class="grid">
@@ -682,7 +685,7 @@ function renderHtml(latestRoutes, snapshotLabel) {
               <h2>${route.routeName}</h2>
               <p>정류장 ${route.stopCountLocal}개, GTFS 매칭률 ${route.matchRate}%</p>
               <strong>${Math.max(...Object.values(route.averages)).toFixed(2)}%</strong>
-              <p>일중 최고 평균 혼잡도</p>
+              <p>하루 중 최고 평균 혼잡도</p>
               <ul>
                 ${topStops.map((stop) => `<li>${stop.name}: ${stop.peak.toFixed(2)}%</li>`).join('')}
               </ul>
@@ -701,9 +704,11 @@ async function main() {
   ensureDir(FRONTEND_DATA_DIR);
 
   const crowding = readAllCrowding();
+  const targetRouteNames = new Set(crowding.routeNames);
   const latestActualDate = crowding.dates[crowding.dates.length - 1];
   const futureDates = Array.from({ length: PREDICTION_DAYS }, (_, index) => addDays(latestActualDate, index + 1));
-  const routeMap = await findSeoulRoutes();
+
+  const routeMap = await findSeoulRoutes(targetRouteNames);
   const tripsByRouteId = await findTrips(routeMap);
   const { stopTimesByTrip, stopIds } = await findStopTimes(tripsByRouteId);
   const stopsById = await findStops(stopIds);
@@ -728,6 +733,8 @@ async function main() {
     };
   });
 
+  const missingInGtfs = crowding.routeNames.filter((routeName) => !routeMap[routeName]);
+
   const dataset = {
     generatedAt: new Date().toISOString(),
     busCapacity: BUS_CAPACITY,
@@ -735,9 +742,12 @@ async function main() {
     actualDates: crowding.dates,
     futureDates,
     latestActualDate,
+    sourceRouteCount: crowding.routeNames.length,
+    matchedRouteCount: routes.length,
+    missingRoutesInGtfs: missingInGtfs,
     model: {
       name: 'weekday-stop-hour-baseline',
-      description: '같은 요일, 같은 시간, 같은 노선/정류장 평균을 우선 사용하는 베이스라인 예측',
+      description: '같은 요일, 같은 시간, 같은 노선과 정류장의 평균을 우선 사용하는 베이스라인 예측',
       predictionHorizonDays: PREDICTION_DAYS,
       trainingDateCount: crowding.dates.length,
     },
@@ -761,14 +771,13 @@ async function main() {
     'utf8',
   );
 
-  const summary = routes.map((route) => ({
-    routeName: route.routeName,
-    snapshots: route.snapshots.length,
-    actualSnapshots: crowding.dates.length,
-    predictedSnapshots: futureDates.length,
-    stopCountLocal: route.stopCountLocal,
-    matchRate: route.matchRate,
-  }));
+  const summary = {
+    sourceRouteCount: dataset.sourceRouteCount,
+    matchedRouteCount: dataset.matchedRouteCount,
+    missingRoutesInGtfs: dataset.missingRoutesInGtfs,
+    actualDates: dataset.actualDates,
+    futureDates: dataset.futureDates,
+  };
   console.log(JSON.stringify(summary, null, 2));
 }
 

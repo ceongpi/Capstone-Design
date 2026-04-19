@@ -1,14 +1,16 @@
 # Seoul Bus Crowding Visualization
 
-서울 버스 3개 노선 `140`, `171`, `성북20`의 GTFS 경로와 정류장별 차내 재차인원 데이터를 결합해 시각화하는 프로젝트입니다. 현재는 `2026-03-15`부터 `2026-03-29`까지의 실측 데이터와, 그 이후 `7일`의 베이스라인 예측을 함께 제공합니다.
+서울 버스 스마트카드 재차인원 CSV와 GTFS를 결합해 노선별 혼잡도를 시각화하는 프로젝트입니다. 현재 빌드 스크립트는 폴더에 있는 CSV 파일을 자동으로 스캔해 대상 노선을 결정하며, 실측 데이터 뒤에 7일치 베이스라인 예측을 생성합니다.
+
+현재 워크스페이스 기준 원본 CSV는 `2026-03-22`부터 `2026-04-05`까지 15일치입니다.
 
 ## 구성
 
 - `frontend/`: React + Vite + deck.gl 프론트엔드
-- `scripts/build_gtfs_visualization.js`: CSV와 GTFS를 결합하고 실측/예측 데이터를 생성하는 스크립트
+- `scripts/build_gtfs_visualization.js`: CSV와 GTFS를 결합해 실측/예측 데이터를 생성하는 스크립트
 - `frontend/public/data/selected_routes.json`: 프론트엔드에서 사용하는 데이터
 - `output/`: 생성된 중간 산출물과 요약 HTML
-- `agent.md`: 프로젝트 계획 메모
+- `agent.md`: 프로젝트 메모
 
 ## 로컬 실행
 
@@ -28,59 +30,39 @@ npm.cmd run dev
 
 브라우저에서 `http://localhost:5173`로 접속합니다.
 
-## GitHub Pages 배포
+## 데이터 갱신
 
-이 저장소는 `main` 브랜치에 push되면 GitHub Actions가 자동으로 다음 작업을 수행하도록 설정되어 있습니다.
-
-1. 커밋된 `frontend/public/data/selected_routes.json`을 사용
-2. `frontend` 빌드
-3. `frontend/dist`를 GitHub Pages에 배포
-
-예상 공개 주소:
-
-`https://ceongpi.github.io/Capstone-Design/`
-
-### GitHub에서 한 번만 해야 하는 설정
-
-1. 저장소의 `Settings`
-2. `Pages`
-3. `Source`를 `GitHub Actions`로 선택
-
-그 다음부터는 `main`에 push하면 자동 배포됩니다.
-
-### 데이터 갱신 순서
-
-원본 GTFS와 CSV는 저장소에 포함하지 않으므로, 데이터를 바꿀 때는 로컬에서 먼저 아래 순서로 갱신한 뒤 push해야 합니다.
+CSV 파일을 교체한 뒤 아래 명령으로 산출물을 다시 생성합니다.
 
 ```powershell
 node .\scripts\build_gtfs_visualization.js
-git add frontend/public/data/selected_routes.json output
-git commit -m "Update crowding dataset"
-git push origin main
 ```
 
-## 참고
+생성 결과는 다음 파일에 반영됩니다.
 
-- 큰 원본 데이터는 저장소에 포함하지 않습니다.
-- 제외 항목은 `.gitignore`를 따릅니다.
-- 로컬에서 `vite build`가 Windows 샌드박스 제약으로 실패할 수 있으나, GitHub Actions에서는 정상 빌드되도록 배포 워크플로를 추가했습니다.
-- `frontend/vite.config.js`는 `BASE_PATH` 환경변수에 따라 GitHub Pages와 Vercel을 모두 지원하도록 설정되어 있습니다.
+- `output/selected_routes.json`
+- `frontend/public/data/selected_routes.json`
+- `output/seoul_gtfs_routes.csv`
+- `output/seoul_gtfs_trips.csv`
+- `output/seoul_gtfs_stop_times.csv`
+- `output/seoul_gtfs_stops.csv`
+- `output/seoul_bus_visualization.html`
 
-## Vercel 배포
+## 배포
 
-이 프로젝트는 Vercel에도 배포할 수 있습니다. Vercel에서는 저장소 하위 경로가 아니라 도메인 루트(`/`)에 배포되므로 추가 코드 수정 없이 사용할 수 있게 설정해두었습니다.
+GitHub Pages와 Vercel 모두 `frontend` 빌드 결과를 배포 대상으로 사용합니다.
 
-### Vercel 설정값
+### GitHub Pages
+
+`main` 브랜치에 push하면 GitHub Actions가 `frontend`를 빌드해 Pages로 배포합니다.
+
+공개 주소:
+
+`https://ceongpi.github.io/Capstone-Design/`
+
+### Vercel
 
 - Framework Preset: `Vite`
 - Root Directory: `frontend`
 - Build Command: `npm run build`
 - Output Directory: `dist`
-
-### 배포 절차
-
-1. Vercel에서 GitHub 저장소 `ceongpi/Capstone-Design` import
-2. 위 설정값으로 프로젝트 생성
-3. 배포 완료 후 Vercel이 `https://...vercel.app` 주소를 발급
-
-데이터를 갱신한 뒤에는 GitHub에 push하면 Vercel도 자동으로 새 빌드를 수행합니다.
