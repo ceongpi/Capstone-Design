@@ -463,11 +463,13 @@ function evaluateRouteCandidate(localStops, routeCandidate, trip, stopTimesByTri
     route: routeCandidate,
     trip,
     gtfsStops,
+    nameMatchPairs,
     matchPairs,
     stops,
     score:
-      matchPairs.length * 1000 +
-      round2((matchPairs.length / localStopCount) * 100) +
+      nameMatchPairs.length * 10000 +
+      matchPairs.length * 10 +
+      round2((nameMatchPairs.length / localStopCount) * 100) +
       exactNameBonus +
       seoulBonus +
       directNameBonus,
@@ -506,7 +508,7 @@ function buildRouteBases(latestCrowdingByRoute, routeCandidatesBySourceRoute, tr
       continue;
     }
 
-    const { route, trip, gtfsStops, matchPairs, stops } = bestCandidate;
+    const { route, trip, gtfsStops, nameMatchPairs, matchPairs, stops } = bestCandidate;
 
     routes.push({
       routeName,
@@ -518,8 +520,8 @@ function buildRouteBases(latestCrowdingByRoute, routeCandidatesBySourceRoute, tr
       shapeId: trip.shapeId,
       stopCountLocal: localStops.length,
       stopCountGtfs: gtfsStops.length,
-      matchedStopCount: matchPairs.length,
-      matchRate: round2((matchPairs.length / localStops.length) * 100),
+      matchedStopCount: nameMatchPairs.length,
+      matchRate: round2((nameMatchPairs.length / localStops.length) * 100),
       stops,
     });
 
