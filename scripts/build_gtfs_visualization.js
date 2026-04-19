@@ -19,6 +19,12 @@ const PREDICTION_DAYS = 7;
 const HOUR_COLUMNS = Array.from({ length: 24 }, (_, index) => `${String((index + 4) % 24).padStart(2, '0')}시`);
 const CSV_FILE_PATTERN = /^노선·정류장 지표\(노선별 차내 재차인원\)_(\d{8})\.csv$/;
 const KOREAN_TIMEZONE = 'Asia/Seoul';
+const ROUTE_NAME_ALIASES = {
+  '110A': ['110A고려대'],
+  '110B': ['110B국민대'],
+  '2115A': ['2115'],
+  '2115B': ['2115'],
+};
 
 function parseCsvLine(line) {
   const values = [];
@@ -189,6 +195,21 @@ function readAllCrowding() {
   };
 }
 
+function buildLatestAvailableCrowdingByRoute(crowding) {
+  const latestByRoute = {};
+
+  for (const date of crowding.dates) {
+    for (const [routeName, stops] of Object.entries(crowding.byDate[date])) {
+      latestByRoute[routeName] = {
+        date,
+        stops,
+      };
+    }
+  }
+
+  return latestByRoute;
+}
+
 async function streamCsv(filePath, onRow, encoding = 'utf8') {
   const input = fs.createReadStream(filePath, { encoding });
   const reader = readline.createInterface({ input, crlfDelay: Infinity });
@@ -213,32 +234,57 @@ async function streamCsv(filePath, onRow, encoding = 'utf8') {
   }
 }
 
-async function findSeoulRoutes(targetRouteNames) {
+function buildRouteNameLookup(targetRouteNames) {
+  const lookup = new Map();
+
+  for (const routeName of targetRouteNames) {
+    const names = new Set([routeName, ...(ROUTE_NAME_ALIASES[routeName] || [])]);
+    for (const candidateName of names) {
+      const routes = lookup.get(candidateName) || [];
+      routes.push(routeName);
+      lookup.set(candidateName, routes);
+    }
+  }
+
+  return lookup;
+}
+
+async function findRouteCandidates(targetRouteNames) {
+  const routeNameLookup = buildRouteNameLookup(targetRouteNames);
   const routes = {};
 
   await streamCsv(GTFS_FILES.routes, async (row) => {
     const routeShortName = row.route_short_name;
     const routeId = row.route_id;
-    if (!targetRouteNames.has(routeShortName)) {
-      return;
-    }
-    if (!routeId.startsWith('BR_1100_')) {
+    const sourceRouteNames = routeNameLookup.get(routeShortName);
+    if (!sourceRouteNames?.length) {
       return;
     }
 
-    routes[routeShortName] = {
+    const candidate = {
       routeId,
       agencyId: row.agency_id,
+      routeShortName,
       routeLongName: row.route_long_name,
       routeType: row.route_type,
+      isSeoulRoute: routeId.startsWith('BR_1100_'),
+      aliasMatched: !sourceRouteNames.includes(routeShortName),
     };
+
+    for (const sourceRouteName of sourceRouteNames) {
+      (routes[sourceRouteName] ||= []).push(candidate);
+    }
   });
 
   return routes;
 }
 
-async function findTrips(routeMap) {
-  const routeIds = new Set(Object.values(routeMap).map((route) => route.routeId));
+async function findTrips(routeCandidatesBySourceRoute) {
+  const routeIds = new Set(
+    Object.values(routeCandidatesBySourceRoute)
+      .flat()
+      .map((route) => route.routeId),
+  );
   const byRouteId = {};
 
   await streamCsv(GTFS_FILES.trips, async (row) => {
@@ -246,20 +292,28 @@ async function findTrips(routeMap) {
       return;
     }
 
-    if (!byRouteId[row.route_id]) {
-      byRouteId[row.route_id] = {
-        tripId: row.trip_id,
-        serviceId: row.service_id,
-        shapeId: row.shape_id,
-      };
-    }
+    (byRouteId[row.route_id] ||= []).push({
+      tripId: row.trip_id,
+      serviceId: row.service_id,
+      shapeId: row.shape_id,
+      tripHeadsign: row.trip_headsign,
+      directionId: row.direction_id,
+    });
   });
+
+  for (const routeId of Object.keys(byRouteId)) {
+    byRouteId[routeId].sort((left, right) => left.tripId.localeCompare(right.tripId, 'ko'));
+  }
 
   return byRouteId;
 }
 
 async function findStopTimes(tripsByRouteId) {
-  const targetTrips = new Set(Object.values(tripsByRouteId).map((trip) => trip.tripId));
+  const targetTrips = new Set(
+    Object.values(tripsByRouteId)
+      .flat()
+      .map((trip) => trip.tripId),
+  );
   const stopTimesByTrip = {};
   const stopIds = new Set();
 
@@ -370,51 +424,93 @@ function expandMatchPairs(localStops, gtfsStops, basePairs) {
     .map(([localIndex, gtfsIndex]) => [localIndex, gtfsIndex]);
 }
 
-function buildRouteBases(latestCrowdingByRoute, routeMap, tripsByRouteId, stopTimesByTrip, stopsById) {
+function evaluateRouteCandidate(localStops, routeCandidate, trip, stopTimesByTrip, stopsById) {
+  const gtfsStops = (stopTimesByTrip[trip.tripId] || []).map((stopTime) => ({
+    ...stopTime,
+    ...stopsById[stopTime.stopId],
+  }));
+
+  if (!gtfsStops.length) {
+    return null;
+  }
+
+  const nameMatchPairs = lcsMatch(localStops, gtfsStops);
+  const matchPairs = expandMatchPairs(localStops, gtfsStops, nameMatchPairs);
+  const gtfsByLocalIndex = new Map(matchPairs.map(([localIndex, gtfsIndex]) => [localIndex, gtfsStops[gtfsIndex]]));
+
+  const stops = localStops.map((localStop, index) => {
+    const gtfsStop = gtfsByLocalIndex.get(index) || null;
+    return {
+      sequence: localStop.sequence,
+      terminal: localStop.terminal,
+      localStopName: localStop.stopName,
+      localStopNameNormalized: localStop.stopNameNormalized,
+      gtfsStopId: gtfsStop?.stopId ?? '',
+      gtfsStopName: gtfsStop?.stopName ?? '',
+      gtfsStopSequence: gtfsStop?.stopSequence ?? null,
+      stopLat: gtfsStop?.stopLat ?? null,
+      stopLon: gtfsStop?.stopLon ?? null,
+      matched: Boolean(gtfsStop),
+    };
+  });
+
+  const localStopCount = localStops.length || 1;
+  const exactNameBonus = routeCandidate.routeShortName === localStops[0]?.route ? 3 : 0;
+  const seoulBonus = routeCandidate.isSeoulRoute ? 2 : 0;
+  const directNameBonus = routeCandidate.aliasMatched ? 0 : 1;
+
+  return {
+    route: routeCandidate,
+    trip,
+    gtfsStops,
+    matchPairs,
+    stops,
+    score:
+      matchPairs.length * 1000 +
+      round2((matchPairs.length / localStopCount) * 100) +
+      exactNameBonus +
+      seoulBonus +
+      directNameBonus,
+  };
+}
+
+function buildRouteBases(latestCrowdingByRoute, routeCandidatesBySourceRoute, tripsByRouteId, stopTimesByTrip, stopsById) {
   const routes = [];
   const extractedRoutes = [];
   const extractedTrips = [];
   const extractedStopTimes = [];
   const extractedStops = new Map();
 
-  for (const routeName of Object.keys(routeMap).sort((left, right) => left.localeCompare(right, 'ko'))) {
-    const route = routeMap[routeName];
-    const trip = tripsByRouteId[route.routeId];
-    if (!trip) {
-      continue;
-    }
-
-    const gtfsStops = (stopTimesByTrip[trip.tripId] || []).map((stopTime) => ({
-      ...stopTime,
-      ...stopsById[stopTime.stopId],
-    }));
+  for (const routeName of Object.keys(routeCandidatesBySourceRoute).sort((left, right) => left.localeCompare(right, 'ko'))) {
     const localStops = latestCrowdingByRoute[routeName] || [];
     if (!localStops.length) {
       continue;
     }
 
-    const nameMatchPairs = lcsMatch(localStops, gtfsStops);
-    const matchPairs = expandMatchPairs(localStops, gtfsStops, nameMatchPairs);
-    const gtfsByLocalIndex = new Map(matchPairs.map(([localIndex, gtfsIndex]) => [localIndex, gtfsStops[gtfsIndex]]));
+    let bestCandidate = null;
 
-    const stops = localStops.map((localStop, index) => {
-      const gtfsStop = gtfsByLocalIndex.get(index) || null;
-      return {
-        sequence: localStop.sequence,
-        terminal: localStop.terminal,
-        localStopName: localStop.stopName,
-        localStopNameNormalized: localStop.stopNameNormalized,
-        gtfsStopId: gtfsStop?.stopId ?? '',
-        gtfsStopName: gtfsStop?.stopName ?? '',
-        gtfsStopSequence: gtfsStop?.stopSequence ?? null,
-        stopLat: gtfsStop?.stopLat ?? null,
-        stopLon: gtfsStop?.stopLon ?? null,
-        matched: Boolean(gtfsStop),
-      };
-    });
+    for (const routeCandidate of routeCandidatesBySourceRoute[routeName] || []) {
+      for (const trip of tripsByRouteId[routeCandidate.routeId] || []) {
+        const evaluated = evaluateRouteCandidate(localStops, routeCandidate, trip, stopTimesByTrip, stopsById);
+        if (!evaluated) {
+          continue;
+        }
+
+        if (!bestCandidate || evaluated.score > bestCandidate.score) {
+          bestCandidate = evaluated;
+        }
+      }
+    }
+
+    if (!bestCandidate) {
+      continue;
+    }
+
+    const { route, trip, gtfsStops, matchPairs, stops } = bestCandidate;
 
     routes.push({
       routeName,
+      matchedRouteShortName: route.routeShortName,
       routeId: route.routeId,
       routeLongName: route.routeLongName,
       routeType: route.routeType,
@@ -429,6 +525,7 @@ function buildRouteBases(latestCrowdingByRoute, routeMap, tripsByRouteId, stopTi
 
     extractedRoutes.push({
       route_short_name: routeName,
+      matched_route_short_name: route.routeShortName,
       route_id: route.routeId,
       agency_id: route.agencyId,
       route_long_name: route.routeLongName,
@@ -706,15 +803,18 @@ async function main() {
   const crowding = readAllCrowding();
   const targetRouteNames = new Set(crowding.routeNames);
   const latestActualDate = crowding.dates[crowding.dates.length - 1];
+  const latestAvailableCrowdingByRoute = buildLatestAvailableCrowdingByRoute(crowding);
   const futureDates = Array.from({ length: PREDICTION_DAYS }, (_, index) => addDays(latestActualDate, index + 1));
 
-  const routeMap = await findSeoulRoutes(targetRouteNames);
-  const tripsByRouteId = await findTrips(routeMap);
+  const routeCandidatesBySourceRoute = await findRouteCandidates(targetRouteNames);
+  const tripsByRouteId = await findTrips(routeCandidatesBySourceRoute);
   const { stopTimesByTrip, stopIds } = await findStopTimes(tripsByRouteId);
   const stopsById = await findStops(stopIds);
   const routeBases = buildRouteBases(
-    crowding.byDate[latestActualDate],
-    routeMap,
+    Object.fromEntries(
+      Object.entries(latestAvailableCrowdingByRoute).map(([routeName, value]) => [routeName, value.stops]),
+    ),
+    routeCandidatesBySourceRoute,
     tripsByRouteId,
     stopTimesByTrip,
     stopsById,
@@ -733,7 +833,8 @@ async function main() {
     };
   });
 
-  const missingInGtfs = crowding.routeNames.filter((routeName) => !routeMap[routeName]);
+  const matchedRouteNames = new Set(routes.map((route) => route.routeName));
+  const missingInGtfs = crowding.routeNames.filter((routeName) => !matchedRouteNames.has(routeName));
 
   const dataset = {
     generatedAt: new Date().toISOString(),
