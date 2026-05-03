@@ -38,7 +38,8 @@ body {
 
 button,
 select,
-input {
+input,
+textarea {
   font: inherit;
 }
 
@@ -88,19 +89,19 @@ input {
 .hero-panel h1,
 .view-header h2,
 .panel-head h3,
-.definition-panel h2 {
+.definition-panel h2,
+.llm-summary h4,
+.llm-list-card h4 {
   margin: 0;
   line-height: 1.08;
 }
 
 .hero-panel h1 {
   font-size: clamp(32px, 4vw, 52px);
-  max-width: none;
-  white-space: nowrap;
 }
 
 .subtitle {
-  max-width: 56ch;
+  max-width: 60ch;
   color: #3f4a54;
   line-height: 1.7;
   margin-top: 14px;
@@ -113,20 +114,23 @@ input {
   margin-top: 22px;
 }
 
-.value-card {
+.value-card,
+.llm-metric-card {
   border-radius: 20px;
   padding: 16px 18px;
   background: rgba(255, 255, 255, 0.74);
   border: 1px solid rgba(120, 106, 82, 0.12);
 }
 
-.value-card strong {
+.value-card strong,
+.llm-metric-card strong {
   display: block;
   margin-bottom: 8px;
   font-size: 16px;
 }
 
-.value-card p {
+.value-card p,
+.llm-metric-card span {
   margin: 0;
   color: #4d5964;
   line-height: 1.55;
@@ -199,7 +203,8 @@ input {
   color: #5f6770;
 }
 
-.guide-list {
+.guide-list,
+.llm-list-card ul {
   margin: 0;
   padding-left: 18px;
   color: #44505b;
@@ -209,15 +214,23 @@ input {
 .workspace {
   margin-top: 20px;
   display: grid;
-  grid-template-columns: 320px minmax(0, 1fr);
+  grid-template-columns: 320px minmax(0, 1fr) 420px;
   gap: 20px;
+  align-items: start;
 }
 
 .side-panel,
 .map-stage,
 .chart-panel,
-.view-header {
+.view-header,
+.llm-panel {
   border-radius: 28px;
+}
+
+.agent-rail {
+  position: sticky;
+  top: 18px;
+  align-self: start;
 }
 
 .side-panel {
@@ -255,6 +268,59 @@ input {
   background: rgba(255, 255, 255, 0.94);
 }
 
+.prompt-card {
+  margin: 18px 0;
+  padding: 16px;
+  border-radius: 22px;
+  background:
+    linear-gradient(180deg, rgba(255, 255, 255, 0.84), rgba(248, 242, 232, 0.78)),
+    radial-gradient(circle at top right, rgba(11, 110, 79, 0.12), transparent 16rem);
+  border: 1px solid rgba(120, 106, 82, 0.12);
+}
+
+.prompt-card label {
+  display: block;
+  margin-bottom: 8px;
+  color: var(--muted);
+  font-weight: 700;
+}
+
+.prompt-input {
+  width: 100%;
+  min-height: 132px;
+  resize: vertical;
+  padding: 14px 16px;
+  border-radius: 18px;
+  border: 1px solid rgba(120, 106, 82, 0.2);
+  background: rgba(255, 255, 255, 0.95);
+  line-height: 1.6;
+  color: var(--ink);
+}
+
+.prompt-input-single {
+  width: 100%;
+  padding: 14px 16px;
+  border-radius: 14px;
+  border: 1px solid rgba(120, 106, 82, 0.2);
+  background: rgba(255, 255, 255, 0.95);
+  line-height: 1.6;
+  color: var(--ink);
+  margin-bottom: 12px;
+}
+
+.primary-action {
+  width: 100%;
+  margin-top: 12px;
+  background: linear-gradient(135deg, rgba(11, 110, 79, 0.96), rgba(16, 128, 92, 0.9));
+  color: #000000;
+  font-weight: 700;
+  border-color: rgba(11, 110, 79, 0.46);
+}
+
+.primary-action:hover {
+  background: linear-gradient(135deg, rgba(15, 122, 88, 0.98), rgba(18, 139, 100, 0.94));
+}
+
 .range-row {
   display: grid;
   gap: 10px;
@@ -274,7 +340,8 @@ input {
   gap: 10px;
 }
 
-.tab-button {
+.tab-button,
+.action-button {
   border: 1px solid rgba(120, 106, 82, 0.16);
   background: rgba(255, 255, 255, 0.76);
   border-radius: 14px;
@@ -284,10 +351,18 @@ input {
 }
 
 .tab-button.active,
-.tab-button:hover {
+.tab-button:hover,
+.action-button:hover {
   transform: translateY(-1px);
   border-color: rgba(11, 110, 79, 0.4);
   background: rgba(223, 242, 234, 0.95);
+}
+
+.tab-button:disabled,
+.action-button:disabled {
+  cursor: default;
+  opacity: 0.6;
+  transform: none;
 }
 
 .stop-list {
@@ -356,6 +431,69 @@ input {
   min-width: 0;
 }
 
+.candidate-strip,
+.option-preview {
+  display: grid;
+  gap: 12px;
+}
+
+.candidate-strip {
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  margin-bottom: 16px;
+}
+
+.candidate-card,
+.option-card {
+  border-radius: 20px;
+  padding: 14px 16px;
+  background: rgba(255, 255, 255, 0.72);
+  border: 1px solid rgba(120, 106, 82, 0.12);
+}
+
+.candidate-card span,
+.option-card small {
+  color: #55626d;
+}
+
+.candidate-card span,
+.candidate-card strong,
+.option-card strong,
+.option-card p,
+.option-card small {
+  display: block;
+}
+
+.candidate-card strong {
+  margin-top: 6px;
+  line-height: 1.4;
+}
+
+.option-preview {
+  margin-bottom: 16px;
+}
+
+.option-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  margin-bottom: 8px;
+}
+
+.option-head span {
+  padding: 6px 10px;
+  border-radius: 999px;
+  background: rgba(223, 242, 234, 0.95);
+  color: var(--green);
+  font-size: 13px;
+}
+
+.option-card p {
+  margin: 0 0 6px;
+  color: #3f4a54;
+  line-height: 1.5;
+}
+
 .view-hidden {
   display: none;
 }
@@ -390,7 +528,8 @@ input {
 }
 
 .map-stage,
-.chart-panel {
+.chart-panel,
+.llm-panel {
   padding: 18px;
 }
 
@@ -424,7 +563,10 @@ input {
   background: linear-gradient(180deg, rgba(255, 247, 245, 0.86), rgba(255, 250, 243, 0.82));
 }
 
-.chart-description {
+.chart-description,
+.llm-summary p,
+.llm-list-card p,
+.llm-list-card small {
   margin: 0 0 14px;
   color: #4d5964;
   line-height: 1.65;
@@ -453,20 +595,77 @@ input {
   line-height: 1.6;
 }
 
-.maplibregl-popup-content {
-  border-radius: 14px;
-  padding: 10px 12px;
+.llm-metrics,
+.llm-columns {
+  display: grid;
+  gap: 12px;
+}
+
+.llm-metrics {
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+}
+
+.llm-columns {
+  grid-template-columns: 1.2fr 0.8fr;
+  margin-top: 16px;
+}
+
+.llm-result,
+.llm-placeholder,
+.llm-error,
+.llm-list-card {
+  border-radius: 22px;
+}
+
+.llm-placeholder.compact {
+  padding: 14px 16px;
+}
+
+.llm-result {
+  background: rgba(255, 255, 255, 0.66);
+  border: 1px solid rgba(120, 106, 82, 0.12);
+  padding: 18px;
+}
+
+.llm-placeholder {
+  padding: 18px;
+  color: #5b6771;
+  background: rgba(255, 255, 255, 0.58);
+  border: 1px dashed rgba(120, 106, 82, 0.28);
+}
+
+.llm-error {
+  margin-bottom: 12px;
+  padding: 14px 16px;
+  color: #8a241f;
+  background: rgba(217, 72, 65, 0.1);
+  border: 1px solid rgba(217, 72, 65, 0.22);
+}
+
+.llm-list-card {
+  background: rgba(255, 255, 255, 0.74);
+  border: 1px solid rgba(120, 106, 82, 0.12);
+  padding: 16px 18px;
+}
+
+.llm-list-card p,
+.llm-list-card small {
+  margin: 0;
 }
 
 @media (max-width: 1260px) {
   .hero-panel,
   .info-strip,
   .workspace,
-  .value-points {
+  .value-points,
+  .candidate-strip,
+  .llm-metrics,
+  .llm-columns {
     grid-template-columns: 1fr;
   }
 
-  .side-panel {
+  .side-panel,
+  .agent-rail {
     position: static;
   }
 
@@ -485,7 +684,8 @@ input {
   .side-panel,
   .map-stage,
   .chart-panel,
-  .view-header {
+  .view-header,
+  .llm-panel {
     border-radius: 22px;
   }
 
@@ -494,7 +694,6 @@ input {
   }
 
   .hero-panel h1 {
-    white-space: normal;
     font-size: clamp(30px, 8vw, 42px);
   }
 
@@ -509,5 +708,9 @@ input {
   .route-meta,
   .panel-head {
     flex-direction: column;
+  }
+
+  .workspace {
+    grid-template-columns: 1fr;
   }
 }

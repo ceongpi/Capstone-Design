@@ -22,6 +22,7 @@ const VIEW_MODES = {
   MAP: 'map',
   CHARTS: 'charts',
 };
+const LLM_ACTION = 'travel_recommendation';
 
 function colorForCrowding(crowding) {
   if (crowding >= 100) return [179, 35, 36, 230];
@@ -80,6 +81,194 @@ function buildViewState(route) {
   };
 }
 
+function normalizeText(value) {
+  return String(value ?? '')
+    .toLowerCase()
+    .replace(/\s+/g, '')
+    .replace(/[^\p{L}\p{N}]/gu, '');
+}
+
+function parseHourLabel(hourLabel) {
+  const match = String(hourLabel).match(/\d{1,2}/);
+  return match ? Number(match[0]) : null;
+}
+
+function parsePreferredHour(query, hours) {
+  const match = String(query).match(/(오전|오후)?\s*(\d{1,2})\s*시/);
+  if (!match) {
+    return null;
+  }
+
+  const meridiem = match[1] ?? '';
+  const rawHour = Number(match[2]);
+  let hour = rawHour;
+
+  if (meridiem === '오후' && rawHour < 12) {
+    hour = rawHour + 12;
+  } else if (meridiem === '오전' && rawHour === 12) {
+    hour = 0;
+  } else if (!meridiem && rawHour <= 4) {
+    hour = rawHour + 12;
+  }
+
+  const exactIndex = hours.findIndex((item) => parseHourLabel(item) === hour);
+  if (exactIndex >= 0) {
+    return { hour, hourIndex: exactIndex };
+  }
+
+  const fallbackIndex = hours.findIndex((item) => parseHourLabel(item) === rawHour);
+  return fallbackIndex >= 0 ? { hour: rawHour, hourIndex: fallbackIndex } : null;
+}
+
+function collectMentionedStops(query, routes) {
+  const normalizedQuery = normalizeText(query);
+  if (!normalizedQuery) {
+    return [];
+  }
+
+  const mentions = [];
+  const seen = new Set();
+
+  routes.forEach((route) => {
+    route.stops.forEach((stop) => {
+      const stopName = stop.localStopName ?? '';
+      const normalizedStopName = normalizeText(stopName);
+      if (!normalizedStopName || normalizedStopName.length < 2) {
+        return;
+      }
+
+      if (normalizedQuery.includes(normalizedStopName)) {
+        const key = `${route.routeName}:${stop.sequence}`;
+        if (!seen.has(key)) {
+          seen.add(key);
+          mentions.push({
+            routeName: route.routeName,
+            sequence: stop.sequence,
+            stopName,
+            normalizedStopName,
+          });
+        }
+      }
+    });
+  });
+
+  return mentions;
+}
+
+function collectMentionedRouteNames(query, routes) {
+  const normalizedQuery = normalizeText(query);
+  if (!normalizedQuery) {
+    return [];
+  }
+
+  return routes
+    .filter((route) => normalizedQuery.includes(normalizeText(route.routeName)))
+    .map((route) => route.routeName);
+}
+
+function buildTravelCandidates({ routes, selectedDate, hours, busCapacity, query, selectedRouteName, departureStop, destinationStop }) {
+  const preferredHour = parsePreferredHour(query, hours);
+  
+  const normDep = normalizeText(departureStop);
+  const normDest = normalizeText(destinationStop);
+  const mentionedStopNames = [];
+  if (departureStop) mentionedStopNames.push(departureStop);
+  if (destinationStop) mentionedStopNames.push(destinationStop);
+  const mentionedRouteNames = [];
+
+  const routeCandidates = routes
+    .map((route) => {
+      const snapshot = route.snapshots.find((item) => item.date === selectedDate) ?? route.snapshots[0] ?? null;
+      if (!snapshot) return null;
+
+      const originMentions = route.stops.filter(stop => {
+        const norm = normalizeText(stop.localStopName);
+        return norm && norm.length >= 2 && (normDep.includes(norm) || norm.includes(normDep));
+      });
+      
+      const destMentions = route.stops.filter(stop => {
+        const norm = normalizeText(stop.localStopName);
+        return norm && norm.length >= 2 && (normDest.includes(norm) || norm.includes(normDest));
+      });
+
+      if (!originMentions.length || !destMentions.length) return null;
+
+      let bestPair = null;
+      for (const o of originMentions) {
+        for (const d of destMentions) {
+          if (o.sequence < d.sequence) {
+            if (!bestPair || (d.sequence - o.sequence < bestPair.d.sequence - bestPair.o.sequence)) {
+              bestPair = { o, d };
+            }
+          }
+        }
+      }
+
+      if (!bestPair) return null;
+      const originStop = bestPair.o;
+      const destinationStop = bestPair.d;
+
+      let bestOption = null;
+
+      hours.forEach((hourLabel, hourIndex) => {
+        const routeCrowding = Number(snapshot.averages[hourIndex] ?? 0);
+        const originPassengers = Number(snapshot.stopPassengers[originStop.sequence - 1]?.[hourIndex] ?? 0);
+        const destinationPassengers = Number(snapshot.stopPassengers[destinationStop.sequence - 1]?.[hourIndex] ?? 0);
+        const originCrowding = crowdingFromPassengers(originPassengers, busCapacity);
+        const destinationCrowding = crowdingFromPassengers(destinationPassengers, busCapacity);
+        const proximityPenalty = preferredHour ? Math.abs(hourIndex - preferredHour.hourIndex) * 5 : 0;
+        const explicitRouteBoost = 0;
+        const score =
+          routeCrowding * 0.45 +
+          originCrowding * 0.4 +
+          destinationCrowding * 0.15 +
+          proximityPenalty +
+          explicitRouteBoost;
+
+        const option = {
+          routeName: route.routeName,
+          routeId: route.routeId,
+          originStopName: originStop.localStopName,
+          destinationStopName: destinationStop.localStopName,
+          originSequence: originStop.sequence,
+          destinationSequence: destinationStop.sequence,
+          hour: hourLabel,
+          hourIndex,
+          routeCrowding,
+          originCrowding,
+          destinationCrowding,
+          score: Number(score.toFixed(2)),
+        };
+
+        if (!bestOption || option.score < bestOption.score) {
+          bestOption = option;
+        }
+      });
+
+      return bestOption;
+    })
+    .filter(Boolean)
+    .sort((a, b) => a.score - b.score);
+
+  const fallbackRoute = routes.find((route) => route.routeName === selectedRouteName) ?? routes[0] ?? null;
+
+  return {
+    query,
+    preferredHour,
+    mentionedRouteNames,
+    mentionedStopNames,
+    candidateCount: routeCandidates.length,
+    routeOptions: routeCandidates.slice(0, 5),
+    fallbackRoute: fallbackRoute
+      ? {
+          routeName: fallbackRoute.routeName,
+          routeId: fallbackRoute.routeId,
+          stopCount: fallbackRoute.stopCountLocal,
+        }
+      : null,
+  };
+}
+
 function CustomTooltip({ active, payload, label, unit, title }) {
   if (!active || !payload?.length) {
     return null;
@@ -98,6 +287,10 @@ function CustomTooltip({ active, payload, label, unit, title }) {
   );
 }
 
+function formatPercent(value) {
+  return `${Number(value).toFixed(2)}%`;
+}
+
 function App() {
   const [dataset, setDataset] = useState(null);
   const [selectedRouteName, setSelectedRouteName] = useState('');
@@ -107,6 +300,16 @@ function App() {
   const [viewState, setViewState] = useState(null);
   const [errorMessage, setErrorMessage] = useState('');
   const [activeView, setActiveView] = useState(VIEW_MODES.MAP);
+  const [departureStop, setDepartureStop] = useState('');
+  const [destinationStop, setDestinationStop] = useState('');
+  const [travelTime, setTravelTime] = useState('');
+
+  const travelPrompt = (departureStop.trim() && destinationStop.trim() && travelTime.trim())
+    ? `난 ${travelTime}시에 ${departureStop} 정류장에서 버스를 타고 ${destinationStop}까지 갈 거야.`
+    : '';
+  const [llmLoadingAction, setLlmLoadingAction] = useState('');
+  const [llmError, setLlmError] = useState('');
+  const [llmResponse, setLlmResponse] = useState(null);
 
   useEffect(() => {
     let active = true;
@@ -187,13 +390,17 @@ function App() {
     const topStops = [...decoratedStops].sort((a, b) => b.crowding - a.crowding).slice(0, 10);
     const routeSeries = hours.map((hour, index) => ({
       hour,
-      혼잡도: selectedSnapshot.averages[index],
+      crowding: selectedSnapshot.averages[index],
+      averagePassengers: selectedSnapshot.averagePassengers[index],
     }));
     const stopSeries = selectedStop.hourlyPassengers.map((passengers, index) => ({
       hour: hours[index],
-      재차인원: passengers,
-      혼잡도: crowdingFromPassengers(passengers, dataset.busCapacity),
+      passengers,
+      crowding: crowdingFromPassengers(passengers, dataset.busCapacity),
     }));
+    const quietHours = [...routeSeries].sort((a, b) => a.crowding - b.crowding).slice(0, 3);
+    const comparisonHour = quietHours.find((entry) => entry.hour !== hours[selectedHourIndex]) ?? quietHours[0] ?? routeSeries[0];
+    const peakHour = routeSeries.reduce((best, item) => (item.crowding > best.crowding ? item : best), routeSeries[0]);
 
     return {
       avgCrowding: avgCrowding.toFixed(2),
@@ -201,8 +408,58 @@ function App() {
       topStops,
       routeSeries,
       stopSeries,
+      quietHours,
+      comparisonHour,
+      peakHour,
     };
-  }, [dataset, decoratedStops, hours, selectedRoute, selectedSnapshot, selectedStop]);
+  }, [dataset, decoratedStops, hours, selectedHourIndex, selectedRoute, selectedSnapshot, selectedStop]);
+
+  const travelCandidates = useMemo(() => {
+    if (!dataset || !travelPrompt.trim()) {
+      return null;
+    }
+
+    return buildTravelCandidates({
+      routes,
+      selectedDate,
+      hours,
+      busCapacity: dataset.busCapacity,
+      query: travelPrompt,
+      selectedRouteName,
+      departureStop,
+      destinationStop,
+    });
+  }, [dataset, hours, routes, selectedDate, selectedRouteName, travelPrompt, departureStop, destinationStop]);
+
+  const llmPayload = useMemo(() => {
+    if (!dataset || !summary || !travelCandidates) {
+      return null;
+    }
+
+    return {
+      type: 'travel_recommendation',
+      userQuery: travelPrompt,
+      forecast: {
+        date: selectedDate,
+        label: timeline.find((item) => item.date === selectedDate)?.label ?? selectedDate,
+        selectedHour,
+        latestActualDate: dataset.latestActualDate,
+        model: dataset.model,
+      },
+      currentSelection: {
+        routeName: selectedRoute?.routeName ?? '',
+        stopName: selectedStop?.localStopName ?? '',
+        stopCrowding: selectedStop?.crowding ?? 0,
+        routeAverageCrowding: Number(summary.avgCrowding),
+      },
+      querySignals: {
+        preferredHour: travelCandidates.preferredHour,
+        mentionedStops: travelCandidates.mentionedStopNames,
+      },
+      routeOptions: travelCandidates.routeOptions,
+      fallbackRoute: travelCandidates.fallbackRoute,
+    };
+  }, [dataset, selectedDate, selectedHour, selectedRoute, selectedStop, summary, timeline, travelCandidates, travelPrompt]);
 
   const layers = useMemo(() => {
     if (!selectedRoute) return [];
@@ -270,6 +527,39 @@ function App() {
     setSelectedDate(event.target.value);
   }
 
+  async function runTravelRecommendation() {
+    if (!llmPayload) {
+      return;
+    }
+
+    setLlmLoadingAction(LLM_ACTION);
+    setLlmError('');
+
+    try {
+      const response = await fetch('/api/llm-analysis', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          action: LLM_ACTION,
+          context: llmPayload,
+        }),
+      });
+
+      const json = await response.json();
+      if (!response.ok) {
+        throw new Error(json.error || '맞춤 추천 요청에 실패했습니다.');
+      }
+
+      setLlmResponse(json);
+    } catch (error) {
+      setLlmError(error.message);
+    } finally {
+      setLlmLoadingAction('');
+    }
+  }
+
   if (errorMessage) {
     return <div className="loading">{errorMessage}</div>;
   }
@@ -282,42 +572,43 @@ function App() {
     <div className="app-shell">
       <header className="hero-panel glass">
         <div className="hero-copy">
-          <p className="eyebrow">USER-CENTERED BUS INSIGHT</p>
-          <h1>버스 혼잡도 한눈에 보기</h1>
+          <p className="eyebrow">Predictive Bus Intelligence</p>
+          <h1>서울 버스 혼잡 예측 대시보드</h1>
           <p className="subtitle">
-            혼잡 시간대와 구간별 혼잡도를 빠르게 확인할 수 있도록 구성했습니다.
+            예측 혼잡도, 정류장별 승차량, 그리고 자유 입력 추천 에이전트를 함께 배치해
+            특정 일정에 맞는 덜 붐비는 노선과 시간대를 빠르게 찾을 수 있게 구성했습니다.
           </p>
           <div className="value-points">
             <article className="value-card">
-              <strong>탑승 전 확인</strong>
-              <p>시간대별 혼잡도 확인</p>
+              <strong>노선별 예측</strong>
+              <p>시간대별 평균 혼잡도를 기준으로 전체 흐름을 먼저 파악합니다.</p>
             </article>
             <article className="value-card">
-              <strong>구간 비교</strong>
-              <p>정류장별 혼잡도 비교</p>
+              <strong>정류장별 비교</strong>
+              <p>선택한 정류장의 승차량과 혼잡도를 바로 비교할 수 있습니다.</p>
             </article>
             <article className="value-card">
-              <strong>실측예측 연계</strong>
-              <p>실측과 요일별 예측 비교</p>
+              <strong>맞춤 노선 추천</strong>
+              <p>출발 정류장, 도착 정류장, 시간대를 입력하면 노선과 시간대를 자동으로 비교해 추천합니다.</p>
             </article>
           </div>
         </div>
 
         <div className="hero-metrics">
           <div className="stat-card">
-            <span>현재 선택 노선 평균 혼잡도</span>
+            <span>선택 노선 평균 혼잡도</span>
             <strong>{summary.avgCrowding}%</strong>
             <small>{selectedSnapshot.label}</small>
           </div>
           <div className="stat-card accent">
-            <span>현재 시간대 최고 혼잡 정류장</span>
+            <span>선택 시간 최고 혼잡 정류장</span>
             <strong>{summary.peakStop.localStopName}</strong>
-            <small>{summary.peakStop.crowding}%</small>
+            <small>{formatPercent(summary.peakStop.crowding)}</small>
           </div>
           <div className="stat-card dark">
-            <span>혼잡도 정의</span>
-            <strong>{`재차인원 / 정원 ${dataset.busCapacity}명 × 100`}</strong>
-            <small>정류장별 시간대 재차인원을 버스 정원 기준 백분율로 환산</small>
+            <span>예측 모델</span>
+            <strong>{dataset.model.name}</strong>
+            <small>{dataset.model.description}</small>
           </div>
         </div>
       </header>
@@ -325,23 +616,21 @@ function App() {
       <section className="info-strip">
         <article className="definition-panel glass">
           <p className="section-title">혼잡도 기준</p>
-          <h2>혼잡도는 재차인원을 버스 정원 45명 기준으로 계산한 비율입니다.</h2>
-          <p><strong>공식</strong></p>
+          <h2>혼잡도는 승차 인원을 버스 정원 45명 기준 비율로 환산합니다.</h2>
           <p>
-            <strong>혼잡도(%) = (재차인원 / 45) × 100</strong>
+            <strong>혼잡도(%) = (승차 인원 / 45) x 100</strong>
           </p>
-          <p><strong>해석 기준</strong></p>
-          <p className="definition-note">100%: 버스 정원 45명과 같은 수준</p>
-          <p className="definition-note">100% 초과: 정원을 넘는 혼잡 상태</p>
+          <p className="definition-note">100%는 정원과 같고, 100%를 넘으면 정원 초과 상태입니다.</p>
         </article>
 
         <article className="definition-panel glass">
-          <p className="section-title">데이터 읽는 법</p>
+          <p className="section-title">현재 설정</p>
           <ul className="guide-list">
-            <li>지도: 선택한 시간대의 정류장별 혼잡도를 색으로 보여줍니다.</li>
-            <li>노선 평균 그래프: 시간대별 전체 노선 평균 혼잡도입니다.</li>
-            <li>정류장 그래프: 선택한 정류장의 시간대별 재차인원과 혼잡도입니다.</li>
-            <li>실측/예측 표시는 현재 선택 날짜가 실제 데이터인지 예측 데이터인지 구분합니다.</li>
+            <li>날짜 선택 메뉴에서 실측 데이터와 예측 데이터를 함께 비교할 수 있습니다.</li>
+            <li>학습 데이터 범위는 {dataset.actualDates[0]}부터 {dataset.latestActualDate}까지입니다.</li>
+            <li>누락된 실제 날짜는 {dataset.missingActualDates.join(', ')}입니다.</li>
+            <li>전 기간 혼잡도가 0으로만 기록된 노선은 자동 제외됩니다.</li>
+            <li>OpenAI API를 사용할 수 없으면 규칙 기반 추천으로 자동 전환됩니다.</li>
           </ul>
         </article>
       </section>
@@ -416,7 +705,7 @@ function App() {
                   type="button"
                 >
                   <span>{`${stop.sequence}. ${stop.localStopName}`}</span>
-                  <strong>{`${stop.crowding}%`}</strong>
+                  <strong>{formatPercent(stop.crowding)}</strong>
                 </button>
               ))}
             </div>
@@ -424,10 +713,10 @@ function App() {
 
           <section className="legend-block">
             <p className="section-title">현재 해석</p>
-            <div className="legend-row"><i className="legend-dot cool" /> {selectedSnapshot.type === 'actual' ? '실측 데이터' : '예측 데이터'}</div>
-            <div className="legend-row"><i className="legend-dot mild" /> 선택 시간 혼잡도 단계: {crowdingLevelLabel(summary.peakStop.crowding)}</div>
-            <div className="legend-row"><i className="legend-dot warm" /> 학습일수 {dataset.model.trainingDateCount}일</div>
-            <div className="legend-row"><i className="legend-dot hot" /> 예측범위 {dataset.model.predictionHorizonDays}일</div>
+            <div className="legend-row"><i className="legend-dot cool" /> {selectedSnapshot.type === 'actual' ? '실측 데이터 기준 표시' : '예측 데이터 기준 표시'}</div>
+            <div className="legend-row"><i className="legend-dot mild" /> 현재 단계: {crowdingLevelLabel(summary.peakStop.crowding)}</div>
+            <div className="legend-row"><i className="legend-dot warm" /> 학습 데이터 {dataset.model.trainingDateCount}일</div>
+            <div className="legend-row"><i className="legend-dot hot" /> 예측 범위 {dataset.model.predictionHorizonDays}일</div>
           </section>
         </aside>
 
@@ -448,7 +737,7 @@ function App() {
             <div className="panel-head">
               <div>
                 <p className="section-title">지도 시각화</p>
-                <h3>정류장 위치와 시간대별 혼잡도를 동시에 확인</h3>
+                <h3>정류장 위치와 시간대별 혼잡도를 한 화면에서 확인</h3>
               </div>
             </div>
             <div className="map-legend">
@@ -472,9 +761,9 @@ function App() {
                             <strong>${object.sequence}. ${object.localStopName}</strong><br/>
                             날짜: ${selectedSnapshot.label}<br/>
                             시간: ${selectedHour}<br/>
-                            재차인원: ${object.passengers}명<br/>
+                            승차 인원: ${object.passengers}명<br/>
                             혼잡도: ${object.crowding}%<br/>
-                            해석: ${crowdingLevelLabel(object.crowding)}
+                            단계: ${crowdingLevelLabel(object.crowding)}
                           </div>
                         `,
                       }
@@ -493,10 +782,10 @@ function App() {
                   <p className="section-title">Route Trend</p>
                   <h3>노선 평균 혼잡도 그래프</h3>
                 </div>
-                <span>Y축: 혼잡도(%) / X축: 시간대</span>
+                <span>Y축: 혼잡도 / X축: 시간대</span>
               </div>
               <p className="chart-description">
-                선택한 노선의 전체 정류장을 평균했을 때 시간대별 혼잡도가 어떻게 변하는지 보여줍니다.
+                선택한 노선 전체 정류장의 시간대별 평균 혼잡도를 보여줍니다.
               </p>
               <div className="chart-box">
                 <ResponsiveContainer width="100%" height="100%">
@@ -508,17 +797,10 @@ function App() {
                       </linearGradient>
                     </defs>
                     <CartesianGrid strokeDasharray="4 4" stroke="#d8d0c4" />
-                    <XAxis
-                      dataKey="hour"
-                      tick={{ fill: '#5f6770', fontSize: 12 }}
-                      label={{ value: '시간대', position: 'insideBottom', offset: -8 }}
-                    />
-                    <YAxis
-                      tick={{ fill: '#5f6770', fontSize: 12 }}
-                      label={{ value: '혼잡도(%)', angle: -90, position: 'insideLeft' }}
-                    />
+                    <XAxis dataKey="hour" tick={{ fill: '#5f6770', fontSize: 12 }} />
+                    <YAxis tick={{ fill: '#5f6770', fontSize: 12 }} />
                     <Tooltip content={<CustomTooltip title="노선 평균 혼잡도" unit="%" />} />
-                    <Area type="monotone" dataKey="혼잡도" name="혼잡도" stroke="#0b6e4f" fill="url(#routeGradient)" strokeWidth={3} />
+                    <Area type="monotone" dataKey="crowding" name="혼잡도" stroke="#0b6e4f" fill="url(#routeGradient)" strokeWidth={3} />
                   </AreaChart>
                 </ResponsiveContainer>
               </div>
@@ -530,37 +812,155 @@ function App() {
                   <p className="section-title">Stop Trend</p>
                   <h3>{selectedStop?.localStopName ?? '정류장 선택'}</h3>
                 </div>
-                <span>{`Y축: 재차인원(명) / X축: 시간대`}</span>
+                <span>Y축: 승차 인원 / X축: 시간대</span>
               </div>
               <p className="chart-description">
-                선택한 정류장에서 시간대별 재차인원이 어떻게 변하는지 보여줍니다. 혼잡도 정의는 정원 45명 기준입니다.
+                선택한 정류장의 시간대별 승차 인원 변화를 보여줍니다.
               </p>
               <div className="chart-box">
                 <ResponsiveContainer width="100%" height="100%">
                   <LineChart data={summary.stopSeries} margin={{ top: 12, right: 20, left: 8, bottom: 18 }}>
                     <CartesianGrid strokeDasharray="4 4" stroke="#d8d0c4" />
-                    <XAxis
-                      dataKey="hour"
-                      tick={{ fill: '#5f6770', fontSize: 12 }}
-                      label={{ value: '시간대', position: 'insideBottom', offset: -8 }}
-                    />
-                    <YAxis
-                      tick={{ fill: '#5f6770', fontSize: 12 }}
-                      label={{ value: '재차인원(명)', angle: -90, position: 'insideLeft' }}
-                    />
-                    <Tooltip content={<CustomTooltip title="정류장 시간대별 재차인원" unit="명" />} />
-                    <Line type="monotone" dataKey="재차인원" name="재차인원" stroke="#d94841" strokeWidth={3} dot={false} />
+                    <XAxis dataKey="hour" tick={{ fill: '#5f6770', fontSize: 12 }} />
+                    <YAxis tick={{ fill: '#5f6770', fontSize: 12 }} />
+                    <Tooltip content={<CustomTooltip title="정류장 승차 인원" unit="명" />} />
+                    <Line type="monotone" dataKey="passengers" name="승차 인원" stroke="#d94841" strokeWidth={3} dot={false} />
                   </LineChart>
                 </ResponsiveContainer>
               </div>
               {selectedStop ? (
                 <p className="stop-caption">
-                  {`${selectedSnapshot.label} ${selectedHour} 기준 ${selectedStop.localStopName} 정류장의 재차인원은 ${selectedStop.passengers}명이고, 혼잡도는 ${selectedStop.crowding}%입니다.`}
+                  {`${selectedSnapshot.label} ${selectedHour} 기준 ${selectedStop.localStopName} 정류장의 승차 인원은 ${selectedStop.passengers}명이고 혼잡도는 ${selectedStop.crowding}%입니다.`}
                 </p>
               ) : null}
             </article>
           </section>
         </section>
+
+        <aside className="agent-rail">
+          <section className="llm-panel glass">
+            <div className="panel-head">
+              <div>
+                <p className="section-title">LLM Agent</p>
+                <h3>출발/도착 정류장과 시간대를 입력하면 덜 붐비는 시간과 노선을 추천합니다.</h3>
+              </div>
+              <span>{dataset.model.name}</span>
+            </div>
+
+            <p className="chart-description">
+              오른쪽 패널에서 출발지, 도착지, 시간대를 입력하고, 데이터에 맞는 노선과 시간대를 추천받을 수 있습니다.
+            </p>
+
+            <div className="prompt-card">
+              <label>출발 정류장</label>
+              <input
+                type="text"
+                className="prompt-input-single"
+                value={departureStop}
+                onChange={(event) => setDepartureStop(event.target.value)}
+                placeholder="예: 창경궁"
+              />
+              <label>도착 정류장</label>
+              <input
+                type="text"
+                className="prompt-input-single"
+                value={destinationStop}
+                onChange={(event) => setDestinationStop(event.target.value)}
+                placeholder="예: 광장시장"
+              />
+              <label>시간대 (시)</label>
+              <input
+                type="number"
+                className="prompt-input-single"
+                value={travelTime}
+                onChange={(event) => setTravelTime(event.target.value)}
+                placeholder="예: 14"
+                min="0"
+                max="23"
+              />
+              <button
+                type="button"
+                className="action-button primary-action"
+                onClick={runTravelRecommendation}
+                disabled={!travelPrompt || llmLoadingAction === LLM_ACTION}
+              >
+                {llmLoadingAction === LLM_ACTION ? '추천 계산 중...' : '맞춤 추천 받기'}
+              </button>
+            </div>
+
+            <div className="candidate-strip">
+              <article className="candidate-card">
+                <span>감지된 정류장</span>
+                <strong>{travelCandidates?.mentionedStopNames.join(', ') || '아직 감지되지 않음'}</strong>
+              </article>
+              <article className="candidate-card">
+                <span>희망 시간</span>
+                <strong>{travelCandidates?.preferredHour ? `${travelCandidates.preferredHour.hour}시대` : '문장에서 찾지 못함'}</strong>
+              </article>
+              <article className="candidate-card">
+                <span>후보 노선 수</span>
+                <strong>{travelCandidates?.candidateCount ?? 0}개</strong>
+              </article>
+            </div>
+
+            {travelCandidates?.routeOptions?.length ? (
+              <div className="option-preview">
+                {travelCandidates.routeOptions.slice(0, 3).map((option) => (
+                  <article key={`${option.routeName}-${option.hour}`} className="option-card">
+                    <div className="option-head">
+                      <strong>{option.routeName}번</strong>
+                      <span>{option.hour}</span>
+                    </div>
+                    <p>{`${option.originStopName} -> ${option.destinationStopName}`}</p>
+                    <small>{`출발 혼잡 ${formatPercent(option.originCrowding)} / 노선 평균 ${formatPercent(option.routeCrowding)}`}</small>
+                  </article>
+                ))}
+              </div>
+            ) : (
+              <div className="llm-placeholder compact">
+                같은 노선에 포함된 출발지와 도착지를 찾으면 후보를 자동으로 비교합니다.
+              </div>
+            )}
+
+            {llmError ? <div className="llm-error">{llmError}</div> : null}
+
+            {llmResponse ? (
+              <div className="llm-result">
+                <div className="llm-summary">
+                  <p className="section-title">{llmResponse.modeLabel}</p>
+                  {llmResponse.fallback ? <small>규칙 기반 fallback 응답</small> : null}
+                  <h4>{llmResponse.headline}</h4>
+                  <p>{llmResponse.summary}</p>
+                </div>
+
+                <div className="llm-metrics">
+                  {llmResponse.metrics.map((metric) => (
+                    <article key={metric.label} className="llm-metric-card">
+                      <span>{metric.label}</span>
+                      <strong>{metric.value}</strong>
+                    </article>
+                  ))}
+                </div>
+
+                <div className="llm-columns">
+                  <article className="llm-list-card">
+                    <h4>추천 근거</h4>
+                    <ul>
+                      {llmResponse.bullets.map((item) => (
+                        <li key={item}>{item}</li>
+                      ))}
+                    </ul>
+                  </article>
+                  <article className="llm-list-card">
+                    <h4>권장 이동</h4>
+                    <p>{llmResponse.recommendation}</p>
+                    <small>{llmResponse.caution}</small>
+                  </article>
+                </div>
+              </div>
+            ) : null}
+          </section>
+        </aside>
       </main>
     </div>
   );
