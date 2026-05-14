@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-05-14T16:42:16.050Z",
+  "generatedAt": "2026-05-14T17:23:31.991Z",
   "predictionSourceLatestActualDate": "2026-04-22",
   "comparisonDates": [
     "2026-04-23",
@@ -135,11 +135,21 @@
         {
           "date": "2026-04-23",
           "label": "4. 23. (목)",
+          "weekdayIndex": 4,
           "predictedAvg": 33.67,
           "actualAvg": 33.63,
           "mae": 6.97,
           "rmse": 11.38,
           "bias": 0.03,
+          "daytimeMae": 10.07,
+          "peakHour": {
+            "hour": "14시",
+            "predictedAvg": 52.87,
+            "actualAvg": 57.78,
+            "mae": 16.55,
+            "rmse": 20.88,
+            "bias": -4.91
+          },
           "hourly": [
             {
               "hour": "04시",
@@ -449,11 +459,21 @@
         {
           "date": "2026-04-24",
           "label": "4. 24. (금)",
+          "weekdayIndex": 5,
           "predictedAvg": 30.72,
           "actualAvg": 29.28,
           "mae": 6.41,
           "rmse": 10.1,
           "bias": 1.45,
+          "daytimeMae": 9.07,
+          "peakHour": {
+            "hour": "11시",
+            "predictedAvg": 53.26,
+            "actualAvg": 37.85,
+            "mae": 16.01,
+            "rmse": 21.51,
+            "bias": 15.41
+          },
           "hourly": [
             {
               "hour": "04시",
@@ -763,11 +783,21 @@
         {
           "date": "2026-04-25",
           "label": "4. 25. (토)",
+          "weekdayIndex": 6,
           "predictedAvg": 27.61,
           "actualAvg": 20.42,
           "mae": 9.33,
           "rmse": 14.53,
           "bias": 7.2,
+          "daytimeMae": 13.48,
+          "peakHour": {
+            "hour": "08시",
+            "predictedAvg": 44.44,
+            "actualAvg": 21.84,
+            "mae": 22.76,
+            "rmse": 26.13,
+            "bias": 22.6
+          },
           "hourly": [
             {
               "hour": "04시",
@@ -1077,11 +1107,21 @@
         {
           "date": "2026-04-26",
           "label": "4. 26. (일)",
+          "weekdayIndex": 0,
           "predictedAvg": 25.03,
           "actualAvg": 17.39,
           "mae": 8.92,
           "rmse": 13.78,
           "bias": 7.64,
+          "daytimeMae": 12.95,
+          "peakHour": {
+            "hour": "11시",
+            "predictedAvg": 45.75,
+            "actualAvg": 26.21,
+            "mae": 20.31,
+            "rmse": 25.76,
+            "bias": 19.54
+          },
           "hourly": [
             {
               "hour": "04시",
@@ -1391,11 +1431,21 @@
         {
           "date": "2026-04-27",
           "label": "4. 27. (월)",
+          "weekdayIndex": 1,
           "predictedAvg": 29.65,
           "actualAvg": 33.91,
           "mae": 8.57,
           "rmse": 14.92,
           "bias": -4.27,
+          "daytimeMae": 12.84,
+          "peakHour": {
+            "hour": "12시",
+            "predictedAvg": 40.77,
+            "actualAvg": 64.67,
+            "mae": 24.83,
+            "rmse": 31.83,
+            "bias": -23.9
+          },
           "hourly": [
             {
               "hour": "04시",
@@ -1705,11 +1755,21 @@
         {
           "date": "2026-04-28",
           "label": "4. 28. (화)",
+          "weekdayIndex": 2,
           "predictedAvg": 31.35,
           "actualAvg": 33.76,
           "mae": 7.02,
           "rmse": 12.83,
           "bias": -2.41,
+          "daytimeMae": 10.37,
+          "peakHour": {
+            "hour": "08시",
+            "predictedAvg": 60.08,
+            "actualAvg": 78.93,
+            "mae": 22.38,
+            "rmse": 35.67,
+            "bias": -18.85
+          },
           "hourly": [
             {
               "hour": "04시",
@@ -2019,11 +2079,21 @@
         {
           "date": "2026-04-29",
           "label": "4. 29. (수)",
+          "weekdayIndex": 3,
           "predictedAvg": 32.05,
           "actualAvg": 35.75,
           "mae": 7.05,
           "rmse": 11.46,
           "bias": -3.7,
+          "daytimeMae": 10.11,
+          "peakHour": {
+            "hour": "11시",
+            "predictedAvg": 60.77,
+            "actualAvg": 77.24,
+            "mae": 18.47,
+            "rmse": 25.51,
+            "bias": -16.47
+          },
           "hourly": [
             {
               "hour": "04시",
@@ -2508,8 +2578,32 @@
         "predictedAvg": 30.01,
         "actualAvg": 29.16,
         "mae": 7.75,
+        "daytimeMae": 11.27,
         "rmse": 7.8,
         "bias": 0.85
+      },
+      "periodMetrics": {
+        "daytime": {
+          "hourRange": "08:00-21:59",
+          "mae": 11.27,
+          "bias": 0.75
+        },
+        "weekday": {
+          "mae": 7.2,
+          "bias": -1.78
+        },
+        "weekend": {
+          "mae": 9.13,
+          "bias": 7.42
+        }
+      },
+      "peakHour": {
+        "hour": "11시",
+        "predictedAvg": 55.57,
+        "actualAvg": 54.37,
+        "mae": 18.18,
+        "rmse": 23.65,
+        "bias": 1.19
       },
       "hourly": [
         {
@@ -2715,11 +2809,21 @@
         {
           "date": "2026-04-23",
           "label": "4. 23. (목)",
+          "weekdayIndex": 4,
           "predictedAvg": 42.2,
           "actualAvg": 43.28,
           "mae": 6.08,
           "rmse": 9.31,
           "bias": -1.08,
+          "daytimeMae": 7.44,
+          "peakHour": {
+            "hour": "11시",
+            "predictedAvg": 44.02,
+            "actualAvg": 49.17,
+            "mae": 8.96,
+            "rmse": 11.6,
+            "bias": -5.15
+          },
           "hourly": [
             {
               "hour": "04시",
@@ -3029,11 +3133,21 @@
         {
           "date": "2026-04-24",
           "label": "4. 24. (금)",
+          "weekdayIndex": 5,
           "predictedAvg": 42.7,
           "actualAvg": 45.35,
           "mae": 7.01,
           "rmse": 11.11,
           "bias": -2.65,
+          "daytimeMae": 8.05,
+          "peakHour": {
+            "hour": "22시",
+            "predictedAvg": 45.35,
+            "actualAvg": 56.43,
+            "mae": 15.74,
+            "rmse": 25.76,
+            "bias": -11.08
+          },
           "hourly": [
             {
               "hour": "04시",
@@ -3343,11 +3457,21 @@
         {
           "date": "2026-04-25",
           "label": "4. 25. (토)",
+          "weekdayIndex": 6,
           "predictedAvg": 43,
           "actualAvg": 44.06,
           "mae": 10.09,
           "rmse": 15.76,
           "bias": -1.06,
+          "daytimeMae": 12.55,
+          "peakHour": {
+            "hour": "07시",
+            "predictedAvg": 48.39,
+            "actualAvg": 24.83,
+            "mae": 24.04,
+            "rmse": 29.56,
+            "bias": 23.56
+          },
           "hourly": [
             {
               "hour": "04시",
@@ -3657,11 +3781,21 @@
         {
           "date": "2026-04-26",
           "label": "4. 26. (일)",
+          "weekdayIndex": 0,
           "predictedAvg": 40.83,
           "actualAvg": 38.22,
           "mae": 9.09,
           "rmse": 14.23,
           "bias": 2.61,
+          "daytimeMae": 10.84,
+          "peakHour": {
+            "hour": "07시",
+            "predictedAvg": 38.91,
+            "actualAvg": 15.24,
+            "mae": 23.85,
+            "rmse": 28.86,
+            "bias": 23.67
+          },
           "hourly": [
             {
               "hour": "04시",
@@ -3971,11 +4105,21 @@
         {
           "date": "2026-04-27",
           "label": "4. 27. (월)",
+          "weekdayIndex": 1,
           "predictedAvg": 41.23,
           "actualAvg": 41,
           "mae": 7.34,
           "rmse": 10.89,
           "bias": 0.23,
+          "daytimeMae": 8.66,
+          "peakHour": {
+            "hour": "07시",
+            "predictedAvg": 56.09,
+            "actualAvg": 72.52,
+            "mae": 16.91,
+            "rmse": 21.38,
+            "bias": -16.43
+          },
           "hourly": [
             {
               "hour": "04시",
@@ -4285,11 +4429,21 @@
         {
           "date": "2026-04-28",
           "label": "4. 28. (화)",
+          "weekdayIndex": 2,
           "predictedAvg": 41.8,
           "actualAvg": 43.23,
           "mae": 6.82,
           "rmse": 10.48,
           "bias": -1.43,
+          "daytimeMae": 8.51,
+          "peakHour": {
+            "hour": "08시",
+            "predictedAvg": 71.46,
+            "actualAvg": 82.76,
+            "mae": 15.7,
+            "rmse": 20.53,
+            "bias": -11.3
+          },
           "hourly": [
             {
               "hour": "04시",
@@ -4599,11 +4753,21 @@
         {
           "date": "2026-04-29",
           "label": "4. 29. (수)",
+          "weekdayIndex": 3,
           "predictedAvg": 42.36,
           "actualAvg": 43.88,
           "mae": 6.18,
           "rmse": 9.23,
           "bias": -1.52,
+          "daytimeMae": 7.71,
+          "peakHour": {
+            "hour": "17시",
+            "predictedAvg": 73.33,
+            "actualAvg": 77.11,
+            "mae": 9.26,
+            "rmse": 12.28,
+            "bias": -3.78
+          },
           "hourly": [
             {
               "hour": "04시",
@@ -5097,8 +5261,32 @@
         "predictedAvg": 42.02,
         "actualAvg": 42.72,
         "mae": 7.52,
+        "daytimeMae": 9.11,
         "rmse": 5.73,
         "bias": -0.7
+      },
+      "periodMetrics": {
+        "daytime": {
+          "hourRange": "08:00-21:59",
+          "mae": 9.11,
+          "bias": -0.99
+        },
+        "weekday": {
+          "mae": 6.69,
+          "bias": -1.29
+        },
+        "weekend": {
+          "mae": 9.59,
+          "bias": 0.77
+        }
+      },
+      "peakHour": {
+        "hour": "07시",
+        "predictedAvg": 56.57,
+        "actualAvg": 56,
+        "mae": 14.99,
+        "rmse": 19.03,
+        "bias": 0.56
       },
       "hourly": [
         {
@@ -5304,11 +5492,21 @@
         {
           "date": "2026-04-23",
           "label": "4. 23. (목)",
+          "weekdayIndex": 4,
           "predictedAvg": 20.62,
           "actualAvg": 22.06,
           "mae": 6.81,
           "rmse": 11.61,
           "bias": -1.45,
+          "daytimeMae": 8.18,
+          "peakHour": {
+            "hour": "18시",
+            "predictedAvg": 32.77,
+            "actualAvg": 37.65,
+            "mae": 11.84,
+            "rmse": 17.93,
+            "bias": -4.88
+          },
           "hourly": [
             {
               "hour": "04시",
@@ -5618,11 +5816,21 @@
         {
           "date": "2026-04-24",
           "label": "4. 24. (금)",
+          "weekdayIndex": 5,
           "predictedAvg": 21.04,
           "actualAvg": 22.62,
           "mae": 8.55,
           "rmse": 15.3,
           "bias": -1.57,
+          "daytimeMae": 10.35,
+          "peakHour": {
+            "hour": "18시",
+            "predictedAvg": 32.04,
+            "actualAvg": 35.62,
+            "mae": 16.38,
+            "rmse": 24.38,
+            "bias": -3.58
+          },
           "hourly": [
             {
               "hour": "04시",
@@ -5932,11 +6140,21 @@
         {
           "date": "2026-04-25",
           "label": "4. 25. (토)",
+          "weekdayIndex": 6,
           "predictedAvg": 21.64,
           "actualAvg": 22.53,
           "mae": 9.08,
           "rmse": 15.67,
           "bias": -0.89,
+          "daytimeMae": 11.1,
+          "peakHour": {
+            "hour": "11시",
+            "predictedAvg": 23.28,
+            "actualAvg": 23.68,
+            "mae": 16.05,
+            "rmse": 25.31,
+            "bias": -0.4
+          },
           "hourly": [
             {
               "hour": "04시",
@@ -6246,11 +6464,21 @@
         {
           "date": "2026-04-26",
           "label": "4. 26. (일)",
+          "weekdayIndex": 0,
           "predictedAvg": 19.24,
           "actualAvg": 17.03,
           "mae": 7.79,
           "rmse": 13.02,
           "bias": 2.21,
+          "daytimeMae": 9.71,
+          "peakHour": {
+            "hour": "18시",
+            "predictedAvg": 29.09,
+            "actualAvg": 19.8,
+            "mae": 15.26,
+            "rmse": 19.97,
+            "bias": 9.29
+          },
           "hourly": [
             {
               "hour": "04시",
@@ -6560,11 +6788,21 @@
         {
           "date": "2026-04-27",
           "label": "4. 27. (월)",
+          "weekdayIndex": 1,
           "predictedAvg": 19.97,
           "actualAvg": 21.01,
           "mae": 6.88,
           "rmse": 11.95,
           "bias": -1.04,
+          "daytimeMae": 8.41,
+          "peakHour": {
+            "hour": "18시",
+            "predictedAvg": 29.78,
+            "actualAvg": 28.49,
+            "mae": 15.36,
+            "rmse": 25.59,
+            "bias": 1.29
+          },
           "hourly": [
             {
               "hour": "04시",
@@ -6874,11 +7112,21 @@
         {
           "date": "2026-04-28",
           "label": "4. 28. (화)",
+          "weekdayIndex": 2,
           "predictedAvg": 20.11,
           "actualAvg": 20.62,
           "mae": 6.65,
           "rmse": 11.94,
           "bias": -0.5,
+          "daytimeMae": 8.34,
+          "peakHour": {
+            "hour": "18시",
+            "predictedAvg": 28.66,
+            "actualAvg": 29.49,
+            "mae": 17.74,
+            "rmse": 29.52,
+            "bias": -0.83
+          },
           "hourly": [
             {
               "hour": "04시",
@@ -7188,11 +7436,21 @@
         {
           "date": "2026-04-29",
           "label": "4. 29. (수)",
+          "weekdayIndex": 3,
           "predictedAvg": 20.71,
           "actualAvg": 21.32,
           "mae": 6.47,
           "rmse": 11.61,
           "bias": -0.61,
+          "daytimeMae": 8.29,
+          "peakHour": {
+            "hour": "18시",
+            "predictedAvg": 31.84,
+            "actualAvg": 30.05,
+            "mae": 14,
+            "rmse": 22.7,
+            "bias": 1.79
+          },
           "hourly": [
             {
               "hour": "04시",
@@ -7686,8 +7944,32 @@
         "predictedAvg": 20.48,
         "actualAvg": 21.03,
         "mae": 7.46,
+        "daytimeMae": 9.2,
         "rmse": 3.72,
         "bias": -0.55
+      },
+      "periodMetrics": {
+        "daytime": {
+          "hourRange": "08:00-21:59",
+          "mae": 9.2,
+          "bias": -0.55
+        },
+        "weekday": {
+          "mae": 7.07,
+          "bias": -1.03
+        },
+        "weekend": {
+          "mae": 8.44,
+          "bias": 0.66
+        }
+      },
+      "peakHour": {
+        "hour": "18시",
+        "predictedAvg": 30.83,
+        "actualAvg": 29.76,
+        "mae": 15.08,
+        "rmse": 23.37,
+        "bias": 1.07
       },
       "hourly": [
         {
@@ -7893,11 +8175,21 @@
         {
           "date": "2026-04-23",
           "label": "4. 23. (목)",
+          "weekdayIndex": 4,
           "predictedAvg": 37.08,
           "actualAvg": 37.61,
           "mae": 5.95,
           "rmse": 8.94,
           "bias": -0.54,
+          "daytimeMae": 7.77,
+          "peakHour": {
+            "hour": "17시",
+            "predictedAvg": 64.82,
+            "actualAvg": 72.86,
+            "mae": 12.3,
+            "rmse": 15.12,
+            "bias": -8.04
+          },
           "hourly": [
             {
               "hour": "04시",
@@ -8207,11 +8499,21 @@
         {
           "date": "2026-04-24",
           "label": "4. 24. (금)",
+          "weekdayIndex": 5,
           "predictedAvg": 37.7,
           "actualAvg": 40.15,
           "mae": 6.74,
           "rmse": 10.59,
           "bias": -2.45,
+          "daytimeMae": 8.56,
+          "peakHour": {
+            "hour": "15시",
+            "predictedAvg": 51.04,
+            "actualAvg": 55.52,
+            "mae": 11.2,
+            "rmse": 16,
+            "bias": -4.48
+          },
           "hourly": [
             {
               "hour": "04시",
@@ -8521,11 +8823,21 @@
         {
           "date": "2026-04-25",
           "label": "4. 25. (토)",
+          "weekdayIndex": 6,
           "predictedAvg": 38.23,
           "actualAvg": 40.61,
           "mae": 9.99,
           "rmse": 15.25,
           "bias": -2.38,
+          "daytimeMae": 12.36,
+          "peakHour": {
+            "hour": "08시",
+            "predictedAvg": 56.66,
+            "actualAvg": 37.43,
+            "mae": 19.51,
+            "rmse": 22.74,
+            "bias": 19.23
+          },
           "hourly": [
             {
               "hour": "04시",
@@ -8835,11 +9147,21 @@
         {
           "date": "2026-04-26",
           "label": "4. 26. (일)",
+          "weekdayIndex": 0,
           "predictedAvg": 35.82,
           "actualAvg": 32.88,
           "mae": 8.85,
           "rmse": 13.25,
           "bias": 2.94,
+          "daytimeMae": 10.63,
+          "peakHour": {
+            "hour": "08시",
+            "predictedAvg": 45.33,
+            "actualAvg": 22.29,
+            "mae": 23.61,
+            "rmse": 27.5,
+            "bias": 23.04
+          },
           "hourly": [
             {
               "hour": "04시",
@@ -9149,11 +9471,21 @@
         {
           "date": "2026-04-27",
           "label": "4. 27. (월)",
+          "weekdayIndex": 1,
           "predictedAvg": 36.27,
           "actualAvg": 36.46,
           "mae": 6.93,
           "rmse": 10.33,
           "bias": -0.18,
+          "daytimeMae": 8.78,
+          "peakHour": {
+            "hour": "08시",
+            "predictedAvg": 61.14,
+            "actualAvg": 70.39,
+            "mae": 12.43,
+            "rmse": 15.84,
+            "bias": -9.25
+          },
           "hourly": [
             {
               "hour": "04시",
@@ -9463,11 +9795,21 @@
         {
           "date": "2026-04-28",
           "label": "4. 28. (화)",
+          "weekdayIndex": 2,
           "predictedAvg": 36.85,
           "actualAvg": 37.62,
           "mae": 6.21,
           "rmse": 9.22,
           "bias": -0.77,
+          "daytimeMae": 7.97,
+          "peakHour": {
+            "hour": "07시",
+            "predictedAvg": 50.7,
+            "actualAvg": 58.97,
+            "mae": 10.3,
+            "rmse": 13.46,
+            "bias": -8.27
+          },
           "hourly": [
             {
               "hour": "04시",
@@ -9777,11 +10119,21 @@
         {
           "date": "2026-04-29",
           "label": "4. 29. (수)",
+          "weekdayIndex": 3,
           "predictedAvg": 37.29,
           "actualAvg": 39.61,
           "mae": 6.44,
           "rmse": 9.78,
           "bias": -2.32,
+          "daytimeMae": 7.62,
+          "peakHour": {
+            "hour": "08시",
+            "predictedAvg": 66.27,
+            "actualAvg": 77.98,
+            "mae": 12.68,
+            "rmse": 15.75,
+            "bias": -11.71
+          },
           "hourly": [
             {
               "hour": "04시",
@@ -10275,8 +10627,32 @@
         "predictedAvg": 37.03,
         "actualAvg": 37.85,
         "mae": 7.3,
+        "daytimeMae": 9.1,
         "rmse": 5.23,
         "bias": -0.82
+      },
+      "periodMetrics": {
+        "daytime": {
+          "hourRange": "08:00-21:59",
+          "mae": 9.1,
+          "bias": -1.26
+        },
+        "weekday": {
+          "mae": 6.45,
+          "bias": -1.25
+        },
+        "weekend": {
+          "mae": 9.42,
+          "bias": 0.28
+        }
+      },
+      "peakHour": {
+        "hour": "08시",
+        "predictedAvg": 62,
+        "actualAvg": 59,
+        "mae": 13.35,
+        "rmse": 16.29,
+        "bias": 2.99
       },
       "hourly": [
         {
@@ -10482,11 +10858,21 @@
         {
           "date": "2026-04-23",
           "label": "4. 23. (목)",
+          "weekdayIndex": 4,
           "predictedAvg": 31.11,
           "actualAvg": 32.52,
           "mae": 6.45,
           "rmse": 9.72,
           "bias": -1.41,
+          "daytimeMae": 8.26,
+          "peakHour": {
+            "hour": "15시",
+            "predictedAvg": 40.41,
+            "actualAvg": 46.87,
+            "mae": 10.96,
+            "rmse": 13.32,
+            "bias": -6.46
+          },
           "hourly": [
             {
               "hour": "04시",
@@ -10796,11 +11182,21 @@
         {
           "date": "2026-04-24",
           "label": "4. 24. (금)",
+          "weekdayIndex": 5,
           "predictedAvg": 30.64,
           "actualAvg": 31.82,
           "mae": 5.95,
           "rmse": 9.24,
           "bias": -1.17,
+          "daytimeMae": 7.91,
+          "peakHour": {
+            "hour": "13시",
+            "predictedAvg": 38.42,
+            "actualAvg": 42.43,
+            "mae": 10,
+            "rmse": 14.2,
+            "bias": -4.01
+          },
           "hourly": [
             {
               "hour": "04시",
@@ -11110,11 +11506,21 @@
         {
           "date": "2026-04-25",
           "label": "4. 25. (토)",
+          "weekdayIndex": 6,
           "predictedAvg": 28.95,
           "actualAvg": 26.78,
           "mae": 8.66,
           "rmse": 13.16,
           "bias": 2.17,
+          "daytimeMae": 11.08,
+          "peakHour": {
+            "hour": "08시",
+            "predictedAvg": 47.65,
+            "actualAvg": 26.9,
+            "mae": 21.06,
+            "rmse": 24.26,
+            "bias": 20.75
+          },
           "hourly": [
             {
               "hour": "04시",
@@ -11424,11 +11830,21 @@
         {
           "date": "2026-04-26",
           "label": "4. 26. (일)",
+          "weekdayIndex": 0,
           "predictedAvg": 26.2,
           "actualAvg": 21.93,
           "mae": 8.08,
           "rmse": 12.07,
           "bias": 4.27,
+          "daytimeMae": 10.54,
+          "peakHour": {
+            "hour": "08시",
+            "predictedAvg": 37.55,
+            "actualAvg": 17.36,
+            "mae": 20.18,
+            "rmse": 22.76,
+            "bias": 20.19
+          },
           "hourly": [
             {
               "hour": "04시",
@@ -11738,11 +12154,21 @@
         {
           "date": "2026-04-27",
           "label": "4. 27. (월)",
+          "weekdayIndex": 1,
           "predictedAvg": 28.8,
           "actualAvg": 31.57,
           "mae": 6.83,
           "rmse": 10.41,
           "bias": -2.77,
+          "daytimeMae": 8.84,
+          "peakHour": {
+            "hour": "09시",
+            "predictedAvg": 40.54,
+            "actualAvg": 53.85,
+            "mae": 13.51,
+            "rmse": 18.17,
+            "bias": -13.31
+          },
           "hourly": [
             {
               "hour": "04시",
@@ -12052,11 +12478,21 @@
         {
           "date": "2026-04-28",
           "label": "4. 28. (화)",
+          "weekdayIndex": 2,
           "predictedAvg": 29.86,
           "actualAvg": 32.64,
           "mae": 6.84,
           "rmse": 11.43,
           "bias": -2.79,
+          "daytimeMae": 9.15,
+          "peakHour": {
+            "hour": "08시",
+            "predictedAvg": 57.86,
+            "actualAvg": 70.13,
+            "mae": 14.5,
+            "rmse": 17.79,
+            "bias": -12.27
+          },
           "hourly": [
             {
               "hour": "04시",
@@ -12366,11 +12802,21 @@
         {
           "date": "2026-04-29",
           "label": "4. 29. (수)",
+          "weekdayIndex": 3,
           "predictedAvg": 30.51,
           "actualAvg": 34.75,
           "mae": 7.74,
           "rmse": 12.6,
           "bias": -4.25,
+          "daytimeMae": 10.47,
+          "peakHour": {
+            "hour": "18시",
+            "predictedAvg": 61.14,
+            "actualAvg": 76.41,
+            "mae": 16.2,
+            "rmse": 21.81,
+            "bias": -15.27
+          },
           "hourly": [
             {
               "hour": "04시",
@@ -12864,8 +13310,32 @@
         "predictedAvg": 29.44,
         "actualAvg": 30.29,
         "mae": 7.22,
+        "daytimeMae": 9.46,
         "rmse": 5.42,
         "bias": -0.85
+      },
+      "periodMetrics": {
+        "daytime": {
+          "hourRange": "08:00-21:59",
+          "mae": 9.46,
+          "bias": -1.59
+        },
+        "weekday": {
+          "mae": 6.76,
+          "bias": -2.48
+        },
+        "weekend": {
+          "mae": 8.37,
+          "bias": 3.22
+        }
+      },
+      "peakHour": {
+        "hour": "08시",
+        "predictedAvg": 54.51,
+        "actualAvg": 54.56,
+        "mae": 14.44,
+        "rmse": 17.87,
+        "bias": -0.05
       },
       "hourly": [
         {
@@ -13071,11 +13541,21 @@
         {
           "date": "2026-04-23",
           "label": "4. 23. (목)",
+          "weekdayIndex": 4,
           "predictedAvg": 33.6,
           "actualAvg": 34.72,
           "mae": 6.24,
           "rmse": 9.44,
           "bias": -1.11,
+          "daytimeMae": 8.17,
+          "peakHour": {
+            "hour": "10시",
+            "predictedAvg": 36.35,
+            "actualAvg": 45.53,
+            "mae": 10.94,
+            "rmse": 14.43,
+            "bias": -9.18
+          },
           "hourly": [
             {
               "hour": "04시",
@@ -13385,11 +13865,21 @@
         {
           "date": "2026-04-24",
           "label": "4. 24. (금)",
+          "weekdayIndex": 5,
           "predictedAvg": 34.24,
           "actualAvg": 36.01,
           "mae": 6.79,
           "rmse": 10.62,
           "bias": -1.77,
+          "daytimeMae": 8.79,
+          "peakHour": {
+            "hour": "12시",
+            "predictedAvg": 38.32,
+            "actualAvg": 47.9,
+            "mae": 12.05,
+            "rmse": 14.88,
+            "bias": -9.58
+          },
           "hourly": [
             {
               "hour": "04시",
@@ -13699,11 +14189,21 @@
         {
           "date": "2026-04-25",
           "label": "4. 25. (토)",
+          "weekdayIndex": 6,
           "predictedAvg": 34.56,
           "actualAvg": 36,
           "mae": 8.53,
           "rmse": 12.68,
           "bias": -1.44,
+          "daytimeMae": 11,
+          "peakHour": {
+            "hour": "07시",
+            "predictedAvg": 38.41,
+            "actualAvg": 21.74,
+            "mae": 17.76,
+            "rmse": 20.47,
+            "bias": 16.67
+          },
           "hourly": [
             {
               "hour": "04시",
@@ -14013,11 +14513,21 @@
         {
           "date": "2026-04-26",
           "label": "4. 26. (일)",
+          "weekdayIndex": 0,
           "predictedAvg": 33.54,
           "actualAvg": 34.2,
           "mae": 7.65,
           "rmse": 11.12,
           "bias": -0.66,
+          "daytimeMae": 9.64,
+          "peakHour": {
+            "hour": "12시",
+            "predictedAvg": 46.16,
+            "actualAvg": 59.85,
+            "mae": 14.15,
+            "rmse": 16.98,
+            "bias": -13.69
+          },
           "hourly": [
             {
               "hour": "04시",
@@ -14327,11 +14837,21 @@
         {
           "date": "2026-04-27",
           "label": "4. 27. (월)",
+          "weekdayIndex": 1,
           "predictedAvg": 33.16,
           "actualAvg": 35.6,
           "mae": 7.97,
           "rmse": 12.27,
           "bias": -2.44,
+          "daytimeMae": 10.22,
+          "peakHour": {
+            "hour": "08시",
+            "predictedAvg": 52.45,
+            "actualAvg": 70.71,
+            "mae": 18.6,
+            "rmse": 25.17,
+            "bias": -18.26
+          },
           "hourly": [
             {
               "hour": "04시",
@@ -14641,11 +15161,21 @@
         {
           "date": "2026-04-28",
           "label": "4. 28. (화)",
+          "weekdayIndex": 2,
           "predictedAvg": 33.71,
           "actualAvg": 34.01,
           "mae": 7.05,
           "rmse": 10.48,
           "bias": -0.3,
+          "daytimeMae": 9.18,
+          "peakHour": {
+            "hour": "18시",
+            "predictedAvg": 57.32,
+            "actualAvg": 66.14,
+            "mae": 12.26,
+            "rmse": 15.7,
+            "bias": -8.82
+          },
           "hourly": [
             {
               "hour": "04시",
@@ -14955,11 +15485,21 @@
         {
           "date": "2026-04-29",
           "label": "4. 29. (수)",
+          "weekdayIndex": 3,
           "predictedAvg": 33.68,
           "actualAvg": 34.96,
           "mae": 6.16,
           "rmse": 9.36,
           "bias": -1.28,
+          "daytimeMae": 7.99,
+          "peakHour": {
+            "hour": "08시",
+            "predictedAvg": 56.75,
+            "actualAvg": 65.03,
+            "mae": 12.05,
+            "rmse": 15.73,
+            "bias": -8.28
+          },
           "hourly": [
             {
               "hour": "04시",
@@ -15453,8 +15993,32 @@
         "predictedAvg": 33.78,
         "actualAvg": 35.07,
         "mae": 7.2,
+        "daytimeMae": 9.28,
         "rmse": 4.81,
         "bias": -1.29
+      },
+      "periodMetrics": {
+        "daytime": {
+          "hourRange": "08:00-21:59",
+          "mae": 9.28,
+          "bias": -2.25
+        },
+        "weekday": {
+          "mae": 6.84,
+          "bias": -1.38
+        },
+        "weekend": {
+          "mae": 8.09,
+          "bias": -1.05
+        }
+      },
+      "peakHour": {
+        "hour": "08시",
+        "predictedAvg": 53.88,
+        "actualAvg": 54.75,
+        "mae": 12.09,
+        "rmse": 15.53,
+        "bias": -0.87
       },
       "hourly": [
         {
@@ -15660,11 +16224,21 @@
         {
           "date": "2026-04-23",
           "label": "4. 23. (목)",
+          "weekdayIndex": 4,
           "predictedAvg": 40.85,
           "actualAvg": 41.5,
           "mae": 6.29,
           "rmse": 9.37,
           "bias": -0.65,
+          "daytimeMae": 8.21,
+          "peakHour": {
+            "hour": "17시",
+            "predictedAvg": 72.11,
+            "actualAvg": 71.44,
+            "mae": 10.14,
+            "rmse": 12.73,
+            "bias": 0.67
+          },
           "hourly": [
             {
               "hour": "04시",
@@ -15974,11 +16548,21 @@
         {
           "date": "2026-04-24",
           "label": "4. 24. (금)",
+          "weekdayIndex": 5,
           "predictedAvg": 40.47,
           "actualAvg": 41.26,
           "mae": 6.82,
           "rmse": 10.23,
           "bias": -0.79,
+          "daytimeMae": 8.78,
+          "peakHour": {
+            "hour": "16시",
+            "predictedAvg": 64.44,
+            "actualAvg": 68.69,
+            "mae": 11.07,
+            "rmse": 15.57,
+            "bias": -4.25
+          },
           "hourly": [
             {
               "hour": "04시",
@@ -16288,11 +16872,21 @@
         {
           "date": "2026-04-25",
           "label": "4. 25. (토)",
+          "weekdayIndex": 6,
           "predictedAvg": 39.06,
           "actualAvg": 36.07,
           "mae": 8.29,
           "rmse": 12.59,
           "bias": 2.99,
+          "daytimeMae": 10.16,
+          "peakHour": {
+            "hour": "08시",
+            "predictedAvg": 55.56,
+            "actualAvg": 37.02,
+            "mae": 18.69,
+            "rmse": 22.55,
+            "bias": 18.54
+          },
           "hourly": [
             {
               "hour": "04시",
@@ -16602,11 +17196,21 @@
         {
           "date": "2026-04-26",
           "label": "4. 26. (일)",
+          "weekdayIndex": 0,
           "predictedAvg": 37.26,
           "actualAvg": 32.01,
           "mae": 8.61,
           "rmse": 12.63,
           "bias": 5.25,
+          "daytimeMae": 10.89,
+          "peakHour": {
+            "hour": "08시",
+            "predictedAvg": 46.8,
+            "actualAvg": 28.15,
+            "mae": 18.69,
+            "rmse": 22,
+            "bias": 18.65
+          },
           "hourly": [
             {
               "hour": "04시",
@@ -16916,11 +17520,21 @@
         {
           "date": "2026-04-27",
           "label": "4. 27. (월)",
+          "weekdayIndex": 1,
           "predictedAvg": 39.32,
           "actualAvg": 40.94,
           "mae": 6.87,
           "rmse": 10.35,
           "bias": -1.62,
+          "daytimeMae": 8.7,
+          "peakHour": {
+            "hour": "07시",
+            "predictedAvg": 50.35,
+            "actualAvg": 63.74,
+            "mae": 13.74,
+            "rmse": 16.89,
+            "bias": -13.39
+          },
           "hourly": [
             {
               "hour": "04시",
@@ -17230,11 +17844,21 @@
         {
           "date": "2026-04-28",
           "label": "4. 28. (화)",
+          "weekdayIndex": 2,
           "predictedAvg": 40.56,
           "actualAvg": 42.26,
           "mae": 6.69,
           "rmse": 10.09,
           "bias": -1.7,
+          "daytimeMae": 8.72,
+          "peakHour": {
+            "hour": "18시",
+            "predictedAvg": 74.7,
+            "actualAvg": 86.04,
+            "mae": 13.65,
+            "rmse": 17.98,
+            "bias": -11.34
+          },
           "hourly": [
             {
               "hour": "04시",
@@ -17544,11 +18168,21 @@
         {
           "date": "2026-04-29",
           "label": "4. 29. (수)",
+          "weekdayIndex": 3,
           "predictedAvg": 40.79,
           "actualAvg": 43.72,
           "mae": 6.79,
           "rmse": 10.42,
           "bias": -2.93,
+          "daytimeMae": 9.05,
+          "peakHour": {
+            "hour": "08시",
+            "predictedAvg": 68.67,
+            "actualAvg": 81.03,
+            "mae": 14.03,
+            "rmse": 18.01,
+            "bias": -12.36
+          },
           "hourly": [
             {
               "hour": "04시",
@@ -18042,8 +18676,32 @@
         "predictedAvg": 39.76,
         "actualAvg": 39.68,
         "mae": 7.19,
+        "daytimeMae": 9.22,
         "rmse": 4.94,
         "bias": 0.08
+      },
+      "periodMetrics": {
+        "daytime": {
+          "hourRange": "08:00-21:59",
+          "mae": 9.21,
+          "bias": -0.22
+        },
+        "weekday": {
+          "mae": 6.69,
+          "bias": -1.54
+        },
+        "weekend": {
+          "mae": 8.45,
+          "bias": 4.12
+        }
+      },
+      "peakHour": {
+        "hour": "08시",
+        "predictedAvg": 63.25,
+        "actualAvg": 62.74,
+        "mae": 13.72,
+        "rmse": 17.23,
+        "bias": 0.51
       },
       "hourly": [
         {
@@ -18249,11 +18907,21 @@
         {
           "date": "2026-04-23",
           "label": "4. 23. (목)",
+          "weekdayIndex": 4,
           "predictedAvg": 38.78,
           "actualAvg": 38.95,
           "mae": 5.79,
           "rmse": 8.87,
           "bias": -0.16,
+          "daytimeMae": 7.27,
+          "peakHour": {
+            "hour": "10시",
+            "predictedAvg": 41.82,
+            "actualAvg": 40.71,
+            "mae": 9.34,
+            "rmse": 12.89,
+            "bias": 1.11
+          },
           "hourly": [
             {
               "hour": "04시",
@@ -18563,11 +19231,21 @@
         {
           "date": "2026-04-24",
           "label": "4. 24. (금)",
+          "weekdayIndex": 5,
           "predictedAvg": 39.54,
           "actualAvg": 41.85,
           "mae": 6.69,
           "rmse": 10.11,
           "bias": -2.31,
+          "daytimeMae": 8.43,
+          "peakHour": {
+            "hour": "15시",
+            "predictedAvg": 50.35,
+            "actualAvg": 56.34,
+            "mae": 10.53,
+            "rmse": 15.01,
+            "bias": -5.99
+          },
           "hourly": [
             {
               "hour": "04시",
@@ -18877,11 +19555,21 @@
         {
           "date": "2026-04-25",
           "label": "4. 25. (토)",
+          "weekdayIndex": 6,
           "predictedAvg": 39.82,
           "actualAvg": 40.57,
           "mae": 8.86,
           "rmse": 13.4,
           "bias": -0.75,
+          "daytimeMae": 10.72,
+          "peakHour": {
+            "hour": "07시",
+            "predictedAvg": 46.46,
+            "actualAvg": 28.41,
+            "mae": 18.71,
+            "rmse": 22.56,
+            "bias": 18.05
+          },
           "hourly": [
             {
               "hour": "04시",
@@ -19191,11 +19879,21 @@
         {
           "date": "2026-04-26",
           "label": "4. 26. (일)",
+          "weekdayIndex": 0,
           "predictedAvg": 38.56,
           "actualAvg": 39.24,
           "mae": 8.89,
           "rmse": 13.79,
           "bias": -0.68,
+          "daytimeMae": 10.98,
+          "peakHour": {
+            "hour": "11시",
+            "predictedAvg": 48.16,
+            "actualAvg": 60.96,
+            "mae": 16.24,
+            "rmse": 24.58,
+            "bias": -12.8
+          },
           "hourly": [
             {
               "hour": "04시",
@@ -19505,11 +20203,21 @@
         {
           "date": "2026-04-27",
           "label": "4. 27. (월)",
+          "weekdayIndex": 1,
           "predictedAvg": 38.28,
           "actualAvg": 38.43,
           "mae": 7.11,
           "rmse": 10.5,
           "bias": -0.14,
+          "daytimeMae": 8.09,
+          "peakHour": {
+            "hour": "07시",
+            "predictedAvg": 51.52,
+            "actualAvg": 62.63,
+            "mae": 14.09,
+            "rmse": 17.41,
+            "bias": -11.11
+          },
           "hourly": [
             {
               "hour": "04시",
@@ -19819,11 +20527,21 @@
         {
           "date": "2026-04-28",
           "label": "4. 28. (화)",
+          "weekdayIndex": 2,
           "predictedAvg": 38.86,
           "actualAvg": 40.02,
           "mae": 6.34,
           "rmse": 9.5,
           "bias": -1.16,
+          "daytimeMae": 7.8,
+          "peakHour": {
+            "hour": "07시",
+            "predictedAvg": 54.7,
+            "actualAvg": 65.66,
+            "mae": 12.27,
+            "rmse": 15.43,
+            "bias": -10.96
+          },
           "hourly": [
             {
               "hour": "04시",
@@ -20133,11 +20851,21 @@
         {
           "date": "2026-04-29",
           "label": "4. 29. (수)",
+          "weekdayIndex": 3,
           "predictedAvg": 38.99,
           "actualAvg": 40.83,
           "mae": 6.42,
           "rmse": 9.63,
           "bias": -1.85,
+          "daytimeMae": 8.12,
+          "peakHour": {
+            "hour": "08시",
+            "predictedAvg": 66.24,
+            "actualAvg": 76.34,
+            "mae": 12.68,
+            "rmse": 16.56,
+            "bias": -10.1
+          },
           "hourly": [
             {
               "hour": "04시",
@@ -20631,8 +21359,32 @@
         "predictedAvg": 38.98,
         "actualAvg": 39.98,
         "mae": 7.16,
+        "daytimeMae": 8.77,
         "rmse": 4.76,
         "bias": -1.01
+      },
+      "periodMetrics": {
+        "daytime": {
+          "hourRange": "08:00-21:59",
+          "mae": 8.78,
+          "bias": -1.7
+        },
+        "weekday": {
+          "mae": 6.47,
+          "bias": -1.12
+        },
+        "weekend": {
+          "mae": 8.88,
+          "bias": -0.72
+        }
+      },
+      "peakHour": {
+        "hour": "08시",
+        "predictedAvg": 61.28,
+        "actualAvg": 62.63,
+        "mae": 11.37,
+        "rmse": 14.58,
+        "bias": -1.35
       },
       "hourly": [
         {
@@ -20838,11 +21590,21 @@
         {
           "date": "2026-04-23",
           "label": "4. 23. (목)",
+          "weekdayIndex": 4,
           "predictedAvg": 33.77,
           "actualAvg": 33.39,
           "mae": 6.16,
           "rmse": 9.91,
           "bias": 0.38,
+          "daytimeMae": 8.28,
+          "peakHour": {
+            "hour": "08시",
+            "predictedAvg": 57.37,
+            "actualAvg": 57.76,
+            "mae": 12.5,
+            "rmse": 18.15,
+            "bias": -0.39
+          },
           "hourly": [
             {
               "hour": "04시",
@@ -21152,11 +21914,21 @@
         {
           "date": "2026-04-24",
           "label": "4. 24. (금)",
+          "weekdayIndex": 5,
           "predictedAvg": 33.02,
           "actualAvg": 33.01,
           "mae": 6.86,
           "rmse": 10.66,
           "bias": 0.01,
+          "daytimeMae": 8.92,
+          "peakHour": {
+            "hour": "11시",
+            "predictedAvg": 43.36,
+            "actualAvg": 51.19,
+            "mae": 14.03,
+            "rmse": 19.98,
+            "bias": -7.83
+          },
           "hourly": [
             {
               "hour": "04시",
@@ -21466,11 +22238,21 @@
         {
           "date": "2026-04-25",
           "label": "4. 25. (토)",
+          "weekdayIndex": 6,
           "predictedAvg": 31.93,
           "actualAvg": 30.01,
           "mae": 8.06,
           "rmse": 12.6,
           "bias": 1.91,
+          "daytimeMae": 10.38,
+          "peakHour": {
+            "hour": "07시",
+            "predictedAvg": 37.21,
+            "actualAvg": 20.86,
+            "mae": 16.72,
+            "rmse": 19.82,
+            "bias": 16.35
+          },
           "hourly": [
             {
               "hour": "04시",
@@ -21780,11 +22562,21 @@
         {
           "date": "2026-04-26",
           "label": "4. 26. (일)",
+          "weekdayIndex": 0,
           "predictedAvg": 29.64,
           "actualAvg": 25.16,
           "mae": 8.15,
           "rmse": 12.38,
           "bias": 4.49,
+          "daytimeMae": 10.83,
+          "peakHour": {
+            "hour": "18시",
+            "predictedAvg": 50.89,
+            "actualAvg": 34.6,
+            "mae": 17.35,
+            "rmse": 21.21,
+            "bias": 16.29
+          },
           "hourly": [
             {
               "hour": "04시",
@@ -22094,11 +22886,21 @@
         {
           "date": "2026-04-27",
           "label": "4. 27. (월)",
+          "weekdayIndex": 1,
           "predictedAvg": 31.77,
           "actualAvg": 32.88,
           "mae": 6.94,
           "rmse": 10.92,
           "bias": -1.12,
+          "daytimeMae": 9.13,
+          "peakHour": {
+            "hour": "09시",
+            "predictedAvg": 45.83,
+            "actualAvg": 58.47,
+            "mae": 15.05,
+            "rmse": 20.06,
+            "bias": -12.64
+          },
           "hourly": [
             {
               "hour": "04시",
@@ -22408,11 +23210,21 @@
         {
           "date": "2026-04-28",
           "label": "4. 28. (화)",
+          "weekdayIndex": 2,
           "predictedAvg": 32.87,
           "actualAvg": 35.2,
           "mae": 6.85,
           "rmse": 11.09,
           "bias": -2.33,
+          "daytimeMae": 9.15,
+          "peakHour": {
+            "hour": "17시",
+            "predictedAvg": 58.43,
+            "actualAvg": 64.73,
+            "mae": 13.8,
+            "rmse": 19.63,
+            "bias": -6.3
+          },
           "hourly": [
             {
               "hour": "04시",
@@ -22722,11 +23534,21 @@
         {
           "date": "2026-04-29",
           "label": "4. 29. (수)",
+          "weekdayIndex": 3,
           "predictedAvg": 33.39,
           "actualAvg": 34.82,
           "mae": 6.65,
           "rmse": 10.83,
           "bias": -1.43,
+          "daytimeMae": 8.71,
+          "peakHour": {
+            "hour": "08시",
+            "predictedAvg": 55.62,
+            "actualAvg": 65.38,
+            "mae": 13.07,
+            "rmse": 20.78,
+            "bias": -9.76
+          },
           "hourly": [
             {
               "hour": "04시",
@@ -23220,8 +24042,32 @@
         "predictedAvg": 32.34,
         "actualAvg": 32.07,
         "mae": 7.1,
+        "daytimeMae": 9.34,
         "rmse": 4.35,
         "bias": 0.27
+      },
+      "periodMetrics": {
+        "daytime": {
+          "hourRange": "08:00-21:59",
+          "mae": 9.34,
+          "bias": -0.1
+        },
+        "weekday": {
+          "mae": 6.69,
+          "bias": -0.9
+        },
+        "weekend": {
+          "mae": 8.11,
+          "bias": 3.2
+        }
+      },
+      "peakHour": {
+        "hour": "09시",
+        "predictedAvg": 47.39,
+        "actualAvg": 51.92,
+        "mae": 12.06,
+        "rmse": 16.76,
+        "bias": -4.54
       },
       "hourly": [
         {
@@ -23427,11 +24273,21 @@
         {
           "date": "2026-04-23",
           "label": "4. 23. (목)",
+          "weekdayIndex": 4,
           "predictedAvg": 34.9,
           "actualAvg": 35.07,
           "mae": 6.32,
           "rmse": 9.58,
           "bias": -0.16,
+          "daytimeMae": 8.52,
+          "peakHour": {
+            "hour": "16시",
+            "predictedAvg": 58.25,
+            "actualAvg": 60.82,
+            "mae": 10.6,
+            "rmse": 13.89,
+            "bias": -2.57
+          },
           "hourly": [
             {
               "hour": "04시",
@@ -23741,11 +24597,21 @@
         {
           "date": "2026-04-24",
           "label": "4. 24. (금)",
+          "weekdayIndex": 5,
           "predictedAvg": 35.63,
           "actualAvg": 37.88,
           "mae": 6.47,
           "rmse": 9.6,
           "bias": -2.25,
+          "daytimeMae": 8.47,
+          "peakHour": {
+            "hour": "17시",
+            "predictedAvg": 64.44,
+            "actualAvg": 68.17,
+            "mae": 11.83,
+            "rmse": 15.19,
+            "bias": -3.73
+          },
           "hourly": [
             {
               "hour": "04시",
@@ -24055,11 +24921,21 @@
         {
           "date": "2026-04-25",
           "label": "4. 25. (토)",
+          "weekdayIndex": 6,
           "predictedAvg": 36.02,
           "actualAvg": 38.19,
           "mae": 9.25,
           "rmse": 14,
           "bias": -2.17,
+          "daytimeMae": 11.37,
+          "peakHour": {
+            "hour": "07시",
+            "predictedAvg": 36.55,
+            "actualAvg": 18.54,
+            "mae": 18.13,
+            "rmse": 22.61,
+            "bias": 18.01
+          },
           "hourly": [
             {
               "hour": "04시",
@@ -24369,11 +25245,21 @@
         {
           "date": "2026-04-26",
           "label": "4. 26. (일)",
+          "weekdayIndex": 0,
           "predictedAvg": 34.7,
           "actualAvg": 33.73,
           "mae": 7.53,
           "rmse": 11.31,
           "bias": 0.97,
+          "daytimeMae": 9.54,
+          "peakHour": {
+            "hour": "08시",
+            "predictedAvg": 37.66,
+            "actualAvg": 23.26,
+            "mae": 16.39,
+            "rmse": 20.9,
+            "bias": 14.4
+          },
           "hourly": [
             {
               "hour": "04시",
@@ -24683,11 +25569,21 @@
         {
           "date": "2026-04-27",
           "label": "4. 27. (월)",
+          "weekdayIndex": 1,
           "predictedAvg": 34.42,
           "actualAvg": 33.58,
           "mae": 6.64,
           "rmse": 10.04,
           "bias": 0.84,
+          "daytimeMae": 8.6,
+          "peakHour": {
+            "hour": "15시",
+            "predictedAvg": 54.39,
+            "actualAvg": 46.94,
+            "mae": 12.32,
+            "rmse": 15.17,
+            "bias": 7.45
+          },
           "hourly": [
             {
               "hour": "04시",
@@ -24997,11 +25893,21 @@
         {
           "date": "2026-04-28",
           "label": "4. 28. (화)",
+          "weekdayIndex": 2,
           "predictedAvg": 34.76,
           "actualAvg": 35.35,
           "mae": 6.51,
           "rmse": 9.86,
           "bias": -0.59,
+          "daytimeMae": 8.56,
+          "peakHour": {
+            "hour": "19시",
+            "predictedAvg": 48.85,
+            "actualAvg": 52.22,
+            "mae": 11.13,
+            "rmse": 15.56,
+            "bias": -3.37
+          },
           "hourly": [
             {
               "hour": "04시",
@@ -25311,11 +26217,21 @@
         {
           "date": "2026-04-29",
           "label": "4. 29. (수)",
+          "weekdayIndex": 3,
           "predictedAvg": 35.01,
           "actualAvg": 37.3,
           "mae": 6.81,
           "rmse": 10.47,
           "bias": -2.28,
+          "daytimeMae": 9.31,
+          "peakHour": {
+            "hour": "08시",
+            "predictedAvg": 53.74,
+            "actualAvg": 62.59,
+            "mae": 12.67,
+            "rmse": 16.98,
+            "bias": -8.85
+          },
           "hourly": [
             {
               "hour": "04시",
@@ -25809,8 +26725,32 @@
         "predictedAvg": 35.06,
         "actualAvg": 35.87,
         "mae": 7.08,
+        "daytimeMae": 9.2,
         "rmse": 4.49,
         "bias": -0.81
+      },
+      "periodMetrics": {
+        "daytime": {
+          "hourRange": "08:00-21:59",
+          "mae": 9.19,
+          "bias": -1.71
+        },
+        "weekday": {
+          "mae": 6.55,
+          "bias": -0.89
+        },
+        "weekend": {
+          "mae": 8.39,
+          "bias": -0.6
+        }
+      },
+      "peakHour": {
+        "hour": "08시",
+        "predictedAvg": 50.29,
+        "actualAvg": 48.43,
+        "mae": 10.96,
+        "rmse": 14.14,
+        "bias": 1.86
       },
       "hourly": [
         {
@@ -26016,11 +26956,21 @@
         {
           "date": "2026-04-23",
           "label": "4. 23. (목)",
+          "weekdayIndex": 4,
           "predictedAvg": 15.51,
           "actualAvg": 14.58,
           "mae": 7.03,
           "rmse": 12.91,
           "bias": 0.93,
+          "daytimeMae": 8.84,
+          "peakHour": {
+            "hour": "21시",
+            "predictedAvg": 18.52,
+            "actualAvg": 15,
+            "mae": 15,
+            "rmse": 23.25,
+            "bias": 3.52
+          },
           "hourly": [
             {
               "hour": "04시",
@@ -26330,11 +27280,21 @@
         {
           "date": "2026-04-24",
           "label": "4. 24. (금)",
+          "weekdayIndex": 5,
           "predictedAvg": 15.87,
           "actualAvg": 17.62,
           "mae": 6.14,
           "rmse": 11.58,
           "bias": -1.75,
+          "daytimeMae": 7.25,
+          "peakHour": {
+            "hour": "18시",
+            "predictedAvg": 31.06,
+            "actualAvg": 39.03,
+            "mae": 14.72,
+            "rmse": 22.89,
+            "bias": -7.97
+          },
           "hourly": [
             {
               "hour": "04시",
@@ -26644,11 +27604,21 @@
         {
           "date": "2026-04-25",
           "label": "4. 25. (토)",
+          "weekdayIndex": 6,
           "predictedAvg": 15.8,
           "actualAvg": 14.16,
           "mae": 9.49,
           "rmse": 16.39,
           "bias": 1.64,
+          "daytimeMae": 11.46,
+          "peakHour": {
+            "hour": "22시",
+            "predictedAvg": 20.65,
+            "actualAvg": 24.07,
+            "mae": 17.04,
+            "rmse": 26.98,
+            "bias": -3.42
+          },
           "hourly": [
             {
               "hour": "04시",
@@ -26958,11 +27928,21 @@
         {
           "date": "2026-04-26",
           "label": "4. 26. (일)",
+          "weekdayIndex": 0,
           "predictedAvg": 13.99,
           "actualAvg": 12.1,
           "mae": 7.32,
           "rmse": 12.22,
           "bias": 1.9,
+          "daytimeMae": 8.79,
+          "peakHour": {
+            "hour": "07시",
+            "predictedAvg": 18.38,
+            "actualAvg": 5.93,
+            "mae": 13.93,
+            "rmse": 21.03,
+            "bias": 12.45
+          },
           "hourly": [
             {
               "hour": "04시",
@@ -27272,11 +28252,21 @@
         {
           "date": "2026-04-27",
           "label": "4. 27. (월)",
+          "weekdayIndex": 1,
           "predictedAvg": 14.81,
           "actualAvg": 16.59,
           "mae": 6.33,
           "rmse": 11.1,
           "bias": -1.78,
+          "daytimeMae": 7.54,
+          "peakHour": {
+            "hour": "18시",
+            "predictedAvg": 28.43,
+            "actualAvg": 35.93,
+            "mae": 13.15,
+            "rmse": 21.35,
+            "bias": -7.5
+          },
           "hourly": [
             {
               "hour": "04시",
@@ -27586,11 +28576,21 @@
         {
           "date": "2026-04-28",
           "label": "4. 28. (화)",
+          "weekdayIndex": 2,
           "predictedAvg": 15.5,
           "actualAvg": 16.69,
           "mae": 6.3,
           "rmse": 12,
           "bias": -1.19,
+          "daytimeMae": 7.21,
+          "peakHour": {
+            "hour": "18시",
+            "predictedAvg": 29.86,
+            "actualAvg": 31.85,
+            "mae": 12.73,
+            "rmse": 22.31,
+            "bias": -1.99
+          },
           "hourly": [
             {
               "hour": "04시",
@@ -27900,11 +28900,21 @@
         {
           "date": "2026-04-29",
           "label": "4. 29. (수)",
+          "weekdayIndex": 3,
           "predictedAvg": 15.64,
           "actualAvg": 16.37,
           "mae": 6.46,
           "rmse": 12.11,
           "bias": -0.73,
+          "daytimeMae": 7.27,
+          "peakHour": {
+            "hour": "07시",
+            "predictedAvg": 29.12,
+            "actualAvg": 29.58,
+            "mae": 15.93,
+            "rmse": 26.23,
+            "bias": -0.46
+          },
           "hourly": [
             {
               "hour": "04시",
@@ -28398,8 +29408,32 @@
         "predictedAvg": 15.3,
         "actualAvg": 15.44,
         "mae": 7.01,
+        "daytimeMae": 8.34,
         "rmse": 4.18,
         "bias": -0.14
+      },
+      "periodMetrics": {
+        "daytime": {
+          "hourRange": "08:00-21:59",
+          "mae": 8.34,
+          "bias": -0.22
+        },
+        "weekday": {
+          "mae": 6.45,
+          "bias": -0.9
+        },
+        "weekend": {
+          "mae": 8.41,
+          "bias": 1.77
+        }
+      },
+      "peakHour": {
+        "hour": "18시",
+        "predictedAvg": 29.04,
+        "actualAvg": 29.08,
+        "mae": 13.48,
+        "rmse": 21.13,
+        "bias": -0.04
       },
       "hourly": [
         {
@@ -28605,11 +29639,21 @@
         {
           "date": "2026-04-23",
           "label": "4. 23. (목)",
+          "weekdayIndex": 4,
           "predictedAvg": 22.61,
           "actualAvg": 23.36,
           "mae": 6.41,
           "rmse": 10.63,
           "bias": -0.75,
+          "daytimeMae": 8.67,
+          "peakHour": {
+            "hour": "15시",
+            "predictedAvg": 31.09,
+            "actualAvg": 36.78,
+            "mae": 11.11,
+            "rmse": 17.42,
+            "bias": -5.69
+          },
           "hourly": [
             {
               "hour": "04시",
@@ -28919,11 +29963,21 @@
         {
           "date": "2026-04-24",
           "label": "4. 24. (금)",
+          "weekdayIndex": 5,
           "predictedAvg": 21.6,
           "actualAvg": 21.6,
           "mae": 6.29,
           "rmse": 10.23,
           "bias": 0,
+          "daytimeMae": 8.61,
+          "peakHour": {
+            "hour": "11시",
+            "predictedAvg": 27.34,
+            "actualAvg": 19.84,
+            "mae": 11.82,
+            "rmse": 17.01,
+            "bias": 7.5
+          },
           "hourly": [
             {
               "hour": "04시",
@@ -29233,11 +30287,21 @@
         {
           "date": "2026-04-25",
           "label": "4. 25. (토)",
+          "weekdayIndex": 6,
           "predictedAvg": 19.68,
           "actualAvg": 16.47,
           "mae": 7.4,
           "rmse": 11.77,
           "bias": 3.21,
+          "daytimeMae": 9.93,
+          "peakHour": {
+            "hour": "08시",
+            "predictedAvg": 34.01,
+            "actualAvg": 13.23,
+            "mae": 20.82,
+            "rmse": 25.22,
+            "bias": 20.78
+          },
           "hourly": [
             {
               "hour": "04시",
@@ -29547,11 +30611,21 @@
         {
           "date": "2026-04-26",
           "label": "4. 26. (일)",
+          "weekdayIndex": 0,
           "predictedAvg": 17.91,
           "actualAvg": 13.7,
           "mae": 6.82,
           "rmse": 10.98,
           "bias": 4.21,
+          "daytimeMae": 9.13,
+          "peakHour": {
+            "hour": "08시",
+            "predictedAvg": 26.83,
+            "actualAvg": 14.31,
+            "mae": 13.41,
+            "rmse": 17.18,
+            "bias": 12.52
+          },
           "hourly": [
             {
               "hour": "04시",
@@ -29861,11 +30935,21 @@
         {
           "date": "2026-04-27",
           "label": "4. 27. (월)",
+          "weekdayIndex": 1,
           "predictedAvg": 20.6,
           "actualAvg": 24.57,
           "mae": 7.96,
           "rmse": 13.44,
           "bias": -3.98,
+          "daytimeMae": 10.65,
+          "peakHour": {
+            "hour": "07시",
+            "predictedAvg": 22.79,
+            "actualAvg": 36.74,
+            "mae": 14.8,
+            "rmse": 19.07,
+            "bias": -13.95
+          },
           "hourly": [
             {
               "hour": "04시",
@@ -30175,11 +31259,21 @@
         {
           "date": "2026-04-28",
           "label": "4. 28. (화)",
+          "weekdayIndex": 2,
           "predictedAvg": 21.54,
           "actualAvg": 24.69,
           "mae": 7.04,
           "rmse": 12.55,
           "bias": -3.15,
+          "daytimeMae": 9.49,
+          "peakHour": {
+            "hour": "08시",
+            "predictedAvg": 42.79,
+            "actualAvg": 59.1,
+            "mae": 18.43,
+            "rmse": 27.34,
+            "bias": -16.31
+          },
           "hourly": [
             {
               "hour": "04시",
@@ -30489,11 +31583,21 @@
         {
           "date": "2026-04-29",
           "label": "4. 29. (수)",
+          "weekdayIndex": 3,
           "predictedAvg": 21.95,
           "actualAvg": 24.09,
           "mae": 7.07,
           "rmse": 12.45,
           "bias": -2.15,
+          "daytimeMae": 9.45,
+          "peakHour": {
+            "hour": "11시",
+            "predictedAvg": 31.4,
+            "actualAvg": 47.71,
+            "mae": 18.35,
+            "rmse": 26.88,
+            "bias": -16.31
+          },
           "hourly": [
             {
               "hour": "04시",
@@ -30987,8 +32091,32 @@
         "predictedAvg": 20.84,
         "actualAvg": 21.21,
         "mae": 7,
+        "daytimeMae": 9.42,
         "rmse": 4.88,
         "bias": -0.37
+      },
+      "periodMetrics": {
+        "daytime": {
+          "hourRange": "08:00-21:59",
+          "mae": 9.42,
+          "bias": -0.63
+        },
+        "weekday": {
+          "mae": 6.95,
+          "bias": -2.01
+        },
+        "weekend": {
+          "mae": 7.11,
+          "bias": 3.71
+        }
+      },
+      "peakHour": {
+        "hour": "08시",
+        "predictedAvg": 39.68,
+        "actualAvg": 38.13,
+        "mae": 13.69,
+        "rmse": 19.12,
+        "bias": 1.55
       },
       "hourly": [
         {
@@ -31194,11 +32322,21 @@
         {
           "date": "2026-04-23",
           "label": "4. 23. (목)",
+          "weekdayIndex": 4,
           "predictedAvg": 28.45,
           "actualAvg": 29.97,
           "mae": 6.75,
           "rmse": 10.81,
           "bias": -1.52,
+          "daytimeMae": 8.82,
+          "peakHour": {
+            "hour": "16시",
+            "predictedAvg": 46.91,
+            "actualAvg": 53.52,
+            "mae": 11.65,
+            "rmse": 15.57,
+            "bias": -6.61
+          },
           "hourly": [
             {
               "hour": "04시",
@@ -31508,11 +32646,21 @@
         {
           "date": "2026-04-24",
           "label": "4. 24. (금)",
+          "weekdayIndex": 5,
           "predictedAvg": 28.68,
           "actualAvg": 29.82,
           "mae": 6.58,
           "rmse": 10.89,
           "bias": -1.14,
+          "daytimeMae": 8.23,
+          "peakHour": {
+            "hour": "12시",
+            "predictedAvg": 27.41,
+            "actualAvg": 34.56,
+            "mae": 9.93,
+            "rmse": 13.21,
+            "bias": -7.15
+          },
           "hourly": [
             {
               "hour": "04시",
@@ -31822,11 +32970,21 @@
         {
           "date": "2026-04-25",
           "label": "4. 25. (토)",
+          "weekdayIndex": 6,
           "predictedAvg": 28.83,
           "actualAvg": 28.57,
           "mae": 8.54,
           "rmse": 13.15,
           "bias": 0.26,
+          "daytimeMae": 10.9,
+          "peakHour": {
+            "hour": "08시",
+            "predictedAvg": 49.17,
+            "actualAvg": 31.83,
+            "mae": 17.67,
+            "rmse": 21.76,
+            "bias": 17.34
+          },
           "hourly": [
             {
               "hour": "04시",
@@ -32136,11 +33294,21 @@
         {
           "date": "2026-04-26",
           "label": "4. 26. (일)",
+          "weekdayIndex": 0,
           "predictedAvg": 27.32,
           "actualAvg": 24.19,
           "mae": 7.87,
           "rmse": 12.05,
           "bias": 3.13,
+          "daytimeMae": 10.03,
+          "peakHour": {
+            "hour": "08시",
+            "predictedAvg": 41.33,
+            "actualAvg": 23.52,
+            "mae": 17.85,
+            "rmse": 20.6,
+            "bias": 17.81
+          },
           "hourly": [
             {
               "hour": "04시",
@@ -32450,11 +33618,21 @@
         {
           "date": "2026-04-27",
           "label": "4. 27. (월)",
+          "weekdayIndex": 1,
           "predictedAvg": 27.73,
           "actualAvg": 27.65,
           "mae": 6.67,
           "rmse": 11.1,
           "bias": 0.08,
+          "daytimeMae": 8.6,
+          "peakHour": {
+            "hour": "08시",
+            "predictedAvg": 53,
+            "actualAvg": 64,
+            "mae": 13.22,
+            "rmse": 16.65,
+            "bias": -11
+          },
           "hourly": [
             {
               "hour": "04시",
@@ -32764,11 +33942,21 @@
         {
           "date": "2026-04-28",
           "label": "4. 28. (화)",
+          "weekdayIndex": 2,
           "predictedAvg": 28.19,
           "actualAvg": 29.22,
           "mae": 6.46,
           "rmse": 10.43,
           "bias": -1.03,
+          "daytimeMae": 8.6,
+          "peakHour": {
+            "hour": "16시",
+            "predictedAvg": 46.48,
+            "actualAvg": 56.15,
+            "mae": 12.44,
+            "rmse": 17.22,
+            "bias": -9.67
+          },
           "hourly": [
             {
               "hour": "04시",
@@ -33078,11 +34266,21 @@
         {
           "date": "2026-04-29",
           "label": "4. 29. (수)",
+          "weekdayIndex": 3,
           "predictedAvg": 28.27,
           "actualAvg": 29,
           "mae": 6.02,
           "rmse": 9.66,
           "bias": -0.73,
+          "daytimeMae": 7.61,
+          "peakHour": {
+            "hour": "15시",
+            "predictedAvg": 43.17,
+            "actualAvg": 42.37,
+            "mae": 9.35,
+            "rmse": 11.66,
+            "bias": 0.8
+          },
           "hourly": [
             {
               "hour": "04시",
@@ -33576,8 +34774,32 @@
         "predictedAvg": 28.21,
         "actualAvg": 28.35,
         "mae": 6.98,
+        "daytimeMae": 8.97,
         "rmse": 4.24,
         "bias": -0.13
+      },
+      "periodMetrics": {
+        "daytime": {
+          "hourRange": "08:00-21:59",
+          "mae": 8.97,
+          "bias": -0.31
+        },
+        "weekday": {
+          "mae": 6.5,
+          "bias": -0.87
+        },
+        "weekend": {
+          "mae": 8.21,
+          "bias": 1.69
+        }
+      },
+      "peakHour": {
+        "hour": "08시",
+        "predictedAvg": 54.2,
+        "actualAvg": 52.17,
+        "mae": 12.46,
+        "rmse": 15.8,
+        "bias": 2.03
       },
       "hourly": [
         {
@@ -33783,11 +35005,21 @@
         {
           "date": "2026-04-23",
           "label": "4. 23. (목)",
+          "weekdayIndex": 4,
           "predictedAvg": 31.83,
           "actualAvg": 31.84,
           "mae": 5.78,
           "rmse": 8.68,
           "bias": -0.01,
+          "daytimeMae": 7.61,
+          "peakHour": {
+            "hour": "08시",
+            "predictedAvg": 62.53,
+            "actualAvg": 54.27,
+            "mae": 11.19,
+            "rmse": 14.25,
+            "bias": 8.26
+          },
           "hourly": [
             {
               "hour": "04시",
@@ -34097,11 +35329,21 @@
         {
           "date": "2026-04-24",
           "label": "4. 24. (금)",
+          "weekdayIndex": 5,
           "predictedAvg": 31.9,
           "actualAvg": 33.34,
           "mae": 6.83,
           "rmse": 10.07,
           "bias": -1.43,
+          "daytimeMae": 8.86,
+          "peakHour": {
+            "hour": "21시",
+            "predictedAvg": 34.34,
+            "actualAvg": 40.18,
+            "mae": 12.8,
+            "rmse": 17.03,
+            "bias": -5.84
+          },
           "hourly": [
             {
               "hour": "04시",
@@ -34411,11 +35653,21 @@
         {
           "date": "2026-04-25",
           "label": "4. 25. (토)",
+          "weekdayIndex": 6,
           "predictedAvg": 32.02,
           "actualAvg": 32.75,
           "mae": 8.41,
           "rmse": 12.72,
           "bias": -0.74,
+          "daytimeMae": 9.88,
+          "peakHour": {
+            "hour": "08시",
+            "predictedAvg": 48.54,
+            "actualAvg": 30.99,
+            "mae": 17.75,
+            "rmse": 20.47,
+            "bias": 17.55
+          },
           "hourly": [
             {
               "hour": "04시",
@@ -34725,11 +35977,21 @@
         {
           "date": "2026-04-26",
           "label": "4. 26. (일)",
+          "weekdayIndex": 0,
           "predictedAvg": 30.96,
           "actualAvg": 28.16,
           "mae": 8.08,
           "rmse": 12.31,
           "bias": 2.79,
+          "daytimeMae": 9.57,
+          "peakHour": {
+            "hour": "08시",
+            "predictedAvg": 39.42,
+            "actualAvg": 16.89,
+            "mae": 23.79,
+            "rmse": 28.46,
+            "bias": 22.53
+          },
           "hourly": [
             {
               "hour": "04시",
@@ -35039,11 +36301,21 @@
         {
           "date": "2026-04-27",
           "label": "4. 27. (월)",
+          "weekdayIndex": 1,
           "predictedAvg": 31,
           "actualAvg": 31.01,
           "mae": 6.79,
           "rmse": 10.58,
           "bias": -0.01,
+          "daytimeMae": 8.5,
+          "peakHour": {
+            "hour": "07시",
+            "predictedAvg": 38.69,
+            "actualAvg": 51.77,
+            "mae": 14.39,
+            "rmse": 20.2,
+            "bias": -13.08
+          },
           "hourly": [
             {
               "hour": "04시",
@@ -35353,11 +36625,21 @@
         {
           "date": "2026-04-28",
           "label": "4. 28. (화)",
+          "weekdayIndex": 2,
           "predictedAvg": 31.81,
           "actualAvg": 32.76,
           "mae": 6.52,
           "rmse": 9.85,
           "bias": -0.94,
+          "daytimeMae": 8.53,
+          "peakHour": {
+            "hour": "08시",
+            "predictedAvg": 58,
+            "actualAvg": 71.97,
+            "mae": 14.37,
+            "rmse": 17.45,
+            "bias": -13.97
+          },
           "hourly": [
             {
               "hour": "04시",
@@ -35667,11 +36949,21 @@
         {
           "date": "2026-04-29",
           "label": "4. 29. (수)",
+          "weekdayIndex": 3,
           "predictedAvg": 32.05,
           "actualAvg": 33.37,
           "mae": 6.1,
           "rmse": 9.51,
           "bias": -1.32,
+          "daytimeMae": 8,
+          "peakHour": {
+            "hour": "11시",
+            "predictedAvg": 35.43,
+            "actualAvg": 44.62,
+            "mae": 11.97,
+            "rmse": 16.47,
+            "bias": -9.19
+          },
           "hourly": [
             {
               "hour": "04시",
@@ -36165,8 +37457,32 @@
         "predictedAvg": 31.65,
         "actualAvg": 31.89,
         "mae": 6.93,
+        "daytimeMae": 8.71,
         "rmse": 4.39,
         "bias": -0.24
+      },
+      "periodMetrics": {
+        "daytime": {
+          "hourRange": "08:00-21:59",
+          "mae": 8.7,
+          "bias": -0.18
+        },
+        "weekday": {
+          "mae": 6.4,
+          "bias": -0.74
+        },
+        "weekend": {
+          "mae": 8.25,
+          "bias": 1.02
+        }
+      },
+      "peakHour": {
+        "hour": "08시",
+        "predictedAvg": 53.87,
+        "actualAvg": 50.76,
+        "mae": 14.67,
+        "rmse": 18.5,
+        "bias": 3.11
       },
       "hourly": [
         {
@@ -36372,11 +37688,21 @@
         {
           "date": "2026-04-23",
           "label": "4. 23. (목)",
+          "weekdayIndex": 4,
           "predictedAvg": 33.9,
           "actualAvg": 33.44,
           "mae": 6.15,
           "rmse": 9.26,
           "bias": 0.47,
+          "daytimeMae": 7.97,
+          "peakHour": {
+            "hour": "15시",
+            "predictedAvg": 48.77,
+            "actualAvg": 52.14,
+            "mae": 11.43,
+            "rmse": 15.62,
+            "bias": -3.37
+          },
           "hourly": [
             {
               "hour": "04시",
@@ -36686,11 +38012,21 @@
         {
           "date": "2026-04-24",
           "label": "4. 24. (금)",
+          "weekdayIndex": 5,
           "predictedAvg": 34.53,
           "actualAvg": 36.75,
           "mae": 6.64,
           "rmse": 9.92,
           "bias": -2.22,
+          "daytimeMae": 9.17,
+          "peakHour": {
+            "hour": "18시",
+            "predictedAvg": 68.47,
+            "actualAvg": 70.87,
+            "mae": 12.06,
+            "rmse": 15.18,
+            "bias": -2.4
+          },
           "hourly": [
             {
               "hour": "04시",
@@ -37000,11 +38336,21 @@
         {
           "date": "2026-04-25",
           "label": "4. 25. (토)",
+          "weekdayIndex": 6,
           "predictedAvg": 34.18,
           "actualAvg": 35.09,
           "mae": 8.24,
           "rmse": 12.13,
           "bias": -0.91,
+          "daytimeMae": 10.4,
+          "peakHour": {
+            "hour": "18시",
+            "predictedAvg": 61.73,
+            "actualAvg": 57.56,
+            "mae": 15.8,
+            "rmse": 19.29,
+            "bias": 4.17
+          },
           "hourly": [
             {
               "hour": "04시",
@@ -37314,11 +38660,21 @@
         {
           "date": "2026-04-26",
           "label": "4. 26. (일)",
+          "weekdayIndex": 0,
           "predictedAvg": 32.88,
           "actualAvg": 29.82,
           "mae": 8.75,
           "rmse": 13.23,
           "bias": 3.07,
+          "daytimeMae": 11.41,
+          "peakHour": {
+            "hour": "08시",
+            "predictedAvg": 36.53,
+            "actualAvg": 14.09,
+            "mae": 22.44,
+            "rmse": 27.29,
+            "bias": 22.44
+          },
           "hourly": [
             {
               "hour": "04시",
@@ -37628,11 +38984,21 @@
         {
           "date": "2026-04-27",
           "label": "4. 27. (월)",
+          "weekdayIndex": 1,
           "predictedAvg": 32.86,
           "actualAvg": 31.95,
           "mae": 5.96,
           "rmse": 8.72,
           "bias": 0.91,
+          "daytimeMae": 7.47,
+          "peakHour": {
+            "hour": "18시",
+            "predictedAvg": 62.42,
+            "actualAvg": 67.4,
+            "mae": 9.96,
+            "rmse": 13.31,
+            "bias": -4.98
+          },
           "hourly": [
             {
               "hour": "04시",
@@ -37942,11 +39308,21 @@
         {
           "date": "2026-04-28",
           "label": "4. 28. (화)",
+          "weekdayIndex": 2,
           "predictedAvg": 33.64,
           "actualAvg": 34.48,
           "mae": 5.9,
           "rmse": 8.8,
           "bias": -0.84,
+          "daytimeMae": 7.6,
+          "peakHour": {
+            "hour": "16시",
+            "predictedAvg": 58.12,
+            "actualAvg": 59.95,
+            "mae": 9.74,
+            "rmse": 12.65,
+            "bias": -1.83
+          },
           "hourly": [
             {
               "hour": "04시",
@@ -38256,11 +39632,21 @@
         {
           "date": "2026-04-29",
           "label": "4. 29. (수)",
+          "weekdayIndex": 3,
           "predictedAvg": 33.86,
           "actualAvg": 35.96,
           "mae": 6.41,
           "rmse": 9.78,
           "bias": -2.1,
+          "daytimeMae": 8.4,
+          "peakHour": {
+            "hour": "17시",
+            "predictedAvg": 61.93,
+            "actualAvg": 68.35,
+            "mae": 12.77,
+            "rmse": 17.1,
+            "bias": -6.42
+          },
           "hourly": [
             {
               "hour": "04시",
@@ -38754,8 +40140,32 @@
         "predictedAvg": 33.69,
         "actualAvg": 33.93,
         "mae": 6.86,
+        "daytimeMae": 8.92,
         "rmse": 4.35,
         "bias": -0.23
+      },
+      "periodMetrics": {
+        "daytime": {
+          "hourRange": "08:00-21:59",
+          "mae": 8.92,
+          "bias": -0.52
+        },
+        "weekday": {
+          "mae": 6.21,
+          "bias": -0.76
+        },
+        "weekend": {
+          "mae": 8.5,
+          "bias": 1.08
+        }
+      },
+      "peakHour": {
+        "hour": "18시",
+        "predictedAvg": 64.14,
+        "actualAvg": 62.81,
+        "mae": 11.7,
+        "rmse": 14.91,
+        "bias": 1.33
       },
       "hourly": [
         {
@@ -38961,11 +40371,21 @@
         {
           "date": "2026-04-23",
           "label": "4. 23. (목)",
+          "weekdayIndex": 4,
           "predictedAvg": 34.03,
           "actualAvg": 34.55,
           "mae": 6.01,
           "rmse": 9.09,
           "bias": -0.52,
+          "daytimeMae": 7.69,
+          "peakHour": {
+            "hour": "17시",
+            "predictedAvg": 54.44,
+            "actualAvg": 58.73,
+            "mae": 10.5,
+            "rmse": 13.77,
+            "bias": -4.29
+          },
           "hourly": [
             {
               "hour": "04시",
@@ -39275,11 +40695,21 @@
         {
           "date": "2026-04-24",
           "label": "4. 24. (금)",
+          "weekdayIndex": 5,
           "predictedAvg": 34.65,
           "actualAvg": 36.34,
           "mae": 5.84,
           "rmse": 9.08,
           "bias": -1.69,
+          "daytimeMae": 7.34,
+          "peakHour": {
+            "hour": "18시",
+            "predictedAvg": 62.58,
+            "actualAvg": 67.04,
+            "mae": 12.13,
+            "rmse": 15.91,
+            "bias": -4.46
+          },
           "hourly": [
             {
               "hour": "04시",
@@ -39589,11 +41019,21 @@
         {
           "date": "2026-04-25",
           "label": "4. 25. (토)",
+          "weekdayIndex": 6,
           "predictedAvg": 35.32,
           "actualAvg": 36.84,
           "mae": 9.04,
           "rmse": 13.38,
           "bias": -1.52,
+          "daytimeMae": 10.94,
+          "peakHour": {
+            "hour": "07시",
+            "predictedAvg": 40.25,
+            "actualAvg": 24.27,
+            "mae": 16.22,
+            "rmse": 18.92,
+            "bias": 15.98
+          },
           "hourly": [
             {
               "hour": "04시",
@@ -39903,11 +41343,21 @@
         {
           "date": "2026-04-26",
           "label": "4. 26. (일)",
+          "weekdayIndex": 0,
           "predictedAvg": 34.04,
           "actualAvg": 33.58,
           "mae": 8.34,
           "rmse": 12.47,
           "bias": 0.45,
+          "daytimeMae": 10,
+          "peakHour": {
+            "hour": "07시",
+            "predictedAvg": 31.74,
+            "actualAvg": 14.33,
+            "mae": 17.4,
+            "rmse": 20.52,
+            "bias": 17.41
+          },
           "hourly": [
             {
               "hour": "04시",
@@ -40217,11 +41667,21 @@
         {
           "date": "2026-04-27",
           "label": "4. 27. (월)",
+          "weekdayIndex": 1,
           "predictedAvg": 33.75,
           "actualAvg": 33.96,
           "mae": 6.45,
           "rmse": 9.51,
           "bias": -0.21,
+          "daytimeMae": 7.86,
+          "peakHour": {
+            "hour": "07시",
+            "predictedAvg": 45.83,
+            "actualAvg": 54.52,
+            "mae": 10.69,
+            "rmse": 13.7,
+            "bias": -8.69
+          },
           "hourly": [
             {
               "hour": "04시",
@@ -40531,11 +41991,21 @@
         {
           "date": "2026-04-28",
           "label": "4. 28. (화)",
+          "weekdayIndex": 2,
           "predictedAvg": 34.12,
           "actualAvg": 34.36,
           "mae": 6.05,
           "rmse": 9.1,
           "bias": -0.23,
+          "daytimeMae": 7.77,
+          "peakHour": {
+            "hour": "09시",
+            "predictedAvg": 38.25,
+            "actualAvg": 45.33,
+            "mae": 9.48,
+            "rmse": 13.58,
+            "bias": -7.08
+          },
           "hourly": [
             {
               "hour": "04시",
@@ -40845,11 +42315,21 @@
         {
           "date": "2026-04-29",
           "label": "4. 29. (수)",
+          "weekdayIndex": 3,
           "predictedAvg": 34.21,
           "actualAvg": 35.85,
           "mae": 6.23,
           "rmse": 9.43,
           "bias": -1.64,
+          "daytimeMae": 7.97,
+          "peakHour": {
+            "hour": "08시",
+            "predictedAvg": 52.11,
+            "actualAvg": 57.22,
+            "mae": 10.87,
+            "rmse": 14.86,
+            "bias": -5.11
+          },
           "hourly": [
             {
               "hour": "04시",
@@ -41343,8 +42823,32 @@
         "predictedAvg": 34.3,
         "actualAvg": 35.07,
         "mae": 6.85,
+        "daytimeMae": 8.51,
         "rmse": 4.42,
         "bias": -0.77
+      },
+      "periodMetrics": {
+        "daytime": {
+          "hourRange": "08:00-21:59",
+          "mae": 8.51,
+          "bias": -1.58
+        },
+        "weekday": {
+          "mae": 6.12,
+          "bias": -0.86
+        },
+        "weekend": {
+          "mae": 8.69,
+          "bias": -0.54
+        }
+      },
+      "peakHour": {
+        "hour": "07시",
+        "predictedAvg": 46.45,
+        "actualAvg": 43.16,
+        "mae": 10.73,
+        "rmse": 13.9,
+        "bias": 3.29
       },
       "hourly": [
         {
@@ -41550,11 +43054,21 @@
         {
           "date": "2026-04-23",
           "label": "4. 23. (목)",
+          "weekdayIndex": 4,
           "predictedAvg": 29.71,
           "actualAvg": 30.47,
           "mae": 5.57,
           "rmse": 8.6,
           "bias": -0.76,
+          "daytimeMae": 7.3,
+          "peakHour": {
+            "hour": "18시",
+            "predictedAvg": 56.41,
+            "actualAvg": 54.17,
+            "mae": 9.05,
+            "rmse": 12.07,
+            "bias": 2.24
+          },
           "hourly": [
             {
               "hour": "04시",
@@ -41864,11 +43378,21 @@
         {
           "date": "2026-04-24",
           "label": "4. 24. (금)",
+          "weekdayIndex": 5,
           "predictedAvg": 30.07,
           "actualAvg": 31.88,
           "mae": 6.02,
           "rmse": 9.47,
           "bias": -1.8,
+          "daytimeMae": 7.56,
+          "peakHour": {
+            "hour": "17시",
+            "predictedAvg": 53.57,
+            "actualAvg": 56.67,
+            "mae": 10.09,
+            "rmse": 14.01,
+            "bias": -3.1
+          },
           "hourly": [
             {
               "hour": "04시",
@@ -42178,11 +43702,21 @@
         {
           "date": "2026-04-25",
           "label": "4. 25. (토)",
+          "weekdayIndex": 6,
           "predictedAvg": 29.93,
           "actualAvg": 29.91,
           "mae": 8.12,
           "rmse": 12.68,
           "bias": 0.01,
+          "daytimeMae": 9.74,
+          "peakHour": {
+            "hour": "07시",
+            "predictedAvg": 32.11,
+            "actualAvg": 14.66,
+            "mae": 17.74,
+            "rmse": 22.21,
+            "bias": 17.45
+          },
           "hourly": [
             {
               "hour": "04시",
@@ -42492,11 +44026,21 @@
         {
           "date": "2026-04-26",
           "label": "4. 26. (일)",
+          "weekdayIndex": 0,
           "predictedAvg": 29.35,
           "actualAvg": 28.43,
           "mae": 7.99,
           "rmse": 12.46,
           "bias": 0.92,
+          "daytimeMae": 10.17,
+          "peakHour": {
+            "hour": "07시",
+            "predictedAvg": 25.7,
+            "actualAvg": 12.35,
+            "mae": 13.75,
+            "rmse": 16.87,
+            "bias": 13.35
+          },
           "hourly": [
             {
               "hour": "04시",
@@ -42806,11 +44350,21 @@
         {
           "date": "2026-04-27",
           "label": "4. 27. (월)",
+          "weekdayIndex": 1,
           "predictedAvg": 29.18,
           "actualAvg": 28.99,
           "mae": 6.07,
           "rmse": 9.45,
           "bias": 0.19,
+          "daytimeMae": 8.1,
+          "peakHour": {
+            "hour": "18시",
+            "predictedAvg": 53.61,
+            "actualAvg": 51.38,
+            "mae": 11.37,
+            "rmse": 14.06,
+            "bias": 2.23
+          },
           "hourly": [
             {
               "hour": "04시",
@@ -43120,11 +44674,21 @@
         {
           "date": "2026-04-28",
           "label": "4. 28. (화)",
+          "weekdayIndex": 2,
           "predictedAvg": 29.75,
           "actualAvg": 31.29,
           "mae": 6.05,
           "rmse": 9.68,
           "bias": -1.53,
+          "daytimeMae": 7.87,
+          "peakHour": {
+            "hour": "18시",
+            "predictedAvg": 54.61,
+            "actualAvg": 61.48,
+            "mae": 11.57,
+            "rmse": 15.65,
+            "bias": -6.87
+          },
           "hourly": [
             {
               "hour": "04시",
@@ -43434,11 +44998,21 @@
         {
           "date": "2026-04-29",
           "label": "4. 29. (수)",
+          "weekdayIndex": 3,
           "predictedAvg": 29.99,
           "actualAvg": 33.43,
           "mae": 6.94,
           "rmse": 12.57,
           "bias": -3.45,
+          "daytimeMae": 9.63,
+          "peakHour": {
+            "hour": "08시",
+            "predictedAvg": 47.61,
+            "actualAvg": 58.94,
+            "mae": 15.52,
+            "rmse": 24.49,
+            "bias": -11.33
+          },
           "hourly": [
             {
               "hour": "04시",
@@ -43932,7 +45506,31 @@
         "predictedAvg": 29.71,
         "actualAvg": 30.63,
         "mae": 6.68,
+        "daytimeMae": 8.62,
         "rmse": 4.36,
+        "bias": -0.92
+      },
+      "periodMetrics": {
+        "daytime": {
+          "hourRange": "08:00-21:59",
+          "mae": 8.62,
+          "bias": -1.7
+        },
+        "weekday": {
+          "mae": 6.13,
+          "bias": -1.47
+        },
+        "weekend": {
+          "mae": 8.05,
+          "bias": 0.47
+        }
+      },
+      "peakHour": {
+        "hour": "08시",
+        "predictedAvg": 44.2,
+        "actualAvg": 45.12,
+        "mae": 11.13,
+        "rmse": 15.7,
         "bias": -0.92
       },
       "hourly": [
@@ -44139,11 +45737,21 @@
         {
           "date": "2026-04-23",
           "label": "4. 23. (목)",
+          "weekdayIndex": 4,
           "predictedAvg": 30.32,
           "actualAvg": 31.02,
           "mae": 6.14,
           "rmse": 9.56,
           "bias": -0.7,
+          "daytimeMae": 8.3,
+          "peakHour": {
+            "hour": "15시",
+            "predictedAvg": 40.23,
+            "actualAvg": 45.75,
+            "mae": 10.71,
+            "rmse": 14.4,
+            "bias": -5.52
+          },
           "hourly": [
             {
               "hour": "04시",
@@ -44453,11 +46061,21 @@
         {
           "date": "2026-04-24",
           "label": "4. 24. (금)",
+          "weekdayIndex": 5,
           "predictedAvg": 31.2,
           "actualAvg": 33.66,
           "mae": 6.08,
           "rmse": 9.4,
           "bias": -2.46,
+          "daytimeMae": 8.41,
+          "peakHour": {
+            "hour": "16시",
+            "predictedAvg": 46.15,
+            "actualAvg": 57.46,
+            "mae": 13.76,
+            "rmse": 18.42,
+            "bias": -11.31
+          },
           "hourly": [
             {
               "hour": "04시",
@@ -44767,11 +46385,21 @@
         {
           "date": "2026-04-25",
           "label": "4. 25. (토)",
+          "weekdayIndex": 6,
           "predictedAvg": 30.22,
           "actualAvg": 30.37,
           "mae": 8.66,
           "rmse": 13.38,
           "bias": -0.15,
+          "daytimeMae": 10.82,
+          "peakHour": {
+            "hour": "08시",
+            "predictedAvg": 45.58,
+            "actualAvg": 26.24,
+            "mae": 19.4,
+            "rmse": 24.26,
+            "bias": 19.34
+          },
           "hourly": [
             {
               "hour": "04시",
@@ -45081,11 +46709,21 @@
         {
           "date": "2026-04-26",
           "label": "4. 26. (일)",
+          "weekdayIndex": 0,
           "predictedAvg": 28.85,
           "actualAvg": 24.61,
           "mae": 7.72,
           "rmse": 11.4,
           "bias": 4.25,
+          "daytimeMae": 9.83,
+          "peakHour": {
+            "hour": "08시",
+            "predictedAvg": 35.27,
+            "actualAvg": 14.5,
+            "mae": 21.17,
+            "rmse": 25.8,
+            "bias": 20.77
+          },
           "hourly": [
             {
               "hour": "04시",
@@ -45395,11 +47033,21 @@
         {
           "date": "2026-04-27",
           "label": "4. 27. (월)",
+          "weekdayIndex": 1,
           "predictedAvg": 29.72,
           "actualAvg": 30,
           "mae": 6.22,
           "rmse": 9.16,
           "bias": -0.28,
+          "daytimeMae": 7.7,
+          "peakHour": {
+            "hour": "09시",
+            "predictedAvg": 35.16,
+            "actualAvg": 46.04,
+            "mae": 11.34,
+            "rmse": 15.08,
+            "bias": -10.88
+          },
           "hourly": [
             {
               "hour": "04시",
@@ -45709,11 +47357,21 @@
         {
           "date": "2026-04-28",
           "label": "4. 28. (화)",
+          "weekdayIndex": 2,
           "predictedAvg": 30.52,
           "actualAvg": 31.9,
           "mae": 5.85,
           "rmse": 8.72,
           "bias": -1.38,
+          "daytimeMae": 7.37,
+          "peakHour": {
+            "hour": "07시",
+            "predictedAvg": 42.62,
+            "actualAvg": 54.1,
+            "mae": 12.16,
+            "rmse": 16.34,
+            "bias": -11.48
+          },
           "hourly": [
             {
               "hour": "04시",
@@ -46023,11 +47681,21 @@
         {
           "date": "2026-04-29",
           "label": "4. 29. (수)",
+          "weekdayIndex": 3,
           "predictedAvg": 30.7,
           "actualAvg": 32.82,
           "mae": 5.85,
           "rmse": 9.24,
           "bias": -2.12,
+          "daytimeMae": 7.54,
+          "peakHour": {
+            "hour": "08시",
+            "predictedAvg": 57.58,
+            "actualAvg": 69.03,
+            "mae": 13.68,
+            "rmse": 21.2,
+            "bias": -11.45
+          },
           "hourly": [
             {
               "hour": "04시",
@@ -46521,8 +48189,32 @@
         "predictedAvg": 30.22,
         "actualAvg": 30.63,
         "mae": 6.65,
+        "daytimeMae": 8.57,
         "rmse": 5,
         "bias": -0.4
+      },
+      "periodMetrics": {
+        "daytime": {
+          "hourRange": "08:00-21:59",
+          "mae": 8.57,
+          "bias": -0.68
+        },
+        "weekday": {
+          "mae": 6.03,
+          "bias": -1.39
+        },
+        "weekend": {
+          "mae": 8.19,
+          "bias": 2.05
+        }
+      },
+      "peakHour": {
+        "hour": "08시",
+        "predictedAvg": 52.54,
+        "actualAvg": 51.46,
+        "mae": 12.27,
+        "rmse": 16.3,
+        "bias": 1.08
       },
       "hourly": [
         {
@@ -46728,11 +48420,21 @@
         {
           "date": "2026-04-23",
           "label": "4. 23. (목)",
+          "weekdayIndex": 4,
           "predictedAvg": 30,
           "actualAvg": 31.78,
           "mae": 5.51,
           "rmse": 8.42,
           "bias": -1.77,
+          "daytimeMae": 6.96,
+          "peakHour": {
+            "hour": "22시",
+            "predictedAvg": 28.6,
+            "actualAvg": 33.85,
+            "mae": 9.12,
+            "rmse": 11.7,
+            "bias": -5.25
+          },
           "hourly": [
             {
               "hour": "04시",
@@ -47042,11 +48744,21 @@
         {
           "date": "2026-04-24",
           "label": "4. 24. (금)",
+          "weekdayIndex": 5,
           "predictedAvg": 29.8,
           "actualAvg": 30.39,
           "mae": 5.57,
           "rmse": 8.41,
           "bias": -0.59,
+          "daytimeMae": 7.03,
+          "peakHour": {
+            "hour": "17시",
+            "predictedAvg": 52.32,
+            "actualAvg": 55.99,
+            "mae": 9.55,
+            "rmse": 12.81,
+            "bias": -3.67
+          },
           "hourly": [
             {
               "hour": "04시",
@@ -47356,11 +49068,21 @@
         {
           "date": "2026-04-25",
           "label": "4. 25. (토)",
+          "weekdayIndex": 6,
           "predictedAvg": 28.93,
           "actualAvg": 31.72,
           "mae": 9.27,
           "rmse": 15.39,
           "bias": -2.79,
+          "daytimeMae": 12.27,
+          "peakHour": {
+            "hour": "21시",
+            "predictedAvg": 29.98,
+            "actualAvg": 48.69,
+            "mae": 19.97,
+            "rmse": 36.41,
+            "bias": -18.71
+          },
           "hourly": [
             {
               "hour": "04시",
@@ -47670,11 +49392,21 @@
         {
           "date": "2026-04-26",
           "label": "4. 26. (일)",
+          "weekdayIndex": 0,
           "predictedAvg": 27.47,
           "actualAvg": 28.02,
           "mae": 9.28,
           "rmse": 17.11,
           "bias": -0.56,
+          "daytimeMae": 11.37,
+          "peakHour": {
+            "hour": "06시",
+            "predictedAvg": 15.5,
+            "actualAvg": 24.56,
+            "mae": 19.22,
+            "rmse": 38.83,
+            "bias": -9.06
+          },
           "hourly": [
             {
               "hour": "04시",
@@ -47984,11 +49716,21 @@
         {
           "date": "2026-04-27",
           "label": "4. 27. (월)",
+          "weekdayIndex": 1,
           "predictedAvg": 28.48,
           "actualAvg": 29,
           "mae": 6.12,
           "rmse": 9.51,
           "bias": -0.52,
+          "daytimeMae": 7.77,
+          "peakHour": {
+            "hour": "15시",
+            "predictedAvg": 39.45,
+            "actualAvg": 44.68,
+            "mae": 11.63,
+            "rmse": 16.08,
+            "bias": -5.23
+          },
           "hourly": [
             {
               "hour": "04시",
@@ -48298,11 +50040,21 @@
         {
           "date": "2026-04-28",
           "label": "4. 28. (화)",
+          "weekdayIndex": 2,
           "predictedAvg": 29.16,
           "actualAvg": 30.42,
           "mae": 5.23,
           "rmse": 8.43,
           "bias": -1.26,
+          "daytimeMae": 6.63,
+          "peakHour": {
+            "hour": "08시",
+            "predictedAvg": 50.62,
+            "actualAvg": 60.81,
+            "mae": 12.44,
+            "rmse": 18.06,
+            "bias": -10.19
+          },
           "hourly": [
             {
               "hour": "04시",
@@ -48612,11 +50364,21 @@
         {
           "date": "2026-04-29",
           "label": "4. 29. (수)",
+          "weekdayIndex": 3,
           "predictedAvg": 29.83,
           "actualAvg": 31.8,
           "mae": 5.56,
           "rmse": 8.88,
           "bias": -1.97,
+          "daytimeMae": 6.99,
+          "peakHour": {
+            "hour": "18시",
+            "predictedAvg": 57.4,
+            "actualAvg": 65.2,
+            "mae": 9.7,
+            "rmse": 14.39,
+            "bias": -7.8
+          },
           "hourly": [
             {
               "hour": "04시",
@@ -49110,8 +50872,32 @@
         "predictedAvg": 29.1,
         "actualAvg": 30.45,
         "mae": 6.65,
+        "daytimeMae": 8.43,
         "rmse": 5.14,
         "bias": -1.35
+      },
+      "periodMetrics": {
+        "daytime": {
+          "hourRange": "08:00-21:59",
+          "mae": 8.43,
+          "bias": -1.93
+        },
+        "weekday": {
+          "mae": 5.6,
+          "bias": -1.22
+        },
+        "weekend": {
+          "mae": 9.27,
+          "bias": -1.68
+        }
+      },
+      "peakHour": {
+        "hour": "08시",
+        "predictedAvg": 49.05,
+        "actualAvg": 47.28,
+        "mae": 11.19,
+        "rmse": 14.5,
+        "bias": 1.77
       },
       "hourly": [
         {
@@ -49317,11 +51103,21 @@
         {
           "date": "2026-04-23",
           "label": "4. 23. (목)",
+          "weekdayIndex": 4,
           "predictedAvg": 30.66,
           "actualAvg": 29.71,
           "mae": 5.99,
           "rmse": 9.64,
           "bias": 0.95,
+          "daytimeMae": 7.92,
+          "peakHour": {
+            "hour": "11시",
+            "predictedAvg": 41.02,
+            "actualAvg": 36.54,
+            "mae": 10.76,
+            "rmse": 16.86,
+            "bias": 4.48
+          },
           "hourly": [
             {
               "hour": "04시",
@@ -49631,11 +51427,21 @@
         {
           "date": "2026-04-24",
           "label": "4. 24. (금)",
+          "weekdayIndex": 5,
           "predictedAvg": 30.14,
           "actualAvg": 30,
           "mae": 6.31,
           "rmse": 9.86,
           "bias": 0.14,
+          "daytimeMae": 8.55,
+          "peakHour": {
+            "hour": "15시",
+            "predictedAvg": 40.86,
+            "actualAvg": 44.38,
+            "mae": 10.89,
+            "rmse": 13.83,
+            "bias": -3.52
+          },
           "hourly": [
             {
               "hour": "04시",
@@ -49945,11 +51751,21 @@
         {
           "date": "2026-04-25",
           "label": "4. 25. (토)",
+          "weekdayIndex": 6,
           "predictedAvg": 27.45,
           "actualAvg": 23.84,
           "mae": 7.85,
           "rmse": 12.37,
           "bias": 3.61,
+          "daytimeMae": 10.28,
+          "peakHour": {
+            "hour": "08시",
+            "predictedAvg": 49.3,
+            "actualAvg": 28.7,
+            "mae": 20.67,
+            "rmse": 24.4,
+            "bias": 20.6
+          },
           "hourly": [
             {
               "hour": "04시",
@@ -50259,11 +52075,21 @@
         {
           "date": "2026-04-26",
           "label": "4. 26. (일)",
+          "weekdayIndex": 0,
           "predictedAvg": 25.05,
           "actualAvg": 20.5,
           "mae": 7.08,
           "rmse": 10.85,
           "bias": 4.56,
+          "daytimeMae": 9.28,
+          "peakHour": {
+            "hour": "08시",
+            "predictedAvg": 39.05,
+            "actualAvg": 22.95,
+            "mae": 16.16,
+            "rmse": 18.95,
+            "bias": 16.1
+          },
           "hourly": [
             {
               "hour": "04시",
@@ -50573,11 +52399,21 @@
         {
           "date": "2026-04-27",
           "label": "4. 27. (월)",
+          "weekdayIndex": 1,
           "predictedAvg": 28.83,
           "actualAvg": 30.63,
           "mae": 6.26,
           "rmse": 10,
           "bias": -1.8,
+          "daytimeMae": 8.19,
+          "peakHour": {
+            "hour": "08시",
+            "predictedAvg": 57.84,
+            "actualAvg": 70.32,
+            "mae": 13.56,
+            "rmse": 21.51,
+            "bias": -12.48
+          },
           "hourly": [
             {
               "hour": "04시",
@@ -50887,11 +52723,21 @@
         {
           "date": "2026-04-28",
           "label": "4. 28. (화)",
+          "weekdayIndex": 2,
           "predictedAvg": 29.83,
           "actualAvg": 32.03,
           "mae": 6.22,
           "rmse": 10.88,
           "bias": -2.19,
+          "daytimeMae": 8.25,
+          "peakHour": {
+            "hour": "08시",
+            "predictedAvg": 61.75,
+            "actualAvg": 71.3,
+            "mae": 12.41,
+            "rmse": 16.71,
+            "bias": -9.55
+          },
           "hourly": [
             {
               "hour": "04시",
@@ -51201,11 +53047,21 @@
         {
           "date": "2026-04-29",
           "label": "4. 29. (수)",
+          "weekdayIndex": 3,
           "predictedAvg": 30.2,
           "actualAvg": 32.8,
           "mae": 6.28,
           "rmse": 10.27,
           "bias": -2.6,
+          "daytimeMae": 8.62,
+          "peakHour": {
+            "hour": "18시",
+            "predictedAvg": 54.29,
+            "actualAvg": 62.51,
+            "mae": 12.67,
+            "rmse": 17.38,
+            "bias": -8.22
+          },
           "hourly": [
             {
               "hour": "04시",
@@ -51690,8 +53546,32 @@
         "predictedAvg": 28.88,
         "actualAvg": 28.5,
         "mae": 6.57,
+        "daytimeMae": 8.73,
         "rmse": 4.84,
         "bias": 0.38
+      },
+      "periodMetrics": {
+        "daytime": {
+          "hourRange": "08:00-21:59",
+          "mae": 8.73,
+          "bias": 0.16
+        },
+        "weekday": {
+          "mae": 6.21,
+          "bias": -1.1
+        },
+        "weekend": {
+          "mae": 7.46,
+          "bias": 4.08
+        }
+      },
+      "peakHour": {
+        "hour": "08시",
+        "predictedAvg": 56.63,
+        "actualAvg": 54.93,
+        "mae": 12.48,
+        "rmse": 16.58,
+        "bias": 1.69
       },
       "hourly": [
         {
@@ -51897,11 +53777,21 @@
         {
           "date": "2026-04-23",
           "label": "4. 23. (목)",
+          "weekdayIndex": 4,
           "predictedAvg": 33.08,
           "actualAvg": 34.12,
           "mae": 5.8,
           "rmse": 8.75,
           "bias": -1.04,
+          "daytimeMae": 7.67,
+          "peakHour": {
+            "hour": "11시",
+            "predictedAvg": 41.01,
+            "actualAvg": 45.7,
+            "mae": 8.87,
+            "rmse": 12.31,
+            "bias": -4.69
+          },
           "hourly": [
             {
               "hour": "04시",
@@ -52211,11 +54101,21 @@
         {
           "date": "2026-04-24",
           "label": "4. 24. (금)",
+          "weekdayIndex": 5,
           "predictedAvg": 33.47,
           "actualAvg": 35.31,
           "mae": 5.56,
           "rmse": 8.84,
           "bias": -1.84,
+          "daytimeMae": 7.34,
+          "peakHour": {
+            "hour": "20시",
+            "predictedAvg": 32.97,
+            "actualAvg": 40.96,
+            "mae": 10.33,
+            "rmse": 15.43,
+            "bias": -7.99
+          },
           "hourly": [
             {
               "hour": "04시",
@@ -52525,11 +54425,21 @@
         {
           "date": "2026-04-25",
           "label": "4. 25. (토)",
+          "weekdayIndex": 6,
           "predictedAvg": 33.12,
           "actualAvg": 33.05,
           "mae": 7.96,
           "rmse": 12.22,
           "bias": 0.07,
+          "daytimeMae": 9.56,
+          "peakHour": {
+            "hour": "12시",
+            "predictedAvg": 43.71,
+            "actualAvg": 56.98,
+            "mae": 17.02,
+            "rmse": 20.89,
+            "bias": -13.27
+          },
           "hourly": [
             {
               "hour": "04시",
@@ -52839,11 +54749,21 @@
         {
           "date": "2026-04-26",
           "label": "4. 26. (일)",
+          "weekdayIndex": 0,
           "predictedAvg": 30.83,
           "actualAvg": 27.8,
           "mae": 7.87,
           "rmse": 11.75,
           "bias": 3.03,
+          "daytimeMae": 9.5,
+          "peakHour": {
+            "hour": "08시",
+            "predictedAvg": 37.09,
+            "actualAvg": 19.52,
+            "mae": 17.75,
+            "rmse": 21.06,
+            "bias": 17.57
+          },
           "hourly": [
             {
               "hour": "04시",
@@ -53153,11 +55073,21 @@
         {
           "date": "2026-04-27",
           "label": "4. 27. (월)",
+          "weekdayIndex": 1,
           "predictedAvg": 32.12,
           "actualAvg": 32.31,
           "mae": 5.88,
           "rmse": 9.17,
           "bias": -0.19,
+          "daytimeMae": 7.42,
+          "peakHour": {
+            "hour": "08시",
+            "predictedAvg": 51.96,
+            "actualAvg": 61.31,
+            "mae": 10.68,
+            "rmse": 15.32,
+            "bias": -9.35
+          },
           "hourly": [
             {
               "hour": "04시",
@@ -53467,11 +55397,21 @@
         {
           "date": "2026-04-28",
           "label": "4. 28. (화)",
+          "weekdayIndex": 2,
           "predictedAvg": 32.71,
           "actualAvg": 35.07,
           "mae": 6.27,
           "rmse": 10.14,
           "bias": -2.36,
+          "daytimeMae": 8.04,
+          "peakHour": {
+            "hour": "17시",
+            "predictedAvg": 55.42,
+            "actualAvg": 63.99,
+            "mae": 11.59,
+            "rmse": 17.38,
+            "bias": -8.57
+          },
           "hourly": [
             {
               "hour": "04시",
@@ -53781,11 +55721,21 @@
         {
           "date": "2026-04-29",
           "label": "4. 29. (수)",
+          "weekdayIndex": 3,
           "predictedAvg": 32.93,
           "actualAvg": 35.55,
           "mae": 5.95,
           "rmse": 9.29,
           "bias": -2.62,
+          "daytimeMae": 7.6,
+          "peakHour": {
+            "hour": "12시",
+            "predictedAvg": 40.34,
+            "actualAvg": 47.9,
+            "mae": 12.14,
+            "rmse": 17.78,
+            "bias": -7.56
+          },
           "hourly": [
             {
               "hour": "04시",
@@ -54279,8 +56229,32 @@
         "predictedAvg": 32.61,
         "actualAvg": 33.32,
         "mae": 6.47,
+        "daytimeMae": 8.16,
         "rmse": 4.33,
         "bias": -0.71
+      },
+      "periodMetrics": {
+        "daytime": {
+          "hourRange": "08:00-21:59",
+          "mae": 8.16,
+          "bias": -1.17
+        },
+        "weekday": {
+          "mae": 5.89,
+          "bias": -1.61
+        },
+        "weekend": {
+          "mae": 7.92,
+          "bias": 1.55
+        }
+      },
+      "peakHour": {
+        "hour": "08시",
+        "predictedAvg": 52.42,
+        "actualAvg": 51.8,
+        "mae": 10.99,
+        "rmse": 14.45,
+        "bias": 0.62
       },
       "hourly": [
         {
@@ -54486,11 +56460,21 @@
         {
           "date": "2026-04-23",
           "label": "4. 23. (목)",
+          "weekdayIndex": 4,
           "predictedAvg": 25.7,
           "actualAvg": 26.16,
           "mae": 5.63,
           "rmse": 8.53,
           "bias": -0.46,
+          "daytimeMae": 7.35,
+          "peakHour": {
+            "hour": "16시",
+            "predictedAvg": 41.58,
+            "actualAvg": 40.29,
+            "mae": 8.83,
+            "rmse": 12.3,
+            "bias": 1.29
+          },
           "hourly": [
             {
               "hour": "04시",
@@ -54800,11 +56784,21 @@
         {
           "date": "2026-04-24",
           "label": "4. 24. (금)",
+          "weekdayIndex": 5,
           "predictedAvg": 25.84,
           "actualAvg": 27.15,
           "mae": 6.44,
           "rmse": 10.29,
           "bias": -1.32,
+          "daytimeMae": 8.52,
+          "peakHour": {
+            "hour": "19시",
+            "predictedAvg": 35.53,
+            "actualAvg": 37.2,
+            "mae": 13.07,
+            "rmse": 17.98,
+            "bias": -1.67
+          },
           "hourly": [
             {
               "hour": "04시",
@@ -55114,11 +57108,21 @@
         {
           "date": "2026-04-25",
           "label": "4. 25. (토)",
+          "weekdayIndex": 6,
           "predictedAvg": 24.56,
           "actualAvg": 24.86,
           "mae": 8.08,
           "rmse": 12.58,
           "bias": -0.3,
+          "daytimeMae": 10.38,
+          "peakHour": {
+            "hour": "07시",
+            "predictedAvg": 27.68,
+            "actualAvg": 12.98,
+            "mae": 15.35,
+            "rmse": 19.85,
+            "bias": 14.7
+          },
           "hourly": [
             {
               "hour": "04시",
@@ -55428,11 +57432,21 @@
         {
           "date": "2026-04-26",
           "label": "4. 26. (일)",
+          "weekdayIndex": 0,
           "predictedAvg": 22.34,
           "actualAvg": 19.38,
           "mae": 7.32,
           "rmse": 11.63,
           "bias": 2.96,
+          "daytimeMae": 8.82,
+          "peakHour": {
+            "hour": "08시",
+            "predictedAvg": 30.06,
+            "actualAvg": 11.05,
+            "mae": 19.05,
+            "rmse": 23.42,
+            "bias": 19.01
+          },
           "hourly": [
             {
               "hour": "04시",
@@ -55742,11 +57756,21 @@
         {
           "date": "2026-04-27",
           "label": "4. 27. (월)",
+          "weekdayIndex": 1,
           "predictedAvg": 24.04,
           "actualAvg": 25.28,
           "mae": 6.09,
           "rmse": 9.53,
           "bias": -1.24,
+          "daytimeMae": 7.49,
+          "peakHour": {
+            "hour": "07시",
+            "predictedAvg": 33.02,
+            "actualAvg": 42.06,
+            "mae": 10.72,
+            "rmse": 16.5,
+            "bias": -9.04
+          },
           "hourly": [
             {
               "hour": "04시",
@@ -56056,11 +58080,21 @@
         {
           "date": "2026-04-28",
           "label": "4. 28. (화)",
+          "weekdayIndex": 2,
           "predictedAvg": 24.98,
           "actualAvg": 26.34,
           "mae": 5.82,
           "rmse": 9.1,
           "bias": -1.36,
+          "daytimeMae": 7.53,
+          "peakHour": {
+            "hour": "16시",
+            "predictedAvg": 41.54,
+            "actualAvg": 38.07,
+            "mae": 10.27,
+            "rmse": 14,
+            "bias": 3.47
+          },
           "hourly": [
             {
               "hour": "04시",
@@ -56370,11 +58404,21 @@
         {
           "date": "2026-04-29",
           "label": "4. 29. (수)",
+          "weekdayIndex": 3,
           "predictedAvg": 25.2,
           "actualAvg": 27.17,
           "mae": 5.61,
           "rmse": 8.4,
           "bias": -1.97,
+          "daytimeMae": 7.44,
+          "peakHour": {
+            "hour": "18시",
+            "predictedAvg": 50.29,
+            "actualAvg": 52.28,
+            "mae": 9.61,
+            "rmse": 13.68,
+            "bias": -1.99
+          },
           "hourly": [
             {
               "hour": "04시",
@@ -56868,8 +58912,32 @@
         "predictedAvg": 24.67,
         "actualAvg": 25.19,
         "mae": 6.43,
+        "daytimeMae": 8.22,
         "rmse": 4.4,
         "bias": -0.53
+      },
+      "periodMetrics": {
+        "daytime": {
+          "hourRange": "08:00-21:59",
+          "mae": 8.22,
+          "bias": -0.91
+        },
+        "weekday": {
+          "mae": 5.92,
+          "bias": -1.27
+        },
+        "weekend": {
+          "mae": 7.7,
+          "bias": 1.33
+        }
+      },
+      "peakHour": {
+        "hour": "08시",
+        "predictedAvg": 42.31,
+        "actualAvg": 41.32,
+        "mae": 10.86,
+        "rmse": 14.28,
+        "bias": 0.99
       },
       "hourly": [
         {
@@ -57075,11 +59143,21 @@
         {
           "date": "2026-04-23",
           "label": "4. 23. (목)",
+          "weekdayIndex": 4,
           "predictedAvg": 34.39,
           "actualAvg": 35.34,
           "mae": 5.9,
           "rmse": 8.81,
           "bias": -0.95,
+          "daytimeMae": 7.29,
+          "peakHour": {
+            "hour": "16시",
+            "predictedAvg": 50.31,
+            "actualAvg": 48.76,
+            "mae": 9.92,
+            "rmse": 13.06,
+            "bias": 1.55
+          },
           "hourly": [
             {
               "hour": "04시",
@@ -57389,11 +59467,21 @@
         {
           "date": "2026-04-24",
           "label": "4. 24. (금)",
+          "weekdayIndex": 5,
           "predictedAvg": 34.21,
           "actualAvg": 35.1,
           "mae": 5.59,
           "rmse": 8.74,
           "bias": -0.9,
+          "daytimeMae": 6.81,
+          "peakHour": {
+            "hour": "18시",
+            "predictedAvg": 66.41,
+            "actualAvg": 69.28,
+            "mae": 9.89,
+            "rmse": 14.83,
+            "bias": -2.87
+          },
           "hourly": [
             {
               "hour": "04시",
@@ -57703,11 +59791,21 @@
         {
           "date": "2026-04-25",
           "label": "4. 25. (토)",
+          "weekdayIndex": 6,
           "predictedAvg": 32.58,
           "actualAvg": 31.28,
           "mae": 8.29,
           "rmse": 13.15,
           "bias": 1.3,
+          "daytimeMae": 9.45,
+          "peakHour": {
+            "hour": "08시",
+            "predictedAvg": 51.11,
+            "actualAvg": 33.62,
+            "mae": 17.94,
+            "rmse": 23.06,
+            "bias": 17.49
+          },
           "hourly": [
             {
               "hour": "04시",
@@ -58017,11 +60115,21 @@
         {
           "date": "2026-04-26",
           "label": "4. 26. (일)",
+          "weekdayIndex": 0,
           "predictedAvg": 31.09,
           "actualAvg": 26.91,
           "mae": 8.06,
           "rmse": 12.14,
           "bias": 4.17,
+          "daytimeMae": 9.79,
+          "peakHour": {
+            "hour": "08시",
+            "predictedAvg": 42.13,
+            "actualAvg": 21.03,
+            "mae": 21.09,
+            "rmse": 24.99,
+            "bias": 21.1
+          },
           "hourly": [
             {
               "hour": "04시",
@@ -58331,11 +60439,21 @@
         {
           "date": "2026-04-27",
           "label": "4. 27. (월)",
+          "weekdayIndex": 1,
           "predictedAvg": 32.63,
           "actualAvg": 33.34,
           "mae": 5.54,
           "rmse": 8.66,
           "bias": -0.71,
+          "daytimeMae": 6.42,
+          "peakHour": {
+            "hour": "08시",
+            "predictedAvg": 56.17,
+            "actualAvg": 66.47,
+            "mae": 10.63,
+            "rmse": 14.35,
+            "bias": -10.3
+          },
           "hourly": [
             {
               "hour": "04시",
@@ -58645,11 +60763,21 @@
         {
           "date": "2026-04-28",
           "label": "4. 28. (화)",
+          "weekdayIndex": 2,
           "predictedAvg": 33.23,
           "actualAvg": 34.32,
           "mae": 5.1,
           "rmse": 7.88,
           "bias": -1.09,
+          "daytimeMae": 6.54,
+          "peakHour": {
+            "hour": "18시",
+            "predictedAvg": 62.51,
+            "actualAvg": 71.92,
+            "mae": 11.08,
+            "rmse": 14.51,
+            "bias": -9.41
+          },
           "hourly": [
             {
               "hour": "04시",
@@ -58959,11 +61087,21 @@
         {
           "date": "2026-04-29",
           "label": "4. 29. (수)",
+          "weekdayIndex": 3,
           "predictedAvg": 34.15,
           "actualAvg": 37.04,
           "mae": 5.55,
           "rmse": 8.81,
           "bias": -2.89,
+          "daytimeMae": 6.86,
+          "peakHour": {
+            "hour": "14시",
+            "predictedAvg": 41.13,
+            "actualAvg": 51.01,
+            "mae": 12.46,
+            "rmse": 18.17,
+            "bias": -9.88
+          },
           "hourly": [
             {
               "hour": "04시",
@@ -59457,8 +61595,32 @@
         "predictedAvg": 33.18,
         "actualAvg": 33.33,
         "mae": 6.29,
+        "daytimeMae": 7.59,
         "rmse": 5.02,
         "bias": -0.15
+      },
+      "periodMetrics": {
+        "daytime": {
+          "hourRange": "08:00-21:59",
+          "mae": 7.59,
+          "bias": -0.16
+        },
+        "weekday": {
+          "mae": 5.54,
+          "bias": -1.31
+        },
+        "weekend": {
+          "mae": 8.18,
+          "bias": 2.73
+        }
+      },
+      "peakHour": {
+        "hour": "08시",
+        "predictedAvg": 56.43,
+        "actualAvg": 53.23,
+        "mae": 10.77,
+        "rmse": 13.72,
+        "bias": 3.2
       },
       "hourly": [
         {
@@ -59664,11 +61826,21 @@
         {
           "date": "2026-04-23",
           "label": "4. 23. (목)",
+          "weekdayIndex": 4,
           "predictedAvg": 21.68,
           "actualAvg": 21.72,
           "mae": 5.91,
           "rmse": 9.8,
           "bias": -0.04,
+          "daytimeMae": 7.96,
+          "peakHour": {
+            "hour": "18시",
+            "predictedAvg": 44.05,
+            "actualAvg": 37.33,
+            "mae": 11.67,
+            "rmse": 15.99,
+            "bias": 6.72
+          },
           "hourly": [
             {
               "hour": "04시",
@@ -59978,11 +62150,21 @@
         {
           "date": "2026-04-24",
           "label": "4. 24. (금)",
+          "weekdayIndex": 5,
           "predictedAvg": 20.97,
           "actualAvg": 20.27,
           "mae": 5.6,
           "rmse": 9.04,
           "bias": 0.71,
+          "daytimeMae": 7.7,
+          "peakHour": {
+            "hour": "18시",
+            "predictedAvg": 42.59,
+            "actualAvg": 33.66,
+            "mae": 10.58,
+            "rmse": 14.85,
+            "bias": 8.93
+          },
           "hourly": [
             {
               "hour": "04시",
@@ -60292,11 +62474,21 @@
         {
           "date": "2026-04-25",
           "label": "4. 25. (토)",
+          "weekdayIndex": 6,
           "predictedAvg": 19.44,
           "actualAvg": 16.77,
           "mae": 6.45,
           "rmse": 10.38,
           "bias": 2.67,
+          "daytimeMae": 8.59,
+          "peakHour": {
+            "hour": "08시",
+            "predictedAvg": 34.55,
+            "actualAvg": 17.18,
+            "mae": 17.49,
+            "rmse": 21.38,
+            "bias": 17.37
+          },
           "hourly": [
             {
               "hour": "04시",
@@ -60606,11 +62798,21 @@
         {
           "date": "2026-04-26",
           "label": "4. 26. (일)",
+          "weekdayIndex": 0,
           "predictedAvg": 17.74,
           "actualAvg": 14.3,
           "mae": 6.27,
           "rmse": 10.08,
           "bias": 3.44,
+          "daytimeMae": 8.71,
+          "peakHour": {
+            "hour": "08시",
+            "predictedAvg": 28.35,
+            "actualAvg": 13.52,
+            "mae": 15.21,
+            "rmse": 17.95,
+            "bias": 14.83
+          },
           "hourly": [
             {
               "hour": "04시",
@@ -60920,11 +63122,21 @@
         {
           "date": "2026-04-27",
           "label": "4. 27. (월)",
+          "weekdayIndex": 1,
           "predictedAvg": 20.28,
           "actualAvg": 21.13,
           "mae": 5.83,
           "rmse": 9.72,
           "bias": -0.86,
+          "daytimeMae": 8.11,
+          "peakHour": {
+            "hour": "13시",
+            "predictedAvg": 28.4,
+            "actualAvg": 31.85,
+            "mae": 11.03,
+            "rmse": 16.11,
+            "bias": -3.45
+          },
           "hourly": [
             {
               "hour": "04시",
@@ -61234,11 +63446,21 @@
         {
           "date": "2026-04-28",
           "label": "4. 28. (화)",
+          "weekdayIndex": 2,
           "predictedAvg": 20.83,
           "actualAvg": 22.51,
           "mae": 6.23,
           "rmse": 11.47,
           "bias": -1.68,
+          "daytimeMae": 9,
+          "peakHour": {
+            "hour": "18시",
+            "predictedAvg": 39.01,
+            "actualAvg": 51.65,
+            "mae": 15.27,
+            "rmse": 24.8,
+            "bias": -12.64
+          },
           "hourly": [
             {
               "hour": "04시",
@@ -61548,11 +63770,21 @@
         {
           "date": "2026-04-29",
           "label": "4. 29. (수)",
+          "weekdayIndex": 3,
           "predictedAvg": 21.11,
           "actualAvg": 24.19,
           "mae": 6.5,
           "rmse": 11.84,
           "bias": -3.08,
+          "daytimeMae": 9.27,
+          "peakHour": {
+            "hour": "17시",
+            "predictedAvg": 37.08,
+            "actualAvg": 47.12,
+            "mae": 14.65,
+            "rmse": 21.38,
+            "bias": -10.04
+          },
           "hourly": [
             {
               "hour": "04시",
@@ -62046,8 +64278,32 @@
         "predictedAvg": 20.29,
         "actualAvg": 20.13,
         "mae": 6.11,
+        "daytimeMae": 8.48,
         "rmse": 3.91,
         "bias": 0.17
+      },
+      "periodMetrics": {
+        "daytime": {
+          "hourRange": "08:00-21:59",
+          "mae": 8.48,
+          "bias": 0.04
+        },
+        "weekday": {
+          "mae": 6.01,
+          "bias": -0.99
+        },
+        "weekend": {
+          "mae": 6.36,
+          "bias": 3.05
+        }
+      },
+      "peakHour": {
+        "hour": "18시",
+        "predictedAvg": 39.34,
+        "actualAvg": 37.52,
+        "mae": 12.41,
+        "rmse": 17.29,
+        "bias": 1.82
       },
       "hourly": [
         {
@@ -62253,11 +64509,21 @@
         {
           "date": "2026-04-23",
           "label": "4. 23. (목)",
+          "weekdayIndex": 4,
           "predictedAvg": 22.4,
           "actualAvg": 24.06,
           "mae": 5.45,
           "rmse": 8.31,
           "bias": -1.66,
+          "daytimeMae": 7.02,
+          "peakHour": {
+            "hour": "12시",
+            "predictedAvg": 21.81,
+            "actualAvg": 29.51,
+            "mae": 9.31,
+            "rmse": 12.89,
+            "bias": -7.7
+          },
           "hourly": [
             {
               "hour": "04시",
@@ -62567,11 +64833,21 @@
         {
           "date": "2026-04-24",
           "label": "4. 24. (금)",
+          "weekdayIndex": 5,
           "predictedAvg": 22.64,
           "actualAvg": 24.61,
           "mae": 5.16,
           "rmse": 8.04,
           "bias": -1.97,
+          "daytimeMae": 6.93,
+          "peakHour": {
+            "hour": "15시",
+            "predictedAvg": 37.4,
+            "actualAvg": 38.96,
+            "mae": 11.08,
+            "rmse": 14.59,
+            "bias": -1.56
+          },
           "hourly": [
             {
               "hour": "04시",
@@ -62881,11 +65157,21 @@
         {
           "date": "2026-04-25",
           "label": "4. 25. (토)",
+          "weekdayIndex": 6,
           "predictedAvg": 20.98,
           "actualAvg": 21.16,
           "mae": 7.71,
           "rmse": 11.94,
           "bias": -0.18,
+          "daytimeMae": 9.69,
+          "peakHour": {
+            "hour": "16시",
+            "predictedAvg": 34.37,
+            "actualAvg": 44.51,
+            "mae": 16.25,
+            "rmse": 21.55,
+            "bias": -10.14
+          },
           "hourly": [
             {
               "hour": "04시",
@@ -63195,11 +65481,21 @@
         {
           "date": "2026-04-26",
           "label": "4. 26. (일)",
+          "weekdayIndex": 0,
           "predictedAvg": 20.14,
           "actualAvg": 18.07,
           "mae": 7.08,
           "rmse": 10.45,
           "bias": 2.08,
+          "daytimeMae": 8.85,
+          "peakHour": {
+            "hour": "13시",
+            "predictedAvg": 28.3,
+            "actualAvg": 37.95,
+            "mae": 12.78,
+            "rmse": 17.26,
+            "bias": -9.65
+          },
           "hourly": [
             {
               "hour": "04시",
@@ -63509,11 +65805,21 @@
         {
           "date": "2026-04-27",
           "label": "4. 27. (월)",
+          "weekdayIndex": 1,
           "predictedAvg": 21.29,
           "actualAvg": 22.34,
           "mae": 5.73,
           "rmse": 9.48,
           "bias": -1.04,
+          "daytimeMae": 7.3,
+          "peakHour": {
+            "hour": "08시",
+            "predictedAvg": 29.58,
+            "actualAvg": 38.89,
+            "mae": 10.35,
+            "rmse": 19.4,
+            "bias": -9.31
+          },
           "hourly": [
             {
               "hour": "04시",
@@ -63823,11 +66129,21 @@
         {
           "date": "2026-04-28",
           "label": "4. 28. (화)",
+          "weekdayIndex": 2,
           "predictedAvg": 21.65,
           "actualAvg": 23.24,
           "mae": 5.49,
           "rmse": 9.15,
           "bias": -1.59,
+          "daytimeMae": 7.44,
+          "peakHour": {
+            "hour": "12시",
+            "predictedAvg": 23.96,
+            "actualAvg": 32.47,
+            "mae": 14.34,
+            "rmse": 21.68,
+            "bias": -8.51
+          },
           "hourly": [
             {
               "hour": "04시",
@@ -64137,11 +66453,21 @@
         {
           "date": "2026-04-29",
           "label": "4. 29. (수)",
+          "weekdayIndex": 3,
           "predictedAvg": 22.24,
           "actualAvg": 24.17,
           "mae": 5.58,
           "rmse": 9.09,
           "bias": -1.93,
+          "daytimeMae": 7.45,
+          "peakHour": {
+            "hour": "11시",
+            "predictedAvg": 22.6,
+            "actualAvg": 26.91,
+            "mae": 12.22,
+            "rmse": 19.22,
+            "bias": -4.31
+          },
           "hourly": [
             {
               "hour": "04시",
@@ -64635,8 +66961,32 @@
         "predictedAvg": 21.62,
         "actualAvg": 22.52,
         "mae": 6.03,
+        "daytimeMae": 7.81,
         "rmse": 4.01,
         "bias": -0.9
+      },
+      "periodMetrics": {
+        "daytime": {
+          "hourRange": "08:00-21:59",
+          "mae": 7.81,
+          "bias": -1.81
+        },
+        "weekday": {
+          "mae": 5.48,
+          "bias": -1.64
+        },
+        "weekend": {
+          "mae": 7.39,
+          "bias": 0.95
+        }
+      },
+      "peakHour": {
+        "hour": "18시",
+        "predictedAvg": 42.8,
+        "actualAvg": 44.58,
+        "mae": 9.13,
+        "rmse": 12.73,
+        "bias": -1.78
       },
       "hourly": [
         {
@@ -64842,11 +67192,21 @@
         {
           "date": "2026-04-23",
           "label": "4. 23. (목)",
+          "weekdayIndex": 4,
           "predictedAvg": 28.33,
           "actualAvg": 29.71,
           "mae": 5.65,
           "rmse": 9.13,
           "bias": -1.37,
+          "daytimeMae": 7.47,
+          "peakHour": {
+            "hour": "16시",
+            "predictedAvg": 49.17,
+            "actualAvg": 54.62,
+            "mae": 11.58,
+            "rmse": 14.81,
+            "bias": -5.45
+          },
           "hourly": [
             {
               "hour": "04시",
@@ -65156,11 +67516,21 @@
         {
           "date": "2026-04-24",
           "label": "4. 24. (금)",
+          "weekdayIndex": 5,
           "predictedAvg": 28.56,
           "actualAvg": 29.9,
           "mae": 5.47,
           "rmse": 8.68,
           "bias": -1.34,
+          "daytimeMae": 7.01,
+          "peakHour": {
+            "hour": "18시",
+            "predictedAvg": 55.77,
+            "actualAvg": 51.08,
+            "mae": 9.39,
+            "rmse": 12.24,
+            "bias": 4.69
+          },
           "hourly": [
             {
               "hour": "04시",
@@ -65470,11 +67840,21 @@
         {
           "date": "2026-04-25",
           "label": "4. 25. (토)",
+          "weekdayIndex": 6,
           "predictedAvg": 27.29,
           "actualAvg": 27.15,
           "mae": 7.05,
           "rmse": 10.86,
           "bias": 0.14,
+          "daytimeMae": 9.01,
+          "peakHour": {
+            "hour": "08시",
+            "predictedAvg": 41.16,
+            "actualAvg": 23.94,
+            "mae": 17.4,
+            "rmse": 20.88,
+            "bias": 17.22
+          },
           "hourly": [
             {
               "hour": "04시",
@@ -65784,11 +68164,21 @@
         {
           "date": "2026-04-26",
           "label": "4. 26. (일)",
+          "weekdayIndex": 0,
           "predictedAvg": 25.4,
           "actualAvg": 22.92,
           "mae": 6.25,
           "rmse": 9.66,
           "bias": 2.48,
+          "daytimeMae": 8.09,
+          "peakHour": {
+            "hour": "08시",
+            "predictedAvg": 31.39,
+            "actualAvg": 14.21,
+            "mae": 17.31,
+            "rmse": 21.07,
+            "bias": 17.18
+          },
           "hourly": [
             {
               "hour": "04시",
@@ -66098,11 +68488,21 @@
         {
           "date": "2026-04-27",
           "label": "4. 27. (월)",
+          "weekdayIndex": 1,
           "predictedAvg": 26.92,
           "actualAvg": 27.94,
           "mae": 5.94,
           "rmse": 9.69,
           "bias": -1.01,
+          "daytimeMae": 8.05,
+          "peakHour": {
+            "hour": "08시",
+            "predictedAvg": 44.01,
+            "actualAvg": 55.53,
+            "mae": 12.08,
+            "rmse": 15.3,
+            "bias": -11.52
+          },
           "hourly": [
             {
               "hour": "04시",
@@ -66412,11 +68812,21 @@
         {
           "date": "2026-04-28",
           "label": "4. 28. (화)",
+          "weekdayIndex": 2,
           "predictedAvg": 27.55,
           "actualAvg": 28.86,
           "mae": 6,
           "rmse": 9.76,
           "bias": -1.31,
+          "daytimeMae": 8.09,
+          "peakHour": {
+            "hour": "18시",
+            "predictedAvg": 52.8,
+            "actualAvg": 66.95,
+            "mae": 16.15,
+            "rmse": 22.39,
+            "bias": -14.15
+          },
           "hourly": [
             {
               "hour": "04시",
@@ -66726,11 +69136,21 @@
         {
           "date": "2026-04-29",
           "label": "4. 29. (수)",
+          "weekdayIndex": 3,
           "predictedAvg": 27.92,
           "actualAvg": 29.21,
           "mae": 5.31,
           "rmse": 8.35,
           "bias": -1.29,
+          "daytimeMae": 7.14,
+          "peakHour": {
+            "hour": "10시",
+            "predictedAvg": 29.61,
+            "actualAvg": 39.56,
+            "mae": 10.14,
+            "rmse": 14.58,
+            "bias": -9.95
+          },
           "hourly": [
             {
               "hour": "04시",
@@ -67224,8 +69644,32 @@
         "predictedAvg": 27.42,
         "actualAvg": 27.96,
         "mae": 5.95,
+        "daytimeMae": 7.84,
         "rmse": 4.36,
         "bias": -0.53
+      },
+      "periodMetrics": {
+        "daytime": {
+          "hourRange": "08:00-21:59",
+          "mae": 7.84,
+          "bias": -0.88
+        },
+        "weekday": {
+          "mae": 5.67,
+          "bias": -1.26
+        },
+        "weekend": {
+          "mae": 6.65,
+          "bias": 1.31
+        }
+      },
+      "peakHour": {
+        "hour": "08시",
+        "predictedAvg": 45.25,
+        "actualAvg": 43.58,
+        "mae": 11.34,
+        "rmse": 14.49,
+        "bias": 1.68
       },
       "hourly": [
         {
@@ -67431,11 +69875,21 @@
         {
           "date": "2026-04-23",
           "label": "4. 23. (목)",
+          "weekdayIndex": 4,
           "predictedAvg": 26.02,
           "actualAvg": 26.79,
           "mae": 5.16,
           "rmse": 8.07,
           "bias": -0.77,
+          "daytimeMae": 6.67,
+          "peakHour": {
+            "hour": "12시",
+            "predictedAvg": 25.8,
+            "actualAvg": 32.44,
+            "mae": 9.02,
+            "rmse": 14.77,
+            "bias": -6.64
+          },
           "hourly": [
             {
               "hour": "04시",
@@ -67745,11 +70199,21 @@
         {
           "date": "2026-04-24",
           "label": "4. 24. (금)",
+          "weekdayIndex": 5,
           "predictedAvg": 26.71,
           "actualAvg": 28.4,
           "mae": 5.45,
           "rmse": 8.55,
           "bias": -1.69,
+          "daytimeMae": 6.97,
+          "peakHour": {
+            "hour": "19시",
+            "predictedAvg": 35.29,
+            "actualAvg": 43.71,
+            "mae": 11.01,
+            "rmse": 14.71,
+            "bias": -8.42
+          },
           "hourly": [
             {
               "hour": "04시",
@@ -68059,11 +70523,21 @@
         {
           "date": "2026-04-25",
           "label": "4. 25. (토)",
+          "weekdayIndex": 6,
           "predictedAvg": 26.97,
           "actualAvg": 27.06,
           "mae": 6.95,
           "rmse": 10.82,
           "bias": -0.08,
+          "daytimeMae": 8.59,
+          "peakHour": {
+            "hour": "18시",
+            "predictedAvg": 47.33,
+            "actualAvg": 36.05,
+            "mae": 13.4,
+            "rmse": 19.27,
+            "bias": 11.28
+          },
           "hourly": [
             {
               "hour": "04시",
@@ -68373,11 +70847,21 @@
         {
           "date": "2026-04-26",
           "label": "4. 26. (일)",
+          "weekdayIndex": 0,
           "predictedAvg": 24.83,
           "actualAvg": 22.37,
           "mae": 6.89,
           "rmse": 10.92,
           "bias": 2.46,
+          "daytimeMae": 7.76,
+          "peakHour": {
+            "hour": "04시",
+            "predictedAvg": 17.88,
+            "actualAvg": 4.58,
+            "mae": 13.3,
+            "rmse": 20.68,
+            "bias": 13.3
+          },
           "hourly": [
             {
               "hour": "04시",
@@ -68687,11 +71171,21 @@
         {
           "date": "2026-04-27",
           "label": "4. 27. (월)",
+          "weekdayIndex": 1,
           "predictedAvg": 25.57,
           "actualAvg": 25.6,
           "mae": 5.32,
           "rmse": 8.08,
           "bias": -0.03,
+          "daytimeMae": 6.6,
+          "peakHour": {
+            "hour": "08시",
+            "predictedAvg": 35.89,
+            "actualAvg": 44.35,
+            "mae": 9.72,
+            "rmse": 11.86,
+            "bias": -8.46
+          },
           "hourly": [
             {
               "hour": "04시",
@@ -69001,11 +71495,21 @@
         {
           "date": "2026-04-28",
           "label": "4. 28. (화)",
+          "weekdayIndex": 2,
           "predictedAvg": 25.99,
           "actualAvg": 25.28,
           "mae": 4.82,
           "rmse": 6.99,
           "bias": 0.71,
+          "daytimeMae": 5.88,
+          "peakHour": {
+            "hour": "05시",
+            "predictedAvg": 23.65,
+            "actualAvg": 27.3,
+            "mae": 8.56,
+            "rmse": 10.56,
+            "bias": -3.65
+          },
           "hourly": [
             {
               "hour": "04시",
@@ -69315,11 +71819,21 @@
         {
           "date": "2026-04-29",
           "label": "4. 29. (수)",
+          "weekdayIndex": 3,
           "predictedAvg": 26.29,
           "actualAvg": 27.9,
           "mae": 5.59,
           "rmse": 9.85,
           "bias": -1.61,
+          "daytimeMae": 7.51,
+          "peakHour": {
+            "hour": "11시",
+            "predictedAvg": 27.86,
+            "actualAvg": 41.66,
+            "mae": 15.46,
+            "rmse": 29.09,
+            "bias": -13.8
+          },
           "hourly": [
             {
               "hour": "04시",
@@ -69813,8 +72327,32 @@
         "predictedAvg": 26.05,
         "actualAvg": 26.2,
         "mae": 5.74,
+        "daytimeMae": 7.14,
         "rmse": 4.12,
         "bias": -0.15
+      },
+      "periodMetrics": {
+        "daytime": {
+          "hourRange": "08:00-21:59",
+          "mae": 7.14,
+          "bias": -0.84
+        },
+        "weekday": {
+          "mae": 5.27,
+          "bias": -0.68
+        },
+        "weekend": {
+          "mae": 6.92,
+          "bias": 1.19
+        }
+      },
+      "peakHour": {
+        "hour": "18시",
+        "predictedAvg": 47.34,
+        "actualAvg": 45.04,
+        "mae": 8.3,
+        "rmse": 11.18,
+        "bias": 2.29
       },
       "hourly": [
         {
@@ -70020,11 +72558,21 @@
         {
           "date": "2026-04-23",
           "label": "4. 23. (목)",
+          "weekdayIndex": 4,
           "predictedAvg": 17.43,
           "actualAvg": 15.67,
           "mae": 4.73,
           "rmse": 7.83,
           "bias": 1.75,
+          "daytimeMae": 6.56,
+          "peakHour": {
+            "hour": "18시",
+            "predictedAvg": 33.75,
+            "actualAvg": 26.37,
+            "mae": 11.23,
+            "rmse": 13.6,
+            "bias": 7.38
+          },
           "hourly": [
             {
               "hour": "04시",
@@ -70334,11 +72882,21 @@
         {
           "date": "2026-04-24",
           "label": "4. 24. (금)",
+          "weekdayIndex": 5,
           "predictedAvg": 18.4,
           "actualAvg": 16.9,
           "mae": 5.33,
           "rmse": 8.44,
           "bias": 1.51,
+          "daytimeMae": 7.6,
+          "peakHour": {
+            "hour": "16시",
+            "predictedAvg": 40.6,
+            "actualAvg": 28.11,
+            "mae": 13.45,
+            "rmse": 18.07,
+            "bias": 12.49
+          },
           "hourly": [
             {
               "hour": "04시",
@@ -70648,11 +73206,21 @@
         {
           "date": "2026-04-25",
           "label": "4. 25. (토)",
+          "weekdayIndex": 6,
           "predictedAvg": 16.41,
           "actualAvg": 12.05,
           "mae": 6.4,
           "rmse": 9.86,
           "bias": 4.36,
+          "daytimeMae": 8.56,
+          "peakHour": {
+            "hour": "08시",
+            "predictedAvg": 24.99,
+            "actualAvg": 9.79,
+            "mae": 15.68,
+            "rmse": 20.87,
+            "bias": 15.2
+          },
           "hourly": [
             {
               "hour": "04시",
@@ -70962,11 +73530,21 @@
         {
           "date": "2026-04-26",
           "label": "4. 26. (일)",
+          "weekdayIndex": 0,
           "predictedAvg": 14.36,
           "actualAvg": 10.31,
           "mae": 5.67,
           "rmse": 8.57,
           "bias": 4.05,
+          "daytimeMae": 8.02,
+          "peakHour": {
+            "hour": "08시",
+            "predictedAvg": 18.86,
+            "actualAvg": 7.09,
+            "mae": 11.89,
+            "rmse": 14.65,
+            "bias": 11.77
+          },
           "hourly": [
             {
               "hour": "04시",
@@ -71276,11 +73854,21 @@
         {
           "date": "2026-04-27",
           "label": "4. 27. (월)",
+          "weekdayIndex": 1,
           "predictedAvg": 16.9,
           "actualAvg": 16.25,
           "mae": 4.91,
           "rmse": 8.01,
           "bias": 0.65,
+          "daytimeMae": 6.69,
+          "peakHour": {
+            "hour": "15시",
+            "predictedAvg": 35.32,
+            "actualAvg": 30.39,
+            "mae": 12.61,
+            "rmse": 14.26,
+            "bias": 4.93
+          },
           "hourly": [
             {
               "hour": "04시",
@@ -71590,11 +74178,21 @@
         {
           "date": "2026-04-28",
           "label": "4. 28. (화)",
+          "weekdayIndex": 2,
           "predictedAvg": 18.77,
           "actualAvg": 16.96,
           "mae": 6.62,
           "rmse": 11.56,
           "bias": 1.81,
+          "daytimeMae": 9.78,
+          "peakHour": {
+            "hour": "16시",
+            "predictedAvg": 44.02,
+            "actualAvg": 22.58,
+            "mae": 21.44,
+            "rmse": 23.49,
+            "bias": 21.44
+          },
           "hourly": [
             {
               "hour": "04시",
@@ -71904,11 +74502,21 @@
         {
           "date": "2026-04-29",
           "label": "4. 29. (수)",
+          "weekdayIndex": 3,
           "predictedAvg": 17.13,
           "actualAvg": 16.15,
           "mae": 5.25,
           "rmse": 9.09,
           "bias": 0.97,
+          "daytimeMae": 7.65,
+          "peakHour": {
+            "hour": "15시",
+            "predictedAvg": 32.01,
+            "actualAvg": 19.1,
+            "mae": 13.75,
+            "rmse": 18.75,
+            "bias": 12.91
+          },
           "hourly": [
             {
               "hour": "04시",
@@ -72402,8 +75010,32 @@
         "predictedAvg": 17.06,
         "actualAvg": 14.9,
         "mae": 5.56,
+        "daytimeMae": 7.84,
         "rmse": 5,
         "bias": 2.16
+      },
+      "periodMetrics": {
+        "daytime": {
+          "hourRange": "08:00-21:59",
+          "mae": 7.84,
+          "bias": 3.07
+        },
+        "weekday": {
+          "mae": 5.37,
+          "bias": 1.34
+        },
+        "weekend": {
+          "mae": 6.04,
+          "bias": 4.21
+        }
+      },
+      "peakHour": {
+        "hour": "16시",
+        "predictedAvg": 37.9,
+        "actualAvg": 27.46,
+        "mae": 11.99,
+        "rmse": 15.04,
+        "bias": 10.43
       },
       "hourly": [
         {
@@ -72609,11 +75241,21 @@
         {
           "date": "2026-04-23",
           "label": "4. 23. (목)",
+          "weekdayIndex": 4,
           "predictedAvg": 3.04,
           "actualAvg": 2.85,
           "mae": 4.54,
           "rmse": 15.11,
           "bias": 0.19,
+          "daytimeMae": 0,
+          "peakHour": {
+            "hour": "01시",
+            "predictedAvg": 28,
+            "actualAvg": 13.04,
+            "mae": 34.5,
+            "rmse": 44.91,
+            "bias": 14.96
+          },
           "hourly": [
             {
               "hour": "04시",
@@ -72923,11 +75565,21 @@
         {
           "date": "2026-04-24",
           "label": "4. 24. (금)",
+          "weekdayIndex": 5,
           "predictedAvg": 3.64,
           "actualAvg": 3.89,
           "mae": 5.94,
           "rmse": 19.93,
           "bias": -0.25,
+          "daytimeMae": 0,
+          "peakHour": {
+            "hour": "01시",
+            "predictedAvg": 32.62,
+            "actualAvg": 16.5,
+            "mae": 42.91,
+            "rmse": 56.04,
+            "bias": 16.12
+          },
           "hourly": [
             {
               "hour": "04시",
@@ -73237,11 +75889,21 @@
         {
           "date": "2026-04-25",
           "label": "4. 25. (토)",
+          "weekdayIndex": 6,
           "predictedAvg": 4.1,
           "actualAvg": 4.49,
           "mae": 7.03,
           "rmse": 22.68,
           "bias": -0.39,
+          "daytimeMae": 0,
+          "peakHour": {
+            "hour": "01시",
+            "predictedAvg": 35.68,
+            "actualAvg": 24.16,
+            "mae": 54.34,
+            "rmse": 67.74,
+            "bias": 11.52
+          },
           "hourly": [
             {
               "hour": "04시",
@@ -73551,11 +76213,21 @@
         {
           "date": "2026-04-26",
           "label": "4. 26. (일)",
+          "weekdayIndex": 0,
           "predictedAvg": 3.65,
           "actualAvg": 2.61,
           "mae": 5,
           "rmse": 18.02,
           "bias": 1.05,
+          "daytimeMae": 0,
+          "peakHour": {
+            "hour": "01시",
+            "predictedAvg": 34.59,
+            "actualAvg": 14.06,
+            "mae": 44.9,
+            "rmse": 61.02,
+            "bias": 20.53
+          },
           "hourly": [
             {
               "hour": "04시",
@@ -73865,11 +76537,21 @@
         {
           "date": "2026-04-27",
           "label": "4. 27. (월)",
+          "weekdayIndex": 1,
           "predictedAvg": 3.15,
           "actualAvg": 2.34,
           "mae": 4.21,
           "rmse": 14.61,
           "bias": 0.81,
+          "daytimeMae": 0,
+          "peakHour": {
+            "hour": "01시",
+            "predictedAvg": 28.69,
+            "actualAvg": 11.44,
+            "mae": 33.94,
+            "rmse": 45.03,
+            "bias": 17.25
+          },
           "hourly": [
             {
               "hour": "04시",
@@ -74179,11 +76861,21 @@
         {
           "date": "2026-04-28",
           "label": "4. 28. (화)",
+          "weekdayIndex": 2,
           "predictedAvg": 3.12,
           "actualAvg": 2.66,
           "mae": 4.49,
           "rmse": 15.17,
           "bias": 0.46,
+          "daytimeMae": 0,
+          "peakHour": {
+            "hour": "01시",
+            "predictedAvg": 27.79,
+            "actualAvg": 11.61,
+            "mae": 32.73,
+            "rmse": 43.66,
+            "bias": 16.18
+          },
           "hourly": [
             {
               "hour": "04시",
@@ -74493,11 +77185,21 @@
         {
           "date": "2026-04-29",
           "label": "4. 29. (수)",
+          "weekdayIndex": 3,
           "predictedAvg": 2.98,
           "actualAvg": 2.73,
           "mae": 4.52,
           "rmse": 14.82,
           "bias": 0.25,
+          "daytimeMae": 0,
+          "peakHour": {
+            "hour": "01시",
+            "predictedAvg": 27.12,
+            "actualAvg": 11.91,
+            "mae": 33.98,
+            "rmse": 43.82,
+            "bias": 15.21
+          },
           "hourly": [
             {
               "hour": "04시",
@@ -74991,8 +77693,32 @@
         "predictedAvg": 3.38,
         "actualAvg": 3.08,
         "mae": 5.1,
+        "daytimeMae": 0,
         "rmse": 6.63,
         "bias": 0.3
+      },
+      "periodMetrics": {
+        "daytime": {
+          "hourRange": "08:00-21:59",
+          "mae": 0,
+          "bias": 0
+        },
+        "weekday": {
+          "mae": 4.74,
+          "bias": 0.29
+        },
+        "weekend": {
+          "mae": 6.02,
+          "bias": 0.33
+        }
+      },
+      "peakHour": {
+        "hour": "01시",
+        "predictedAvg": 30.64,
+        "actualAvg": 14.67,
+        "mae": 39.61,
+        "rmse": 51.75,
+        "bias": 15.97
       },
       "hourly": [
         {
@@ -75198,11 +77924,21 @@
         {
           "date": "2026-04-23",
           "label": "4. 23. (목)",
+          "weekdayIndex": 4,
           "predictedAvg": 24.68,
           "actualAvg": 25.82,
           "mae": 4.5,
           "rmse": 7.19,
           "bias": -1.14,
+          "daytimeMae": 5.94,
+          "peakHour": {
+            "hour": "15시",
+            "predictedAvg": 35.01,
+            "actualAvg": 42.16,
+            "mae": 9.55,
+            "rmse": 13.66,
+            "bias": -7.15
+          },
           "hourly": [
             {
               "hour": "04시",
@@ -75512,11 +78248,21 @@
         {
           "date": "2026-04-24",
           "label": "4. 24. (금)",
+          "weekdayIndex": 5,
           "predictedAvg": 25.13,
           "actualAvg": 26.87,
           "mae": 4.77,
           "rmse": 7.6,
           "bias": -1.74,
+          "daytimeMae": 6.41,
+          "peakHour": {
+            "hour": "17시",
+            "predictedAvg": 46.43,
+            "actualAvg": 51.71,
+            "mae": 10.81,
+            "rmse": 13.85,
+            "bias": -5.28
+          },
           "hourly": [
             {
               "hour": "04시",
@@ -75826,11 +78572,21 @@
         {
           "date": "2026-04-25",
           "label": "4. 25. (토)",
+          "weekdayIndex": 6,
           "predictedAvg": 25.06,
           "actualAvg": 27.19,
           "mae": 7.23,
           "rmse": 11.94,
           "bias": -2.12,
+          "daytimeMae": 9.33,
+          "peakHour": {
+            "hour": "09시",
+            "predictedAvg": 27.03,
+            "actualAvg": 49.19,
+            "mae": 23.12,
+            "rmse": 32.52,
+            "bias": -22.16
+          },
           "hourly": [
             {
               "hour": "04시",
@@ -76140,11 +78896,21 @@
         {
           "date": "2026-04-26",
           "label": "4. 26. (일)",
+          "weekdayIndex": 0,
           "predictedAvg": 23.91,
           "actualAvg": 22.53,
           "mae": 5.48,
           "rmse": 8.4,
           "bias": 1.38,
+          "daytimeMae": 6.96,
+          "peakHour": {
+            "hour": "18시",
+            "predictedAvg": 45.05,
+            "actualAvg": 32.13,
+            "mae": 13.51,
+            "rmse": 16.86,
+            "bias": 12.92
+          },
           "hourly": [
             {
               "hour": "04시",
@@ -76454,11 +79220,21 @@
         {
           "date": "2026-04-27",
           "label": "4. 27. (월)",
+          "weekdayIndex": 1,
           "predictedAvg": 24.46,
           "actualAvg": 25.63,
           "mae": 5.09,
           "rmse": 8.12,
           "bias": -1.17,
+          "daytimeMae": 6.31,
+          "peakHour": {
+            "hour": "18시",
+            "predictedAvg": 48.11,
+            "actualAvg": 47.27,
+            "mae": 10.69,
+            "rmse": 15.19,
+            "bias": 0.84
+          },
           "hourly": [
             {
               "hour": "04시",
@@ -76768,11 +79544,21 @@
         {
           "date": "2026-04-28",
           "label": "4. 28. (화)",
+          "weekdayIndex": 2,
           "predictedAvg": 24.95,
           "actualAvg": 25.96,
           "mae": 4.36,
           "rmse": 6.7,
           "bias": -1.01,
+          "daytimeMae": 5.57,
+          "peakHour": {
+            "hour": "08시",
+            "predictedAvg": 37.72,
+            "actualAvg": 46.67,
+            "mae": 9.91,
+            "rmse": 13.37,
+            "bias": -8.95
+          },
           "hourly": [
             {
               "hour": "04시",
@@ -77082,11 +79868,21 @@
         {
           "date": "2026-04-29",
           "label": "4. 29. (수)",
+          "weekdayIndex": 3,
           "predictedAvg": 25.1,
           "actualAvg": 26.18,
           "mae": 4.09,
           "rmse": 6.37,
           "bias": -1.08,
+          "daytimeMae": 5.1,
+          "peakHour": {
+            "hour": "07시",
+            "predictedAvg": 29.49,
+            "actualAvg": 36.04,
+            "mae": 9.43,
+            "rmse": 12.79,
+            "bias": -6.55
+          },
           "hourly": [
             {
               "hour": "04시",
@@ -77580,8 +80376,32 @@
         "predictedAvg": 24.76,
         "actualAvg": 25.74,
         "mae": 5.07,
+        "daytimeMae": 6.52,
         "rmse": 4.16,
         "bias": -0.98
+      },
+      "periodMetrics": {
+        "daytime": {
+          "hourRange": "08:00-21:59",
+          "mae": 6.52,
+          "bias": -1.77
+        },
+        "weekday": {
+          "mae": 4.56,
+          "bias": -1.23
+        },
+        "weekend": {
+          "mae": 6.36,
+          "bias": -0.37
+        }
+      },
+      "peakHour": {
+        "hour": "18시",
+        "predictedAvg": 48.27,
+        "actualAvg": 47.19,
+        "mae": 8.15,
+        "rmse": 10.73,
+        "bias": 1.08
       },
       "hourly": [
         {
@@ -77787,11 +80607,21 @@
         {
           "date": "2026-04-23",
           "label": "4. 23. (목)",
+          "weekdayIndex": 4,
           "predictedAvg": 23.47,
           "actualAvg": 24,
           "mae": 4.97,
           "rmse": 7.85,
           "bias": -0.53,
+          "daytimeMae": 6.19,
+          "peakHour": {
+            "hour": "09시",
+            "predictedAvg": 28.03,
+            "actualAvg": 36.06,
+            "mae": 10.32,
+            "rmse": 13.48,
+            "bias": -8.03
+          },
           "hourly": [
             {
               "hour": "04시",
@@ -78101,11 +80931,21 @@
         {
           "date": "2026-04-24",
           "label": "4. 24. (금)",
+          "weekdayIndex": 5,
           "predictedAvg": 23.82,
           "actualAvg": 26.34,
           "mae": 4.96,
           "rmse": 8.43,
           "bias": -2.52,
+          "daytimeMae": 6.72,
+          "peakHour": {
+            "hour": "14시",
+            "predictedAvg": 25.73,
+            "actualAvg": 36.7,
+            "mae": 13.55,
+            "rmse": 18.2,
+            "bias": -10.97
+          },
           "hourly": [
             {
               "hour": "04시",
@@ -78415,11 +81255,21 @@
         {
           "date": "2026-04-25",
           "label": "4. 25. (토)",
+          "weekdayIndex": 6,
           "predictedAvg": 22.45,
           "actualAvg": 21.39,
           "mae": 6.05,
           "rmse": 10.55,
           "bias": 1.07,
+          "daytimeMae": 7.48,
+          "peakHour": {
+            "hour": "07시",
+            "predictedAvg": 32.26,
+            "actualAvg": 9.61,
+            "mae": 22.65,
+            "rmse": 27.51,
+            "bias": 22.65
+          },
           "hourly": [
             {
               "hour": "04시",
@@ -78729,11 +81579,21 @@
         {
           "date": "2026-04-26",
           "label": "4. 26. (일)",
+          "weekdayIndex": 0,
           "predictedAvg": 20.98,
           "actualAvg": 18.65,
           "mae": 5.31,
           "rmse": 8.72,
           "bias": 2.33,
+          "daytimeMae": 6.53,
+          "peakHour": {
+            "hour": "07시",
+            "predictedAvg": 24.73,
+            "actualAvg": 7.81,
+            "mae": 17.2,
+            "rmse": 21.31,
+            "bias": 16.92
+          },
           "hourly": [
             {
               "hour": "04시",
@@ -79043,11 +81903,21 @@
         {
           "date": "2026-04-27",
           "label": "4. 27. (월)",
+          "weekdayIndex": 1,
           "predictedAvg": 22.46,
           "actualAvg": 23.53,
           "mae": 4.61,
           "rmse": 7.68,
           "bias": -1.07,
+          "daytimeMae": 5.79,
+          "peakHour": {
+            "hour": "08시",
+            "predictedAvg": 44.73,
+            "actualAvg": 52.76,
+            "mae": 12.33,
+            "rmse": 16.59,
+            "bias": -8.03
+          },
           "hourly": [
             {
               "hour": "04시",
@@ -79357,11 +82227,21 @@
         {
           "date": "2026-04-28",
           "label": "4. 28. (화)",
+          "weekdayIndex": 2,
           "predictedAvg": 22.96,
           "actualAvg": 24.41,
           "mae": 4.94,
           "rmse": 8.31,
           "bias": -1.45,
+          "daytimeMae": 6.29,
+          "peakHour": {
+            "hour": "08시",
+            "predictedAvg": 49.17,
+            "actualAvg": 58.07,
+            "mae": 14.05,
+            "rmse": 18.74,
+            "bias": -8.9
+          },
           "hourly": [
             {
               "hour": "04시",
@@ -79671,11 +82551,21 @@
         {
           "date": "2026-04-29",
           "label": "4. 29. (수)",
+          "weekdayIndex": 3,
           "predictedAvg": 23.33,
           "actualAvg": 24.62,
           "mae": 4.47,
           "rmse": 7.07,
           "bias": -1.29,
+          "daytimeMae": 5.8,
+          "peakHour": {
+            "hour": "08시",
+            "predictedAvg": 50.9,
+            "actualAvg": 56.49,
+            "mae": 10.32,
+            "rmse": 14.16,
+            "bias": -5.59
+          },
           "hourly": [
             {
               "hour": "04시",
@@ -80151,8 +83041,32 @@
         "predictedAvg": 22.78,
         "actualAvg": 23.28,
         "mae": 5.04,
+        "daytimeMae": 6.4,
         "rmse": 4.65,
         "bias": -0.5
+      },
+      "periodMetrics": {
+        "daytime": {
+          "hourRange": "08:00-21:59",
+          "mae": 6.4,
+          "bias": -1.13
+        },
+        "weekday": {
+          "mae": 4.79,
+          "bias": -1.37
+        },
+        "weekend": {
+          "mae": 5.68,
+          "bias": 1.7
+        }
+      },
+      "peakHour": {
+        "hour": "07시",
+        "predictedAvg": 41.79,
+        "actualAvg": 39.24,
+        "mae": 13.06,
+        "rmse": 16.45,
+        "bias": 2.55
       },
       "hourly": [
         {
@@ -80358,11 +83272,21 @@
         {
           "date": "2026-04-23",
           "label": "4. 23. (목)",
+          "weekdayIndex": 4,
           "predictedAvg": 11.55,
           "actualAvg": 11.38,
           "mae": 4.96,
           "rmse": 9.8,
           "bias": 0.17,
+          "daytimeMae": 6.87,
+          "peakHour": {
+            "hour": "12시",
+            "predictedAvg": 9.51,
+            "actualAvg": 26.13,
+            "mae": 16.62,
+            "rmse": 24.53,
+            "bias": -16.62
+          },
           "hourly": [
             {
               "hour": "04시",
@@ -80672,11 +83596,21 @@
         {
           "date": "2026-04-24",
           "label": "4. 24. (금)",
+          "weekdayIndex": 5,
           "predictedAvg": 11.35,
           "actualAvg": 11.62,
           "mae": 4.75,
           "rmse": 9.47,
           "bias": -0.27,
+          "daytimeMae": 6.69,
+          "peakHour": {
+            "hour": "12시",
+            "predictedAvg": 10.22,
+            "actualAvg": 28.27,
+            "mae": 18.05,
+            "rmse": 24.81,
+            "bias": -18.05
+          },
           "hourly": [
             {
               "hour": "04시",
@@ -80986,11 +83920,21 @@
         {
           "date": "2026-04-25",
           "label": "4. 25. (토)",
+          "weekdayIndex": 6,
           "predictedAvg": 10.38,
           "actualAvg": 9.37,
           "mae": 4.56,
           "rmse": 7.65,
           "bias": 1.01,
+          "daytimeMae": 6.11,
+          "peakHour": {
+            "hour": "16시",
+            "predictedAvg": 21.95,
+            "actualAvg": 13.42,
+            "mae": 11.73,
+            "rmse": 14.82,
+            "bias": 8.53
+          },
           "hourly": [
             {
               "hour": "04시",
@@ -81300,11 +84244,21 @@
         {
           "date": "2026-04-26",
           "label": "4. 26. (일)",
+          "weekdayIndex": 0,
           "predictedAvg": 9.43,
           "actualAvg": 8.1,
           "mae": 4.39,
           "rmse": 7.1,
           "bias": 1.33,
+          "daytimeMae": 6.03,
+          "peakHour": {
+            "hour": "10시",
+            "predictedAvg": 12,
+            "actualAvg": 20.71,
+            "mae": 9.6,
+            "rmse": 11.42,
+            "bias": -8.71
+          },
           "hourly": [
             {
               "hour": "04시",
@@ -81614,11 +84568,21 @@
         {
           "date": "2026-04-27",
           "label": "4. 27. (월)",
+          "weekdayIndex": 1,
           "predictedAvg": 10.61,
           "actualAvg": 10.57,
           "mae": 4.32,
           "rmse": 7.99,
           "bias": 0.04,
+          "daytimeMae": 5.94,
+          "peakHour": {
+            "hour": "16시",
+            "predictedAvg": 26.84,
+            "actualAvg": 15.73,
+            "mae": 14.67,
+            "rmse": 20.57,
+            "bias": 11.11
+          },
           "hourly": [
             {
               "hour": "04시",
@@ -81928,11 +84892,21 @@
         {
           "date": "2026-04-28",
           "label": "4. 28. (화)",
+          "weekdayIndex": 2,
           "predictedAvg": 11.07,
           "actualAvg": 11.12,
           "mae": 4.3,
           "rmse": 7.18,
           "bias": -0.06,
+          "daytimeMae": 6.11,
+          "peakHour": {
+            "hour": "16시",
+            "predictedAvg": 27.02,
+            "actualAvg": 11.11,
+            "mae": 15.91,
+            "rmse": 20.18,
+            "bias": 15.91
+          },
           "hourly": [
             {
               "hour": "04시",
@@ -82242,11 +85216,21 @@
         {
           "date": "2026-04-29",
           "label": "4. 29. (수)",
+          "weekdayIndex": 3,
           "predictedAvg": 11.26,
           "actualAvg": 11.17,
           "mae": 4.83,
           "rmse": 9.32,
           "bias": 0.09,
+          "daytimeMae": 6.59,
+          "peakHour": {
+            "hour": "15시",
+            "predictedAvg": 23.64,
+            "actualAvg": 11.02,
+            "mae": 13.69,
+            "rmse": 17.22,
+            "bias": 12.62
+          },
           "hourly": [
             {
               "hour": "04시",
@@ -82740,8 +85724,32 @@
         "predictedAvg": 10.81,
         "actualAvg": 10.48,
         "mae": 4.59,
+        "daytimeMae": 6.33,
         "rmse": 4.56,
         "bias": 0.33
+      },
+      "periodMetrics": {
+        "daytime": {
+          "hourRange": "08:00-21:59",
+          "mae": 6.33,
+          "bias": -0.02
+        },
+        "weekday": {
+          "mae": 4.63,
+          "bias": -0.01
+        },
+        "weekend": {
+          "mae": 4.47,
+          "bias": 1.17
+        }
+      },
+      "peakHour": {
+        "hour": "16시",
+        "predictedAvg": 25.31,
+        "actualAvg": 15.57,
+        "mae": 12.03,
+        "rmse": 16.25,
+        "bias": 9.74
       },
       "hourly": [
         {
@@ -82947,11 +85955,21 @@
         {
           "date": "2026-04-23",
           "label": "4. 23. (목)",
+          "weekdayIndex": 4,
           "predictedAvg": 16.98,
           "actualAvg": 16.95,
           "mae": 3.64,
           "rmse": 6.27,
           "bias": 0.03,
+          "daytimeMae": 4.84,
+          "peakHour": {
+            "hour": "16시",
+            "predictedAvg": 29.29,
+            "actualAvg": 34.68,
+            "mae": 7.95,
+            "rmse": 11.02,
+            "bias": -5.39
+          },
           "hourly": [
             {
               "hour": "04시",
@@ -83261,11 +86279,21 @@
         {
           "date": "2026-04-24",
           "label": "4. 24. (금)",
+          "weekdayIndex": 5,
           "predictedAvg": 17.19,
           "actualAvg": 17.65,
           "mae": 3.85,
           "rmse": 6.44,
           "bias": -0.46,
+          "daytimeMae": 5.18,
+          "peakHour": {
+            "hour": "18시",
+            "predictedAvg": 38.52,
+            "actualAvg": 48.01,
+            "mae": 11.38,
+            "rmse": 13.52,
+            "bias": -9.49
+          },
           "hourly": [
             {
               "hour": "04시",
@@ -83575,11 +86603,21 @@
         {
           "date": "2026-04-25",
           "label": "4. 25. (토)",
+          "weekdayIndex": 6,
           "predictedAvg": 16.35,
           "actualAvg": 14.95,
           "mae": 4.63,
           "rmse": 8.29,
           "bias": 1.4,
+          "daytimeMae": 5.94,
+          "peakHour": {
+            "hour": "07시",
+            "predictedAvg": 18.85,
+            "actualAvg": 9.09,
+            "mae": 10.98,
+            "rmse": 15.56,
+            "bias": 9.76
+          },
           "hourly": [
             {
               "hour": "04시",
@@ -83889,11 +86927,21 @@
         {
           "date": "2026-04-26",
           "label": "4. 26. (일)",
+          "weekdayIndex": 0,
           "predictedAvg": 14.47,
           "actualAvg": 12.73,
           "mae": 4.5,
           "rmse": 7.61,
           "bias": 1.74,
+          "daytimeMae": 6.07,
+          "peakHour": {
+            "hour": "18시",
+            "predictedAvg": 29.36,
+            "actualAvg": 20.74,
+            "mae": 9.83,
+            "rmse": 12.69,
+            "bias": 8.62
+          },
           "hourly": [
             {
               "hour": "04시",
@@ -84203,11 +87251,21 @@
         {
           "date": "2026-04-27",
           "label": "4. 27. (월)",
+          "weekdayIndex": 1,
           "predictedAvg": 16.09,
           "actualAvg": 16.76,
           "mae": 4.47,
           "rmse": 7.67,
           "bias": -0.67,
+          "daytimeMae": 6.05,
+          "peakHour": {
+            "hour": "18시",
+            "predictedAvg": 34.61,
+            "actualAvg": 38.32,
+            "mae": 9.9,
+            "rmse": 13.1,
+            "bias": -3.71
+          },
           "hourly": [
             {
               "hour": "04시",
@@ -84517,11 +87575,21 @@
         {
           "date": "2026-04-28",
           "label": "4. 28. (화)",
+          "weekdayIndex": 2,
           "predictedAvg": 16.25,
           "actualAvg": 17.66,
           "mae": 3.97,
           "rmse": 6.61,
           "bias": -1.41,
+          "daytimeMae": 5.61,
+          "peakHour": {
+            "hour": "08시",
+            "predictedAvg": 23.7,
+            "actualAvg": 33.47,
+            "mae": 9.9,
+            "rmse": 13.78,
+            "bias": -9.77
+          },
           "hourly": [
             {
               "hour": "04시",
@@ -84831,11 +87899,21 @@
         {
           "date": "2026-04-29",
           "label": "4. 29. (수)",
+          "weekdayIndex": 3,
           "predictedAvg": 16.58,
           "actualAvg": 17.23,
           "mae": 3.85,
           "rmse": 6.52,
           "bias": -0.65,
+          "daytimeMae": 5.19,
+          "peakHour": {
+            "hour": "19시",
+            "predictedAvg": 32.12,
+            "actualAvg": 36.5,
+            "mae": 7.88,
+            "rmse": 11.14,
+            "bias": -4.38
+          },
           "hourly": [
             {
               "hour": "04시",
@@ -85311,8 +88389,32 @@
         "predictedAvg": 16.27,
         "actualAvg": 16.28,
         "mae": 4.13,
+        "daytimeMae": 5.55,
         "rmse": 3.03,
         "bias": 0
+      },
+      "periodMetrics": {
+        "daytime": {
+          "hourRange": "08:00-21:59",
+          "mae": 5.55,
+          "bias": -0.24
+        },
+        "weekday": {
+          "mae": 3.96,
+          "bias": -0.63
+        },
+        "weekend": {
+          "mae": 4.56,
+          "bias": 1.57
+        }
+      },
+      "peakHour": {
+        "hour": "18시",
+        "predictedAvg": 35.04,
+        "actualAvg": 36.61,
+        "mae": 8.72,
+        "rmse": 11.57,
+        "bias": -1.58
       },
       "hourly": [
         {
@@ -85518,11 +88620,21 @@
         {
           "date": "2026-04-23",
           "label": "4. 23. (목)",
+          "weekdayIndex": 4,
           "predictedAvg": 10.07,
           "actualAvg": 9.88,
           "mae": 4.16,
           "rmse": 6.86,
           "bias": 0.19,
+          "daytimeMae": 5.63,
+          "peakHour": {
+            "hour": "11시",
+            "predictedAvg": 9.94,
+            "actualAvg": 19.88,
+            "mae": 11.79,
+            "rmse": 16.28,
+            "bias": -9.94
+          },
           "hourly": [
             {
               "hour": "04시",
@@ -85832,11 +88944,21 @@
         {
           "date": "2026-04-24",
           "label": "4. 24. (금)",
+          "weekdayIndex": 5,
           "predictedAvg": 10.03,
           "actualAvg": 10.15,
           "mae": 3.69,
           "rmse": 6.32,
           "bias": -0.11,
+          "daytimeMae": 5.08,
+          "peakHour": {
+            "hour": "11시",
+            "predictedAvg": 9.01,
+            "actualAvg": 13.64,
+            "mae": 7.72,
+            "rmse": 12.52,
+            "bias": -4.63
+          },
           "hourly": [
             {
               "hour": "04시",
@@ -86146,11 +89268,21 @@
         {
           "date": "2026-04-25",
           "label": "4. 25. (토)",
+          "weekdayIndex": 6,
           "predictedAvg": 8.9,
           "actualAvg": 7.09,
           "mae": 4.72,
           "rmse": 7.26,
           "bias": 1.81,
+          "daytimeMae": 6.13,
+          "peakHour": {
+            "hour": "07시",
+            "predictedAvg": 15.99,
+            "actualAvg": 3.95,
+            "mae": 12.16,
+            "rmse": 14.67,
+            "bias": 12.04
+          },
           "hourly": [
             {
               "hour": "04시",
@@ -86460,11 +89592,21 @@
         {
           "date": "2026-04-26",
           "label": "4. 26. (일)",
+          "weekdayIndex": 0,
           "predictedAvg": 7.8,
           "actualAvg": 5.83,
           "mae": 4.06,
           "rmse": 6.44,
           "bias": 1.98,
+          "daytimeMae": 5.49,
+          "peakHour": {
+            "hour": "07시",
+            "predictedAvg": 11.79,
+            "actualAvg": 3.15,
+            "mae": 8.89,
+            "rmse": 11.36,
+            "bias": 8.64
+          },
           "hourly": [
             {
               "hour": "04시",
@@ -86774,11 +89916,21 @@
         {
           "date": "2026-04-27",
           "label": "4. 27. (월)",
+          "weekdayIndex": 1,
           "predictedAvg": 9.06,
           "actualAvg": 10.08,
           "mae": 3.9,
           "rmse": 6.43,
           "bias": -1.02,
+          "daytimeMae": 5.58,
+          "peakHour": {
+            "hour": "18시",
+            "predictedAvg": 14.69,
+            "actualAvg": 23.83,
+            "mae": 10,
+            "rmse": 13.33,
+            "bias": -9.14
+          },
           "hourly": [
             {
               "hour": "04시",
@@ -87088,11 +90240,21 @@
         {
           "date": "2026-04-28",
           "label": "4. 28. (화)",
+          "weekdayIndex": 2,
           "predictedAvg": 9.32,
           "actualAvg": 9.88,
           "mae": 3.63,
           "rmse": 6.31,
           "bias": -0.56,
+          "daytimeMae": 4.91,
+          "peakHour": {
+            "hour": "14시",
+            "predictedAvg": 9.38,
+            "actualAvg": 14.75,
+            "mae": 8.21,
+            "rmse": 10.18,
+            "bias": -5.37
+          },
           "hourly": [
             {
               "hour": "04시",
@@ -87402,11 +90564,21 @@
         {
           "date": "2026-04-29",
           "label": "4. 29. (수)",
+          "weekdayIndex": 3,
           "predictedAvg": 9.67,
           "actualAvg": 10.86,
           "mae": 3.77,
           "rmse": 6.61,
           "bias": -1.19,
+          "daytimeMae": 5,
+          "peakHour": {
+            "hour": "08시",
+            "predictedAvg": 22.9,
+            "actualAvg": 31.98,
+            "mae": 10.8,
+            "rmse": 16.34,
+            "bias": -9.08
+          },
           "hourly": [
             {
               "hour": "04시",
@@ -87900,8 +91072,32 @@
         "predictedAvg": 9.26,
         "actualAvg": 9.11,
         "mae": 3.99,
+        "daytimeMae": 5.4,
         "rmse": 3.04,
         "bias": 0.16
+      },
+      "periodMetrics": {
+        "daytime": {
+          "hourRange": "08:00-21:59",
+          "mae": 5.4,
+          "bias": -0.01
+        },
+        "weekday": {
+          "mae": 3.83,
+          "bias": -0.54
+        },
+        "weekend": {
+          "mae": 4.39,
+          "bias": 1.9
+        }
+      },
+      "peakHour": {
+        "hour": "08시",
+        "predictedAvg": 21.37,
+        "actualAvg": 20.39,
+        "mae": 8.23,
+        "rmse": 11.83,
+        "bias": 0.98
       },
       "hourly": [
         {
@@ -88107,11 +91303,21 @@
         {
           "date": "2026-04-23",
           "label": "4. 23. (목)",
+          "weekdayIndex": 4,
           "predictedAvg": 13.35,
           "actualAvg": 14.63,
           "mae": 3.52,
           "rmse": 6.03,
           "bias": -1.28,
+          "daytimeMae": 4.93,
+          "peakHour": {
+            "hour": "08시",
+            "predictedAvg": 19.81,
+            "actualAvg": 30.44,
+            "mae": 10.82,
+            "rmse": 15.71,
+            "bias": -10.63
+          },
           "hourly": [
             {
               "hour": "04시",
@@ -88421,11 +91627,21 @@
         {
           "date": "2026-04-24",
           "label": "4. 24. (금)",
+          "weekdayIndex": 5,
           "predictedAvg": 13.55,
           "actualAvg": 15.06,
           "mae": 3.66,
           "rmse": 5.95,
           "bias": -1.51,
+          "daytimeMae": 4.88,
+          "peakHour": {
+            "hour": "08시",
+            "predictedAvg": 20,
+            "actualAvg": 24.15,
+            "mae": 6.47,
+            "rmse": 10.12,
+            "bias": -4.15
+          },
           "hourly": [
             {
               "hour": "04시",
@@ -88735,11 +91951,21 @@
         {
           "date": "2026-04-25",
           "label": "4. 25. (토)",
+          "weekdayIndex": 6,
           "predictedAvg": 13.08,
           "actualAvg": 12.18,
           "mae": 4.15,
           "rmse": 7.1,
           "bias": 0.9,
+          "daytimeMae": 5.45,
+          "peakHour": {
+            "hour": "12시",
+            "predictedAvg": 17.87,
+            "actualAvg": 23.09,
+            "mae": 7.92,
+            "rmse": 12.15,
+            "bias": -5.22
+          },
           "hourly": [
             {
               "hour": "04시",
@@ -89049,11 +92275,21 @@
         {
           "date": "2026-04-26",
           "label": "4. 26. (일)",
+          "weekdayIndex": 0,
           "predictedAvg": 12.04,
           "actualAvg": 10.84,
           "mae": 3.92,
           "rmse": 6.25,
           "bias": 1.2,
+          "daytimeMae": 5.06,
+          "peakHour": {
+            "hour": "17시",
+            "predictedAvg": 21.84,
+            "actualAvg": 18.26,
+            "mae": 7.63,
+            "rmse": 9.69,
+            "bias": 3.58
+          },
           "hourly": [
             {
               "hour": "04시",
@@ -89363,11 +92599,21 @@
         {
           "date": "2026-04-27",
           "label": "4. 27. (월)",
+          "weekdayIndex": 1,
           "predictedAvg": 12.71,
           "actualAvg": 13.86,
           "mae": 3.62,
           "rmse": 6.31,
           "bias": -1.16,
+          "daytimeMae": 4.47,
+          "peakHour": {
+            "hour": "07시",
+            "predictedAvg": 14.11,
+            "actualAvg": 21.55,
+            "mae": 8.41,
+            "rmse": 15.68,
+            "bias": -7.44
+          },
           "hourly": [
             {
               "hour": "04시",
@@ -89677,11 +92923,21 @@
         {
           "date": "2026-04-28",
           "label": "4. 28. (화)",
+          "weekdayIndex": 2,
           "predictedAvg": 13.01,
           "actualAvg": 13.8,
           "mae": 3.17,
           "rmse": 5.27,
           "bias": -0.79,
+          "daytimeMae": 4.01,
+          "peakHour": {
+            "hour": "07시",
+            "predictedAvg": 15.84,
+            "actualAvg": 22.61,
+            "mae": 7.92,
+            "rmse": 11.96,
+            "bias": -6.77
+          },
           "hourly": [
             {
               "hour": "04시",
@@ -89991,11 +93247,21 @@
         {
           "date": "2026-04-29",
           "label": "4. 29. (수)",
+          "weekdayIndex": 3,
           "predictedAvg": 13.11,
           "actualAvg": 14.28,
           "mae": 3.62,
           "rmse": 6.08,
           "bias": -1.17,
+          "daytimeMae": 4.84,
+          "peakHour": {
+            "hour": "08시",
+            "predictedAvg": 18.36,
+            "actualAvg": 24.35,
+            "mae": 7.54,
+            "rmse": 11.56,
+            "bias": -5.99
+          },
           "hourly": [
             {
               "hour": "04시",
@@ -90462,8 +93728,32 @@
         "predictedAvg": 12.98,
         "actualAvg": 13.52,
         "mae": 3.67,
+        "daytimeMae": 4.81,
         "rmse": 2.75,
         "bias": -0.54
+      },
+      "periodMetrics": {
+        "daytime": {
+          "hourRange": "08:00-21:59",
+          "mae": 4.8,
+          "bias": -0.89
+        },
+        "weekday": {
+          "mae": 3.52,
+          "bias": -1.18
+        },
+        "weekend": {
+          "mae": 4.04,
+          "bias": 1.05
+        }
+      },
+      "peakHour": {
+        "hour": "08시",
+        "predictedAvg": 17.54,
+        "actualAvg": 20.07,
+        "mae": 6.61,
+        "rmse": 10.09,
+        "bias": -2.53
       },
       "hourly": [
         {
@@ -90669,11 +93959,21 @@
         {
           "date": "2026-04-23",
           "label": "4. 23. (목)",
+          "weekdayIndex": 4,
           "predictedAvg": 1.36,
           "actualAvg": 2.02,
           "mae": 2.71,
           "rmse": 10.66,
           "bias": -0.66,
+          "daytimeMae": 0,
+          "peakHour": {
+            "hour": "01시",
+            "predictedAvg": 13.21,
+            "actualAvg": 8.57,
+            "mae": 17.61,
+            "rmse": 24.88,
+            "bias": 4.64
+          },
           "hourly": [
             {
               "hour": "04시",
@@ -90983,11 +94283,21 @@
         {
           "date": "2026-04-24",
           "label": "4. 24. (금)",
+          "weekdayIndex": 5,
           "predictedAvg": 1.89,
           "actualAvg": 2.56,
           "mae": 3.48,
           "rmse": 13.21,
           "bias": -0.67,
+          "daytimeMae": 0,
+          "peakHour": {
+            "hour": "02시",
+            "predictedAvg": 21.9,
+            "actualAvg": 17.03,
+            "mae": 29.37,
+            "rmse": 41.39,
+            "bias": 4.87
+          },
           "hourly": [
             {
               "hour": "04시",
@@ -91297,11 +94607,21 @@
         {
           "date": "2026-04-25",
           "label": "4. 25. (토)",
+          "weekdayIndex": 6,
           "predictedAvg": 2.29,
           "actualAvg": 2.66,
           "mae": 3.72,
           "rmse": 13.52,
           "bias": -0.38,
+          "daytimeMae": 0,
+          "peakHour": {
+            "hour": "02시",
+            "predictedAvg": 25.92,
+            "actualAvg": 15.88,
+            "mae": 30.46,
+            "rmse": 41.65,
+            "bias": 10.04
+          },
           "hourly": [
             {
               "hour": "04시",
@@ -91611,11 +94931,21 @@
         {
           "date": "2026-04-26",
           "label": "4. 26. (일)",
+          "weekdayIndex": 0,
           "predictedAvg": 1.78,
           "actualAvg": 1.44,
           "mae": 2.51,
           "rmse": 9.73,
           "bias": 0.33,
+          "daytimeMae": 0,
+          "peakHour": {
+            "hour": "01시",
+            "predictedAvg": 20.31,
+            "actualAvg": 9.53,
+            "mae": 22.63,
+            "rmse": 32.75,
+            "bias": 10.78
+          },
           "hourly": [
             {
               "hour": "04시",
@@ -91925,11 +95255,21 @@
         {
           "date": "2026-04-27",
           "label": "4. 27. (월)",
+          "weekdayIndex": 1,
           "predictedAvg": 1.46,
           "actualAvg": 1.77,
           "mae": 2.57,
           "rmse": 10.12,
           "bias": -0.31,
+          "daytimeMae": 0,
+          "peakHour": {
+            "hour": "01시",
+            "predictedAvg": 17.54,
+            "actualAvg": 7.17,
+            "mae": 18.25,
+            "rmse": 26.28,
+            "bias": 10.37
+          },
           "hourly": [
             {
               "hour": "04시",
@@ -92239,11 +95579,21 @@
         {
           "date": "2026-04-28",
           "label": "4. 28. (화)",
+          "weekdayIndex": 2,
           "predictedAvg": 1.41,
           "actualAvg": 1.81,
           "mae": 2.63,
           "rmse": 10.7,
           "bias": -0.4,
+          "daytimeMae": 0,
+          "peakHour": {
+            "hour": "02시",
+            "predictedAvg": 14.43,
+            "actualAvg": 7.34,
+            "mae": 16.94,
+            "rmse": 27.53,
+            "bias": 7.09
+          },
           "hourly": [
             {
               "hour": "04시",
@@ -92553,11 +95903,21 @@
         {
           "date": "2026-04-29",
           "label": "4. 29. (수)",
+          "weekdayIndex": 3,
           "predictedAvg": 1.46,
           "actualAvg": 2.05,
           "mae": 2.8,
           "rmse": 11.43,
           "bias": -0.59,
+          "daytimeMae": 0,
+          "peakHour": {
+            "hour": "01시",
+            "predictedAvg": 15.75,
+            "actualAvg": 11.69,
+            "mae": 21.67,
+            "rmse": 31.07,
+            "bias": 4.06
+          },
           "hourly": [
             {
               "hour": "04시",
@@ -93051,8 +96411,32 @@
         "predictedAvg": 1.66,
         "actualAvg": 2.04,
         "mae": 2.92,
+        "daytimeMae": 0,
         "rmse": 3.66,
         "bias": -0.38
+      },
+      "periodMetrics": {
+        "daytime": {
+          "hourRange": "08:00-21:59",
+          "mae": 0,
+          "bias": 0
+        },
+        "weekday": {
+          "mae": 2.84,
+          "bias": -0.53
+        },
+        "weekend": {
+          "mae": 3.12,
+          "bias": -0.02
+        }
+      },
+      "peakHour": {
+        "hour": "01시",
+        "predictedAvg": 17.61,
+        "actualAvg": 11.11,
+        "mae": 21.2,
+        "rmse": 30.1,
+        "bias": 6.51
       },
       "hourly": [
         {
@@ -93258,11 +96642,21 @@
         {
           "date": "2026-04-23",
           "label": "4. 23. (목)",
+          "weekdayIndex": 4,
           "predictedAvg": 7.05,
           "actualAvg": 7.27,
           "mae": 2.88,
           "rmse": 4.54,
           "bias": -0.22,
+          "daytimeMae": 3.94,
+          "peakHour": {
+            "hour": "12시",
+            "predictedAvg": 8.57,
+            "actualAvg": 13.65,
+            "mae": 6.67,
+            "rmse": 9.76,
+            "bias": -5.08
+          },
           "hourly": [
             {
               "hour": "04시",
@@ -93572,11 +96966,21 @@
         {
           "date": "2026-04-24",
           "label": "4. 24. (금)",
+          "weekdayIndex": 5,
           "predictedAvg": 7.16,
           "actualAvg": 7.81,
           "mae": 2.59,
           "rmse": 4.02,
           "bias": -0.65,
+          "daytimeMae": 3.64,
+          "peakHour": {
+            "hour": "15시",
+            "predictedAvg": 11.75,
+            "actualAvg": 17.46,
+            "mae": 6.03,
+            "rmse": 7.12,
+            "bias": -5.71
+          },
           "hourly": [
             {
               "hour": "04시",
@@ -93886,11 +97290,21 @@
         {
           "date": "2026-04-25",
           "label": "4. 25. (토)",
+          "weekdayIndex": 6,
           "predictedAvg": 6.57,
           "actualAvg": 6.88,
           "mae": 3.14,
           "rmse": 5.22,
           "bias": -0.31,
+          "daytimeMae": 4.24,
+          "peakHour": {
+            "hour": "12시",
+            "predictedAvg": 7.14,
+            "actualAvg": 14.6,
+            "mae": 8.1,
+            "rmse": 9.56,
+            "bias": -7.46
+          },
           "hourly": [
             {
               "hour": "04시",
@@ -94200,11 +97614,21 @@
         {
           "date": "2026-04-26",
           "label": "4. 26. (일)",
+          "weekdayIndex": 0,
           "predictedAvg": 6.16,
           "actualAvg": 5.63,
           "mae": 3.01,
           "rmse": 4.76,
           "bias": 0.52,
+          "daytimeMae": 4.24,
+          "peakHour": {
+            "hour": "19시",
+            "predictedAvg": 8.89,
+            "actualAvg": 11.9,
+            "mae": 6.51,
+            "rmse": 8.16,
+            "bias": -3.01
+          },
           "hourly": [
             {
               "hour": "04시",
@@ -94514,11 +97938,21 @@
         {
           "date": "2026-04-27",
           "label": "4. 27. (월)",
+          "weekdayIndex": 1,
           "predictedAvg": 6.59,
           "actualAvg": 7.76,
           "mae": 2.75,
           "rmse": 4.31,
           "bias": -1.16,
+          "daytimeMae": 3.57,
+          "peakHour": {
+            "hour": "12시",
+            "predictedAvg": 7.62,
+            "actualAvg": 12.7,
+            "mae": 5.71,
+            "rmse": 7.32,
+            "bias": -5.08
+          },
           "hourly": [
             {
               "hour": "04시",
@@ -94828,11 +98262,21 @@
         {
           "date": "2026-04-28",
           "label": "4. 28. (화)",
+          "weekdayIndex": 2,
           "predictedAvg": 6.79,
           "actualAvg": 7.47,
           "mae": 2.59,
           "rmse": 4.5,
           "bias": -0.68,
+          "daytimeMae": 3.8,
+          "peakHour": {
+            "hour": "08시",
+            "predictedAvg": 14.6,
+            "actualAvg": 21.9,
+            "mae": 7.62,
+            "rmse": 9.5,
+            "bias": -7.3
+          },
           "hourly": [
             {
               "hour": "04시",
@@ -95142,11 +98586,21 @@
         {
           "date": "2026-04-29",
           "label": "4. 29. (수)",
+          "weekdayIndex": 3,
           "predictedAvg": 6.93,
           "actualAvg": 7.66,
           "mae": 2.76,
           "rmse": 4.75,
           "bias": -0.73,
+          "daytimeMae": 3.99,
+          "peakHour": {
+            "hour": "08시",
+            "predictedAvg": 15.08,
+            "actualAvg": 26.19,
+            "mae": 11.43,
+            "rmse": 13.39,
+            "bias": -11.11
+          },
           "hourly": [
             {
               "hour": "04시",
@@ -95577,8 +99031,32 @@
         "predictedAvg": 6.75,
         "actualAvg": 7.21,
         "mae": 2.82,
+        "daytimeMae": 3.92,
         "rmse": 2.42,
         "bias": -0.46
+      },
+      "periodMetrics": {
+        "daytime": {
+          "hourRange": "08:00-21:59",
+          "mae": 3.92,
+          "bias": -0.82
+        },
+        "weekday": {
+          "mae": 2.71,
+          "bias": -0.69
+        },
+        "weekend": {
+          "mae": 3.08,
+          "bias": 0.11
+        }
+      },
+      "peakHour": {
+        "hour": "08시",
+        "predictedAvg": 13.6,
+        "actualAvg": 15.87,
+        "mae": 5.85,
+        "rmse": 7.56,
+        "bias": -2.27
       },
       "hourly": [
         {
@@ -95784,11 +99262,21 @@
         {
           "date": "2026-04-23",
           "label": "4. 23. (목)",
+          "weekdayIndex": 4,
           "predictedAvg": 1.31,
           "actualAvg": 1.7,
           "mae": 2.43,
           "rmse": 9.01,
           "bias": -0.38,
+          "daytimeMae": 0,
+          "peakHour": {
+            "hour": "02시",
+            "predictedAvg": 11.26,
+            "actualAvg": 13.06,
+            "mae": 17.06,
+            "rmse": 26.02,
+            "bias": -1.8
+          },
           "hourly": [
             {
               "hour": "04시",
@@ -96098,11 +99586,21 @@
         {
           "date": "2026-04-24",
           "label": "4. 24. (금)",
+          "weekdayIndex": 5,
           "predictedAvg": 1.7,
           "actualAvg": 2.34,
           "mae": 3.1,
           "rmse": 11.37,
           "bias": -0.64,
+          "daytimeMae": 0,
+          "peakHour": {
+            "hour": "01시",
+            "predictedAvg": 18.35,
+            "actualAvg": 11.18,
+            "mae": 21.34,
+            "rmse": 28.31,
+            "bias": 7.17
+          },
           "hourly": [
             {
               "hour": "04시",
@@ -96412,11 +99910,21 @@
         {
           "date": "2026-04-25",
           "label": "4. 25. (토)",
+          "weekdayIndex": 6,
           "predictedAvg": 2.36,
           "actualAvg": 3.43,
           "mae": 4.26,
           "rmse": 14.92,
           "bias": -1.07,
+          "daytimeMae": 0,
+          "peakHour": {
+            "hour": "01시",
+            "predictedAvg": 23.27,
+            "actualAvg": 15.67,
+            "mae": 25.89,
+            "rmse": 36.42,
+            "bias": 7.6
+          },
           "hourly": [
             {
               "hour": "04시",
@@ -96726,11 +100234,21 @@
         {
           "date": "2026-04-26",
           "label": "4. 26. (일)",
+          "weekdayIndex": 0,
           "predictedAvg": 1.61,
           "actualAvg": 1.39,
           "mae": 2.47,
           "rmse": 9.03,
           "bias": 0.23,
+          "daytimeMae": 0,
+          "peakHour": {
+            "hour": "01시",
+            "predictedAvg": 15.38,
+            "actualAvg": 4.34,
+            "mae": 13.88,
+            "rmse": 20.45,
+            "bias": 11.04
+          },
           "hourly": [
             {
               "hour": "04시",
@@ -97040,11 +100558,21 @@
         {
           "date": "2026-04-27",
           "label": "4. 27. (월)",
+          "weekdayIndex": 1,
           "predictedAvg": 1.42,
           "actualAvg": 1.11,
           "mae": 2.18,
           "rmse": 7.93,
           "bias": 0.3,
+          "daytimeMae": 0,
+          "peakHour": {
+            "hour": "01시",
+            "predictedAvg": 13.96,
+            "actualAvg": 5.21,
+            "mae": 16.56,
+            "rmse": 23.37,
+            "bias": 8.75
+          },
           "hourly": [
             {
               "hour": "04시",
@@ -97354,11 +100882,21 @@
         {
           "date": "2026-04-28",
           "label": "4. 28. (화)",
+          "weekdayIndex": 2,
           "predictedAvg": 1.4,
           "actualAvg": 1.71,
           "mae": 2.56,
           "rmse": 8.94,
           "bias": -0.31,
+          "daytimeMae": 0,
+          "peakHour": {
+            "hour": "01시",
+            "predictedAvg": 13.8,
+            "actualAvg": 8.02,
+            "mae": 16.69,
+            "rmse": 22.29,
+            "bias": 5.78
+          },
           "hourly": [
             {
               "hour": "04시",
@@ -97668,11 +101206,21 @@
         {
           "date": "2026-04-29",
           "label": "4. 29. (수)",
+          "weekdayIndex": 3,
           "predictedAvg": 1.39,
           "actualAvg": 2.04,
           "mae": 2.74,
           "rmse": 9.77,
           "bias": -0.65,
+          "daytimeMae": 0,
+          "peakHour": {
+            "hour": "01시",
+            "predictedAvg": 12.71,
+            "actualAvg": 8.88,
+            "mae": 16.89,
+            "rmse": 23.49,
+            "bias": 3.83
+          },
           "hourly": [
             {
               "hour": "04시",
@@ -98166,8 +101714,32 @@
         "predictedAvg": 1.6,
         "actualAvg": 1.96,
         "mae": 2.82,
+        "daytimeMae": 0,
         "rmse": 3.38,
         "bias": -0.36
+      },
+      "periodMetrics": {
+        "daytime": {
+          "hourRange": "08:00-21:59",
+          "mae": 0,
+          "bias": 0
+        },
+        "weekday": {
+          "mae": 2.6,
+          "bias": -0.34
+        },
+        "weekend": {
+          "mae": 3.37,
+          "bias": -0.42
+        }
+      },
+      "peakHour": {
+        "hour": "01시",
+        "predictedAvg": 15.7,
+        "actualAvg": 8.53,
+        "mae": 18.06,
+        "rmse": 25.1,
+        "bias": 7.17
       },
       "hourly": [
         {
@@ -98373,11 +101945,21 @@
         {
           "date": "2026-04-23",
           "label": "4. 23. (목)",
+          "weekdayIndex": 4,
           "predictedAvg": 3.58,
           "actualAvg": 4.18,
           "mae": 2.26,
           "rmse": 4.54,
           "bias": -0.6,
+          "daytimeMae": 3.38,
+          "peakHour": {
+            "hour": "09시",
+            "predictedAvg": 4.52,
+            "actualAvg": 11.04,
+            "mae": 7.11,
+            "rmse": 12.31,
+            "bias": -6.52
+          },
           "hourly": [
             {
               "hour": "04시",
@@ -98687,11 +102269,21 @@
         {
           "date": "2026-04-24",
           "label": "4. 24. (금)",
+          "weekdayIndex": 5,
           "predictedAvg": 3.66,
           "actualAvg": 4.36,
           "mae": 1.91,
           "rmse": 3.52,
           "bias": -0.7,
+          "daytimeMae": 2.67,
+          "peakHour": {
+            "hour": "11시",
+            "predictedAvg": 3.93,
+            "actualAvg": 10.44,
+            "mae": 7.26,
+            "rmse": 8.78,
+            "bias": -6.51
+          },
           "hourly": [
             {
               "hour": "04시",
@@ -99001,11 +102593,21 @@
         {
           "date": "2026-04-25",
           "label": "4. 25. (토)",
+          "weekdayIndex": 6,
           "predictedAvg": 3.42,
           "actualAvg": 3.66,
           "mae": 2.05,
           "rmse": 3.82,
           "bias": -0.24,
+          "daytimeMae": 3.04,
+          "peakHour": {
+            "hour": "13시",
+            "predictedAvg": 5.18,
+            "actualAvg": 9.11,
+            "mae": 5.85,
+            "rmse": 8.29,
+            "bias": -3.93
+          },
           "hourly": [
             {
               "hour": "04시",
@@ -99315,11 +102917,21 @@
         {
           "date": "2026-04-26",
           "label": "4. 26. (일)",
+          "weekdayIndex": 0,
           "predictedAvg": 3.26,
           "actualAvg": 2.84,
           "mae": 1.93,
           "rmse": 3.4,
           "bias": 0.42,
+          "daytimeMae": 2.85,
+          "peakHour": {
+            "hour": "17시",
+            "predictedAvg": 4.67,
+            "actualAvg": 5.56,
+            "mae": 4,
+            "rmse": 5.53,
+            "bias": -0.89
+          },
           "hourly": [
             {
               "hour": "04시",
@@ -99629,11 +103241,21 @@
         {
           "date": "2026-04-27",
           "label": "4. 27. (월)",
+          "weekdayIndex": 1,
           "predictedAvg": 3.55,
           "actualAvg": 3.6,
           "mae": 1.77,
           "rmse": 3.19,
           "bias": -0.05,
+          "daytimeMae": 2.5,
+          "peakHour": {
+            "hour": "18시",
+            "predictedAvg": 6.22,
+            "actualAvg": 7.78,
+            "mae": 4.07,
+            "rmse": 6.38,
+            "bias": -1.56
+          },
           "hourly": [
             {
               "hour": "04시",
@@ -99943,11 +103565,21 @@
         {
           "date": "2026-04-28",
           "label": "4. 28. (화)",
+          "weekdayIndex": 2,
           "predictedAvg": 3.53,
           "actualAvg": 3.73,
           "mae": 1.9,
           "rmse": 3.65,
           "bias": -0.2,
+          "daytimeMae": 2.71,
+          "peakHour": {
+            "hour": "12시",
+            "predictedAvg": 5.93,
+            "actualAvg": 9.19,
+            "mae": 6.52,
+            "rmse": 9.89,
+            "bias": -3.26
+          },
           "hourly": [
             {
               "hour": "04시",
@@ -100257,11 +103889,21 @@
         {
           "date": "2026-04-29",
           "label": "4. 29. (수)",
+          "weekdayIndex": 3,
           "predictedAvg": 3.57,
           "actualAvg": 3.94,
           "mae": 2.04,
           "rmse": 3.87,
           "bias": -0.38,
+          "daytimeMae": 2.96,
+          "peakHour": {
+            "hour": "16시",
+            "predictedAvg": 5.55,
+            "actualAvg": 11.11,
+            "mae": 6.15,
+            "rmse": 9.49,
+            "bias": -5.56
+          },
           "hourly": [
             {
               "hour": "04시",
@@ -100728,8 +104370,32 @@
         "predictedAvg": 3.51,
         "actualAvg": 3.76,
         "mae": 1.98,
+        "daytimeMae": 2.87,
         "rmse": 1.45,
         "bias": -0.25
+      },
+      "periodMetrics": {
+        "daytime": {
+          "hourRange": "08:00-21:59",
+          "mae": 2.87,
+          "bias": -0.49
+        },
+        "weekday": {
+          "mae": 1.98,
+          "bias": -0.39
+        },
+        "weekend": {
+          "mae": 1.99,
+          "bias": 0.09
+        }
+      },
+      "peakHour": {
+        "hour": "16시",
+        "predictedAvg": 5.8,
+        "actualAvg": 7.82,
+        "mae": 3.8,
+        "rmse": 5.65,
+        "bias": -2.02
       },
       "hourly": [
         {
@@ -100935,11 +104601,21 @@
         {
           "date": "2026-04-23",
           "label": "4. 23. (목)",
+          "weekdayIndex": 4,
           "predictedAvg": 3.74,
           "actualAvg": 3.93,
           "mae": 1.49,
           "rmse": 5.59,
           "bias": -0.19,
+          "daytimeMae": 1.5,
+          "peakHour": {
+            "hour": "08시",
+            "predictedAvg": 40.67,
+            "actualAvg": 44.44,
+            "mae": 12.96,
+            "rmse": 17.58,
+            "bias": -3.77
+          },
           "hourly": [
             {
               "hour": "04시",
@@ -101249,11 +104925,21 @@
         {
           "date": "2026-04-24",
           "label": "4. 24. (금)",
+          "weekdayIndex": 5,
           "predictedAvg": 3.82,
           "actualAvg": 3.35,
           "mae": 1.15,
           "rmse": 4.61,
           "bias": 0.48,
+          "daytimeMae": 1.34,
+          "peakHour": {
+            "hour": "08시",
+            "predictedAvg": 44.07,
+            "actualAvg": 36.37,
+            "mae": 12.59,
+            "rmse": 19.3,
+            "bias": 7.7
+          },
           "hourly": [
             {
               "hour": "04시",
@@ -101702,8 +105388,32 @@
         "predictedAvg": 3.78,
         "actualAvg": 3.64,
         "mae": 1.32,
+        "daytimeMae": 1.42,
         "rmse": 1.84,
         "bias": 0.15
+      },
+      "periodMetrics": {
+        "daytime": {
+          "hourRange": "08:00-21:59",
+          "mae": 1.42,
+          "bias": 0.42
+        },
+        "weekday": {
+          "mae": 1.32,
+          "bias": 0.14
+        },
+        "weekend": {
+          "mae": 0,
+          "bias": 0
+        }
+      },
+      "peakHour": {
+        "hour": "08시",
+        "predictedAvg": 42.37,
+        "actualAvg": 40.41,
+        "mae": 12.78,
+        "rmse": 18.44,
+        "bias": 1.97
       },
       "hourly": [
         {
@@ -101909,11 +105619,21 @@
         {
           "date": "2026-04-23",
           "label": "4. 23. (목)",
+          "weekdayIndex": 4,
           "predictedAvg": 2.58,
           "actualAvg": 2.59,
           "mae": 0.29,
           "rmse": 1.45,
           "bias": -0.01,
+          "daytimeMae": 0.33,
+          "peakHour": {
+            "hour": "08시",
+            "predictedAvg": 36.81,
+            "actualAvg": 37.01,
+            "mae": 3.92,
+            "rmse": 5.5,
+            "bias": -0.2
+          },
           "hourly": [
             {
               "hour": "04시",
@@ -102223,11 +105943,21 @@
         {
           "date": "2026-04-24",
           "label": "4. 24. (금)",
+          "weekdayIndex": 5,
           "predictedAvg": 2.51,
           "actualAvg": 2.82,
           "mae": 0.49,
           "rmse": 2.56,
           "bias": -0.31,
+          "daytimeMae": 0.53,
+          "peakHour": {
+            "hour": "08시",
+            "predictedAvg": 35.47,
+            "actualAvg": 40.08,
+            "mae": 6.46,
+            "rmse": 9.55,
+            "bias": -4.61
+          },
           "hourly": [
             {
               "hour": "04시",
@@ -102721,8 +106451,32 @@
         "predictedAvg": 2.54,
         "actualAvg": 2.71,
         "mae": 0.39,
+        "daytimeMae": 0.43,
         "rmse": 0.84,
         "bias": -0.16
+      },
+      "periodMetrics": {
+        "daytime": {
+          "hourRange": "08:00-21:59",
+          "mae": 0.43,
+          "bias": -0.13
+        },
+        "weekday": {
+          "mae": 0.39,
+          "bias": -0.16
+        },
+        "weekend": {
+          "mae": 0,
+          "bias": 0
+        }
+      },
+      "peakHour": {
+        "hour": "08시",
+        "predictedAvg": 36.14,
+        "actualAvg": 38.55,
+        "mae": 5.19,
+        "rmse": 7.53,
+        "bias": -2.41
       },
       "hourly": [
         {

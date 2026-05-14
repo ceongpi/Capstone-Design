@@ -695,6 +695,10 @@ textarea {
   grid-template-columns: repeat(2, minmax(0, 1fr));
 }
 
+.comparison-mini-stats-wide {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
 .comparison-stats {
   align-content: center;
 }
@@ -754,6 +758,47 @@ textarea {
   background: linear-gradient(180deg, rgba(236, 246, 255, 0.92), rgba(249, 251, 255, 0.88));
 }
 
+.route-badge-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin: 8px 0 12px;
+}
+
+.route-badge-row-inline {
+  margin: 6px 0 0;
+}
+
+.route-badge {
+  display: inline-flex;
+  align-items: center;
+  padding: 6px 10px;
+  border-radius: 999px;
+  font-size: 12px;
+  font-weight: 700;
+  line-height: 1;
+}
+
+.route-badge.tone-danger {
+  background: rgba(217, 72, 65, 0.14);
+  color: var(--red);
+}
+
+.route-badge.tone-amber {
+  background: rgba(250, 204, 21, 0.18);
+  color: #8a5a00;
+}
+
+.route-badge.tone-blue {
+  background: rgba(24, 119, 242, 0.12);
+  color: var(--blue);
+}
+
+.route-badge.tone-green {
+  background: rgba(223, 242, 234, 0.95);
+  color: var(--green);
+}
+
 .comparison-grid {
   margin-top: 20px;
   display: grid;
@@ -802,6 +847,89 @@ textarea {
   gap: 20px;
 }
 
+.insight-list,
+.recommendation-list {
+  display: grid;
+  gap: 12px;
+}
+
+.insight-card,
+.recommendation-card {
+  border-radius: 18px;
+  padding: 16px 18px;
+  background: rgba(255, 255, 255, 0.72);
+  border: 1px solid rgba(120, 106, 82, 0.12);
+}
+
+.insight-card p,
+.recommendation-card p {
+  margin: 0;
+  color: #3f4a54;
+  line-height: 1.65;
+}
+
+.route-table-wrap {
+  overflow: auto;
+  border-radius: 20px;
+  border: 1px solid rgba(120, 106, 82, 0.12);
+  background: rgba(255, 255, 255, 0.66);
+}
+
+.route-table {
+  width: 100%;
+  border-collapse: collapse;
+  min-width: 820px;
+}
+
+.route-table th,
+.route-table td {
+  padding: 12px 14px;
+  border-bottom: 1px solid rgba(120, 106, 82, 0.1);
+  text-align: left;
+  white-space: nowrap;
+  font-size: 14px;
+}
+
+.route-table th {
+  position: sticky;
+  top: 0;
+  background: rgba(247, 242, 234, 0.96);
+  color: #44505b;
+  z-index: 1;
+}
+
+.route-table tbody tr.active {
+  background: rgba(223, 242, 234, 0.72);
+}
+
+.route-name-cell {
+  display: flex;
+  flex-direction: column;
+}
+
+.metric-pill {
+  display: inline-flex;
+  align-items: center;
+  padding: 6px 10px;
+  border-radius: 999px;
+  font-weight: 700;
+}
+
+.metric-pill.tier-low {
+  background: rgba(223, 242, 234, 0.95);
+  color: var(--green);
+}
+
+.metric-pill.tier-mid {
+  background: rgba(250, 204, 21, 0.18);
+  color: #8a5a00;
+}
+
+.metric-pill.tier-high {
+  background: rgba(217, 72, 65, 0.14);
+  color: var(--red);
+}
+
 .comparison-chart-box {
   height: 360px;
 }
@@ -830,7 +958,8 @@ textarea {
   .comparison-strip,
   .comparison-grid,
   .comparison-note-row,
-  .comparison-mini-stats {
+  .comparison-mini-stats,
+  .comparison-mini-stats-wide {
     grid-template-columns: 1fr;
   }
 

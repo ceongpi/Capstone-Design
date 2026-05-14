@@ -1,0 +1,9 @@
+{
+  "cleanUrls": true,
+  "rewrites": [
+    {
+      "source": "/comparison",
+      "destination": "/comparison.html"
+    }
+  ]
+}

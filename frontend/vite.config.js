@@ -15,6 +15,13 @@ function llmAnalysisDevPlugin() {
 
         await routeLlmAnalysis(req, res)
       })
+
+      server.middlewares.use((req, _res, next) => {
+        if (req.url === '/comparison') {
+          req.url = '/comparison.html'
+        }
+        next()
+      })
     },
   }
 }
