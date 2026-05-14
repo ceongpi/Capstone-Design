@@ -44,6 +44,9 @@ node .\scripts\build_gtfs_visualization.js
 node .\scripts\build_prediction_comparison.js
 ```
 
+이 명령은 로컬에서 실행한 뒤 생성된 `frontend/public/data/prediction_vs_actual.json`을 함께 커밋합니다.
+Vercel 배포 시에는 커밋된 비교 JSON을 그대로 사용합니다.
+
 생성 결과는 다음 파일에 반영됩니다.
 
 - `output/selected_routes.json`
