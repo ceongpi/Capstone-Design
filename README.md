@@ -38,15 +38,25 @@ CSV 파일을 교체한 뒤 아래 명령으로 산출물을 다시 생성합니
 node .\scripts\build_gtfs_visualization.js
 ```
 
+4.23~4.29 예측값과 실측값을 따로 비교하려면 아래 명령으로 별도 비교 데이터도 생성합니다.
+
+```powershell
+node .\scripts\build_prediction_comparison.js
+```
+
 생성 결과는 다음 파일에 반영됩니다.
 
 - `output/selected_routes.json`
+- `output/prediction_vs_actual.json`
 - `frontend/public/data/selected_routes.json`
+- `frontend/public/data/prediction_vs_actual.json`
 - `output/seoul_gtfs_routes.csv`
 - `output/seoul_gtfs_trips.csv`
 - `output/seoul_gtfs_stop_times.csv`
 - `output/seoul_gtfs_stops.csv`
 - `output/seoul_bus_visualization.html`
+
+비교 화면은 기존 대시보드와 별도로 `frontend/comparison.html` 엔트리에서 확인할 수 있습니다.
 
 ## 배포
 
@@ -66,3 +76,8 @@ GitHub Pages와 Vercel 모두 `frontend` 빌드 결과를 배포 대상으로 �
 - Root Directory: `frontend`
 - Build Command: `npm run build`
 - Output Directory: `dist`
+
+배포 후 접근 경로:
+
+- 기존 대시보드: `/`
+- 예측/실측 비교 화면: `/comparison`

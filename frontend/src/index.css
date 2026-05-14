@@ -653,6 +653,171 @@ textarea {
   margin: 0;
 }
 
+.comparison-shell {
+  max-width: 1480px;
+  margin: 0 auto;
+  padding: 24px;
+}
+
+.comparison-hero {
+  border-radius: 30px;
+  padding: 30px;
+  display: grid;
+  grid-template-columns: 1.2fr 0.8fr;
+  gap: 22px;
+}
+
+.comparison-copy {
+  display: grid;
+  align-content: start;
+}
+
+.comparison-copy h1,
+.comparison-definition h2,
+.comparison-bias-card h2 {
+  margin: 0;
+  line-height: 1.08;
+}
+
+.comparison-copy h1 {
+  font-size: clamp(32px, 4vw, 50px);
+}
+
+.comparison-note-row,
+.comparison-stats,
+.comparison-mini-stats {
+  display: grid;
+  gap: 14px;
+}
+
+.comparison-note-row,
+.comparison-mini-stats {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+.comparison-stats {
+  align-content: center;
+}
+
+.comparison-note-card,
+.comparison-bias-card,
+.comparison-definition {
+  border-radius: 24px;
+  padding: 22px;
+}
+
+.comparison-note-card {
+  background: rgba(255, 255, 255, 0.72);
+  border: 1px solid rgba(120, 106, 82, 0.12);
+}
+
+.comparison-note-card span,
+.comparison-note-card small {
+  color: var(--muted);
+}
+
+.comparison-note-card strong {
+  display: block;
+  margin: 10px 0 6px;
+  font-size: 24px;
+}
+
+.comparison-strip {
+  margin-top: 20px;
+  display: grid;
+  grid-template-columns: 1.1fr 0.9fr;
+  gap: 20px;
+}
+
+.comparison-definition h2,
+.comparison-bias-card h2 {
+  font-size: clamp(22px, 2.3vw, 34px);
+  margin-bottom: 12px;
+}
+
+.comparison-definition p,
+.comparison-bias-card p {
+  margin: 0 0 10px;
+  color: #44505b;
+  line-height: 1.65;
+}
+
+.comparison-bias-card {
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.78), rgba(248, 243, 235, 0.9));
+}
+
+.comparison-bias-card.tone-high {
+  background: linear-gradient(180deg, rgba(255, 240, 236, 0.92), rgba(255, 250, 244, 0.88));
+}
+
+.comparison-bias-card.tone-low {
+  background: linear-gradient(180deg, rgba(236, 246, 255, 0.92), rgba(249, 251, 255, 0.88));
+}
+
+.comparison-grid {
+  margin-top: 20px;
+  display: grid;
+  grid-template-columns: 320px minmax(0, 1fr);
+  gap: 20px;
+  align-items: start;
+}
+
+.comparison-side {
+  padding: 18px;
+  display: grid;
+  gap: 18px;
+  position: sticky;
+  top: 18px;
+  height: fit-content;
+  border-radius: 28px;
+}
+
+.comparison-side section {
+  padding-bottom: 18px;
+  border-bottom: 1px solid rgba(120, 106, 82, 0.12);
+}
+
+.comparison-side section:last-child {
+  padding-bottom: 0;
+  border-bottom: none;
+}
+
+.comparison-side label {
+  display: block;
+  margin-bottom: 8px;
+  color: var(--muted);
+  font-weight: 700;
+}
+
+.comparison-side select {
+  width: 100%;
+  padding: 13px 14px;
+  border-radius: 16px;
+  border: 1px solid rgba(120, 106, 82, 0.2);
+  background: rgba(255, 255, 255, 0.8);
+}
+
+.comparison-content {
+  display: grid;
+  gap: 20px;
+}
+
+.comparison-chart-box {
+  height: 360px;
+}
+
+.comparison-chart-box.tall {
+  height: 420px;
+}
+
+.comparison-stop-list {
+  max-height: 540px;
+}
+
+.comparison-stop-chip {
+  cursor: default;
+}
+
 @media (max-width: 1260px) {
   .hero-panel,
   .info-strip,
@@ -660,12 +825,18 @@ textarea {
   .value-points,
   .candidate-strip,
   .llm-metrics,
-  .llm-columns {
+  .llm-columns,
+  .comparison-hero,
+  .comparison-strip,
+  .comparison-grid,
+  .comparison-note-row,
+  .comparison-mini-stats {
     grid-template-columns: 1fr;
   }
 
   .side-panel,
-  .agent-rail {
+  .agent-rail,
+  .comparison-side {
     position: static;
   }
 
@@ -675,7 +846,8 @@ textarea {
 }
 
 @media (max-width: 720px) {
-  .app-shell {
+  .app-shell,
+  .comparison-shell {
     padding: 14px;
   }
 
@@ -685,15 +857,21 @@ textarea {
   .map-stage,
   .chart-panel,
   .view-header,
-  .llm-panel {
+  .llm-panel,
+  .comparison-hero,
+  .comparison-definition,
+  .comparison-bias-card,
+  .comparison-side {
     border-radius: 22px;
   }
 
-  .hero-panel {
+  .hero-panel,
+  .comparison-hero {
     padding: 22px;
   }
 
-  .hero-panel h1 {
+  .hero-panel h1,
+  .comparison-copy h1 {
     font-size: clamp(30px, 8vw, 42px);
   }
 
@@ -712,5 +890,10 @@ textarea {
 
   .workspace {
     grid-template-columns: 1fr;
+  }
+
+  .comparison-chart-box,
+  .comparison-chart-box.tall {
+    height: 320px;
   }
 }
