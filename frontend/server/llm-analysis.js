@@ -2,7 +2,7 @@ import fs from 'node:fs';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 
-const DEFAULT_MODEL = process.env.OPENAI_MODEL || 'gpt-5.2';
+const DEFAULT_MODEL = process.env.OPENAI_MODEL || process.env.GEMINI_MODEL || 'gpt-5.5';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -31,8 +31,8 @@ async function readJsonBody(req) {
 function buildUserPrompt(action, context) {
   return [
     `작업 유형: ${ACTION_LABELS[action]}`,
-    '아래 JSON만 근거로 답변하세요. 데이터에 없는 버스 정보나 외부 실시간 정보는 추정하지 마세요.',
-    '사용자 문장을 해석해 가장 적절한 노선과 시간대를 추천하고, 추천 근거를 간결하게 설명하세요.',
+    '아래 JSON만 근거로 답하세요. 데이터에 없는 버스 정보나 실시간 정보는 추정하지 마세요.',
+    '사용자 요청을 해석해 덜 붐비는 이동 선택지를 추천하고, 추천 근거를 간결한 한국어로 설명하세요.',
     JSON.stringify(context, null, 2),
   ].join('\n\n');
 }
@@ -40,8 +40,8 @@ function buildUserPrompt(action, context) {
 function buildSchema() {
   return {
     type: 'object',
-    additionalProperties: false,
     required: ['headline', 'summary', 'bullets', 'recommendation', 'caution', 'metrics'],
+    additionalProperties: false,
     properties: {
       headline: { type: 'string' },
       summary: { type: 'string' },
@@ -59,8 +59,8 @@ function buildSchema() {
         maxItems: 4,
         items: {
           type: 'object',
-          additionalProperties: false,
           required: ['label', 'value'],
+          additionalProperties: false,
           properties: {
             label: { type: 'string' },
             value: { type: 'string' },
@@ -69,23 +69,6 @@ function buildSchema() {
       },
     },
   };
-}
-
-function extractOutputText(responseJson) {
-  if (typeof responseJson.output_text === 'string' && responseJson.output_text) {
-    return responseJson.output_text;
-  }
-
-  const collected = [];
-  for (const item of responseJson.output || []) {
-    for (const content of item.content || []) {
-      if (content.type === 'output_text' && content.text) {
-        collected.push(content.text);
-      }
-    }
-  }
-
-  return collected.join('\n');
 }
 
 function parseEnvFile(filePath) {
@@ -124,7 +107,7 @@ function parseEnvFile(filePath) {
 }
 
 function loadServerEnv(env = process.env) {
-  if (env.OPENAI_API_KEY) {
+  if (env.GEMINI_API_KEY || env.GOOGLE_API_KEY || env.OPENAI_API_KEY) {
     return env;
   }
 
@@ -151,7 +134,7 @@ function buildRouteSummary(option) {
     return '후보 노선을 찾지 못했습니다.';
   }
 
-  return `${option.routeName}번 ${option.hour}, 출발 혼잡 ${formatPercent(option.originCrowding)}, 노선 평균 ${formatPercent(option.routeCrowding)}`;
+  return `${option.routeName}번 ${option.hour}, 출발 정류장 ${formatPercent(option.originCrowding)}, 노선 평균 ${formatPercent(option.routeCrowding)}`;
 }
 
 function createTravelFallback(context, reason) {
@@ -163,41 +146,43 @@ function createTravelFallback(context, reason) {
   const modelName = context.forecast?.model?.name ?? '예측 모델';
   const fallbackNote =
     reason === 'quota'
-      ? 'OpenAI API 사용 한도 초과로 규칙 기반 추천으로 전환했습니다.'
+      ? 'Gemini API 한도 또는 속도 제한으로 규칙 기반 추천으로 전환했습니다.'
       : reason === 'missing_key'
-        ? 'OpenAI API 키가 없어 규칙 기반 추천으로 전환했습니다.'
-        : 'OpenAI 응답을 사용할 수 없어 규칙 기반 추천으로 전환했습니다.';
+        ? 'Gemini API 키가 없어 규칙 기반 추천으로 전환했습니다.'
+        : 'Gemini 응답을 사용할 수 없어 규칙 기반 추천으로 전환했습니다.';
 
   if (!best) {
     return {
-      headline: '입력 문장에서 추천 가능한 노선 후보를 찾지 못했습니다.',
-      summary: '출발지와 도착지 정류장이 같은 노선 안에서 함께 감지되지 않아 비교를 진행하지 못했습니다.',
+      headline: '현재 입력만으로는 추천 가능한 노선 후보를 찾지 못했습니다.',
+      summary: '출발지와 도착지 정류장이 같은 노선 안에서 안정적으로 연결되지 않아 비교를 진행하지 못했습니다.',
       bullets: [
         `감지된 정류장: ${mentionedStops.join(', ') || '없음'}`,
-        `희망 시간: ${preferredHour ? `${preferredHour}시대` : '찾지 못함'}`,
-        '정류장 이름을 데이터에 있는 표기와 비슷하게 다시 입력하면 후보를 더 잘 찾을 수 있습니다.',
+        `희망 시간: ${preferredHour ? `${preferredHour}시` : '찾지 못함'}`,
+        '정류장 이름을 조금 더 구체적으로 입력하면 후보를 다시 계산할 수 있습니다.',
       ],
-      recommendation: '출발 정류장과 도착 정류장을 더 구체적으로 적고 다시 추천을 요청하는 편이 좋습니다.',
+      recommendation: '출발 정류장과 도착 정류장을 더 분명하게 적은 뒤 다시 추천을 요청해 주세요.',
       caution: `${fallbackNote} 현재 추천은 감지된 정류장 이름과 예측 혼잡도만 기준으로 합니다.`,
       metrics: [
         buildMetric('감지된 정류장 수', mentionedStops.length),
         buildMetric('후보 노선 수', 0),
-        buildMetric('모델 기준', modelName),
+        buildMetric('예측 모델', modelName),
       ],
     };
   }
 
   return {
-    headline: `${best.routeName}번을 ${best.hour}에 타는 안이 가장 덜 붐비는 후보입니다.`,
-    summary: `${best.originStopName}에서 ${best.destinationStopName}까지 이동할 때 현재 계산된 후보 중 ${best.routeName}번 ${best.hour} 조합의 점수가 가장 낮았습니다.`,
+    headline: `${best.routeName}번 ${best.hour} 조합이 현재 기준으로 가장 덜 붐비는 후보입니다.`,
+    summary: `${best.originStopName}에서 ${best.destinationStopName}까지 이동할 때 계산된 후보 중 ${best.routeName}번 ${best.hour}가 가장 낮은 점수를 보였습니다.`,
     bullets: [
       `최우선 후보: ${buildRouteSummary(best)}`,
-      second ? `차선 후보: ${buildRouteSummary(second)}` : '비교 가능한 차선 후보가 충분하지 않았습니다.',
-      preferredHour ? `입력 문장에서 감지한 희망 시간은 ${preferredHour}시대이며, 추천 점수에 시간 근접도를 반영했습니다.` : '희망 시간이 명확하지 않아 혼잡도 중심으로 비교했습니다.',
+      second ? `차선 후보: ${buildRouteSummary(second)}` : '비교 가능한 차선 후보가 충분하지 않습니다.',
+      preferredHour
+        ? `입력 문장에서 감지한 희망 시간은 ${preferredHour}시이며, 후보 점수에 시간 근접도를 반영했습니다.`
+        : '희망 시간이 분명하지 않아 전체 시간대에서 혼잡도가 낮은 조합을 우선 비교했습니다.',
       `감지된 정류장: ${mentionedStops.join(', ') || '없음'}`,
     ],
-    recommendation: `${best.originStopName}에서 ${best.hour} 전후에 ${best.routeName}번을 우선 검토하는 편이 좋습니다. 같은 구간에서는 출발 정류장 혼잡도가 더 낮은 후보를 우선했습니다.`,
-    caution: `${fallbackNote} 실제 도착 시각, 배차 간격, 환승 시간은 데이터에 포함되지 않았습니다.`,
+    recommendation: `${best.originStopName}에서는 ${best.hour} 전후의 ${best.routeName}번을 먼저 확인하는 편이 좋습니다.`,
+    caution: `${fallbackNote} 실제 도착 시각, 배차 간격, 교통 상황은 현재 데이터에 포함되지 않습니다.`,
     metrics: [
       buildMetric('추천 노선', `${best.routeName}번`),
       buildMetric('추천 시간', best.hour),
@@ -215,6 +200,69 @@ function createFallbackAnalysis(action, context, reason = 'fallback') {
   throw new Error('지원하지 않는 fallback 분석 요청입니다.');
 }
 
+function extractGeminiText(responseJson) {
+  const candidate = responseJson?.candidates?.[0];
+  const parts = candidate?.content?.parts ?? [];
+  const text = parts
+    .map((part) => (typeof part?.text === 'string' ? part.text : ''))
+    .join('')
+    .trim();
+
+  return text;
+}
+
+async function callGemini({ apiKey, model, action, context }) {
+  const response = await fetch(
+    `https://generativelanguage.googleapis.com/v1beta/models/${encodeURIComponent(model)}:generateContent`,
+    {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'x-goog-api-key': apiKey,
+      },
+      body: JSON.stringify({
+        systemInstruction: {
+          parts: [
+            {
+              text:
+                '당신은 서울 버스 혼잡도 예측 서비스의 추천 에이전트입니다. 사용자 문장과 후보 노선 데이터를 바탕으로 덜 붐비는 선택지를 설명하세요. 데이터에 없는 실시간 정보는 지어내지 말고, 불확실하면 분명하게 한계를 밝히세요. 모든 답변은 한국어로 작성하세요.',
+            },
+          ],
+        },
+        contents: [
+          {
+            role: 'user',
+            parts: [
+              {
+                text: buildUserPrompt(action, context),
+              },
+            ],
+          },
+        ],
+        generationConfig: {
+          temperature: 0.2,
+          maxOutputTokens: 900,
+          responseMimeType: 'application/json',
+          responseSchema: buildSchema(),
+        },
+      }),
+    },
+  );
+
+  const json = await response.json();
+  if (!response.ok) {
+    const message = json.error?.message || 'Gemini 응답 생성에 실패했습니다.';
+    throw new Error(message);
+  }
+
+  const text = extractGeminiText(json);
+  if (!text) {
+    throw new Error('Gemini 응답에서 분석 본문을 찾지 못했습니다.');
+  }
+
+  return JSON.parse(text);
+}
+
 async function callOpenAI({ apiKey, model, action, context }) {
   const response = await fetch('https://api.openai.com/v1/responses', {
     method: 'POST',
@@ -224,49 +272,41 @@ async function callOpenAI({ apiKey, model, action, context }) {
     },
     body: JSON.stringify({
       model,
-      reasoning: { effort: 'low' },
       input: [
         {
-          role: 'system',
-          content: [
-            {
-              type: 'input_text',
-              text:
-                '당신은 서울 버스 혼잡 예측 서비스의 추천 에이전트입니다. 사용자의 일정 문장과 후보 노선 데이터를 바탕으로 가장 덜 붐비는 선택지를 추천하고, 예측 데이터라는 한계를 분명히 언급하세요.',
-            },
-          ],
-        },
-        {
           role: 'user',
-          content: [
-            {
-              type: 'input_text',
-              text: buildUserPrompt(action, context),
-            },
-          ],
+          content: buildUserPrompt(action, context),
         },
       ],
+      instructions:
+        'You are an analysis assistant for a Seoul bus crowding service. Use only the provided data. Do not invent live information. Respond in Korean.',
       text: {
         format: {
           type: 'json_schema',
-          name: 'bus_llm_analysis',
-          schema: buildSchema(),
+          name: 'llm_analysis',
           strict: true,
+          schema: buildSchema(),
         },
       },
-      max_output_tokens: 900,
     }),
   });
 
   const json = await response.json();
   if (!response.ok) {
-    const message = json.error?.message || 'OpenAI 응답 생성에 실패했습니다.';
+    const message = json.error?.message || 'OpenAI response generation failed.';
     throw new Error(message);
   }
 
-  const text = extractOutputText(json);
+  const text =
+    (typeof json.output_text === 'string' && json.output_text.trim()) ||
+    json.output
+      ?.flatMap((item) => item.content ?? [])
+      .filter((item) => item.type === 'output_text' && typeof item.text === 'string')
+      .map((item) => item.text)
+      .join('')
+      .trim();
   if (!text) {
-    throw new Error('OpenAI 응답에서 분석 본문을 찾지 못했습니다.');
+    throw new Error('OpenAI response did not include parsed text.');
   }
 
   return JSON.parse(text);
@@ -274,7 +314,7 @@ async function callOpenAI({ apiKey, model, action, context }) {
 
 function shouldUseFallback(error) {
   const message = error?.message || '';
-  return /quota|billing|429|rate limit|insufficient_quota|exceeded your current quota|openai_api_key|incorrect api key/i.test(message);
+  return /quota|billing|429|rate limit|resource exhausted|api key|permission denied|invalid argument|too many requests/i.test(message);
 }
 
 export async function handleLlmAnalysis(action, context, env = process.env) {
@@ -288,8 +328,12 @@ export async function handleLlmAnalysis(action, context, env = process.env) {
     throw new Error('분석 컨텍스트가 비어 있습니다.');
   }
 
-  const apiKey = resolvedEnv.OPENAI_API_KEY;
-  const model = resolvedEnv.OPENAI_MODEL || DEFAULT_MODEL;
+  const openAiApiKey = resolvedEnv.OPENAI_API_KEY;
+  const geminiApiKey = resolvedEnv.GEMINI_API_KEY || resolvedEnv.GOOGLE_API_KEY;
+  const apiKey = openAiApiKey || geminiApiKey;
+  const model = openAiApiKey
+    ? (resolvedEnv.OPENAI_MODEL || DEFAULT_MODEL)
+    : (resolvedEnv.GEMINI_MODEL || DEFAULT_MODEL);
 
   if (!apiKey) {
     return {
@@ -302,12 +346,19 @@ export async function handleLlmAnalysis(action, context, env = process.env) {
   }
 
   try {
-    const result = await callOpenAI({
-      apiKey,
-      model,
-      action,
-      context,
-    });
+    const result = openAiApiKey
+      ? await callOpenAI({
+          apiKey,
+          model,
+          action,
+          context,
+        })
+      : await callGemini({
+          apiKey,
+          model,
+          action,
+          context,
+        });
 
     return {
       mode: action,

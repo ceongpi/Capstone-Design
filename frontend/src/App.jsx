@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useState } from 'react';
+﻿import { useEffect, useMemo, useState } from 'react';
 import { DeckGL } from '@deck.gl/react';
 import { PathLayer, ScatterplotLayer, TextLayer } from '@deck.gl/layers';
 import Map from 'react-map-gl/maplibre';
@@ -18,11 +18,39 @@ import './index.css';
 
 const EMPTY_ARRAY = [];
 const DATA_URL = `${import.meta.env.BASE_URL}data/selected_routes.json`;
+const VWORLD_BASE_TILE_URL = 'https://api.vworld.kr/req/wmts/1.0.0';
 const VIEW_MODES = {
   MAP: 'map',
   CHARTS: 'charts',
 };
 const LLM_ACTION = 'travel_recommendation';
+
+function buildVworldMapStyle(apiKey) {
+  if (!apiKey) {
+    return null;
+  }
+
+  return {
+    version: 8,
+    name: 'VWorld Base Map',
+    sources: {
+      vworld: {
+        type: 'raster',
+        tiles: [`${VWORLD_BASE_TILE_URL}/${apiKey}/Base/{z}/{y}/{x}.png`],
+        tileSize: 256,
+        minzoom: 6,
+        maxzoom: 19,
+      },
+    },
+    layers: [
+      {
+        id: 'vworld-base-layer',
+        type: 'raster',
+        source: 'vworld',
+      },
+    ],
+  };
+}
 
 function colorForCrowding(crowding) {
   if (crowding >= 100) return [179, 35, 36, 230];
@@ -120,6 +148,47 @@ function parsePreferredHour(query, hours) {
   return fallbackIndex >= 0 ? { hour: rawHour, hourIndex: fallbackIndex } : null;
 }
 
+function createChatMessage(role, text, extra = {}) {
+  return {
+    id: `${role}-${Date.now()}-${Math.random().toString(36).slice(2, 8)}`,
+    role,
+    text,
+    ...extra,
+  };
+}
+
+function buildStopSearchKeys(stopName) {
+  const raw = String(stopName ?? '').trim();
+  if (!raw) {
+    return [];
+  }
+
+  const candidates = new Set(
+    [raw, ...raw.split(/[().]/g).map((part) => part.trim()).filter(Boolean)],
+  );
+  const normalizedKeys = new Set();
+
+  candidates.forEach((candidate) => {
+    const variants = new Set([candidate]);
+
+    variants.add(candidate.replace(/지하철\d+호선/g, '').trim());
+    variants.add(candidate.replace(/신분당선/g, '').trim());
+    variants.add(candidate.replace(/버스환승센터.*$/g, '').trim());
+    variants.add(candidate.replace(/\d+번출구.*$/g, '').trim());
+    variants.add(candidate.replace(/출구.*$/g, '').trim());
+    variants.add(candidate.replace(/\(.*?\)/g, '').trim());
+
+    variants.forEach((variant) => {
+      const normalized = normalizeText(variant);
+      if (normalized.length >= 2) {
+        normalizedKeys.add(normalized);
+      }
+    });
+  });
+
+  return [...normalizedKeys];
+}
+
 function collectMentionedStops(query, routes) {
   const normalizedQuery = normalizeText(query);
   if (!normalizedQuery) {
@@ -132,38 +201,129 @@ function collectMentionedStops(query, routes) {
   routes.forEach((route) => {
     route.stops.forEach((stop) => {
       const stopName = stop.localStopName ?? '';
-      const normalizedStopName = normalizeText(stopName);
-      if (!normalizedStopName || normalizedStopName.length < 2) {
+      const searchKeys = buildStopSearchKeys(stopName);
+      if (!searchKeys.length) {
         return;
       }
 
-      if (normalizedQuery.includes(normalizedStopName)) {
-        const key = `${route.routeName}:${stop.sequence}`;
-        if (!seen.has(key)) {
-          seen.add(key);
-          mentions.push({
-            routeName: route.routeName,
-            sequence: stop.sequence,
-            stopName,
-            normalizedStopName,
-          });
-        }
+      const matched = searchKeys.some((key) => normalizedQuery.includes(key) || key.includes(normalizedQuery));
+      if (!matched) {
+        return;
       }
+
+      const key = `${route.routeName}:${stop.sequence}`;
+      if (seen.has(key)) {
+        return;
+      }
+
+      seen.add(key);
+      mentions.push({
+        routeName: route.routeName,
+        sequence: stop.sequence,
+        stopName,
+      });
     });
   });
 
   return mentions;
 }
 
-function collectMentionedRouteNames(query, routes) {
-  const normalizedQuery = normalizeText(query);
-  if (!normalizedQuery) {
-    return [];
+function inferStopsFromMessage(message, routes, previousState) {
+  const text = String(message ?? '');
+  const mentions = collectMentionedStops(text, routes);
+  const uniqueMentions = [];
+  const used = new Set();
+
+  for (const mention of mentions) {
+    const normalizedStop = normalizeText(mention.stopName);
+    if (used.has(normalizedStop)) {
+      continue;
+    }
+
+    used.add(normalizedStop);
+    uniqueMentions.push(mention.stopName);
   }
 
-  return routes
-    .filter((route) => normalizedQuery.includes(normalizeText(route.routeName)))
-    .map((route) => route.routeName);
+  let departureStop = previousState.departureStop || '';
+  let destinationStop = previousState.destinationStop || '';
+
+  const hasDepartureMarker = /(?:에서|부터|출발|시작)/u.test(text);
+  const hasDestinationMarker = /(?:까지|으로|쪽으로|방향|도착|가야)/u.test(text);
+
+  if (uniqueMentions.length >= 2) {
+    departureStop = uniqueMentions[0];
+    destinationStop = uniqueMentions[1];
+  } else if (uniqueMentions.length === 1) {
+    const onlyStop = uniqueMentions[0];
+
+    if (hasDepartureMarker && !hasDestinationMarker) {
+      departureStop = onlyStop;
+    } else if (hasDestinationMarker && !hasDepartureMarker) {
+      destinationStop = onlyStop;
+    } else if (!departureStop) {
+      departureStop = onlyStop;
+    } else if (!destinationStop) {
+      destinationStop = onlyStop;
+    }
+  }
+
+  if (hasDepartureMarker && hasDestinationMarker && uniqueMentions.length === 1) {
+    if (!departureStop) {
+      departureStop = uniqueMentions[0];
+    } else if (!destinationStop) {
+      destinationStop = uniqueMentions[0];
+    }
+  }
+
+  return {
+    departureStop,
+    destinationStop,
+    detectedStops: uniqueMentions,
+  };
+}
+
+function deriveChatState(previousState, message, routes, hours) {
+  const text = String(message ?? '').trim();
+  const stopInfo = inferStopsFromMessage(text, routes, previousState);
+  const preferredHour = parsePreferredHour(text, hours) ?? previousState.preferredHour ?? null;
+
+  let lockedToPreferredHour = previousState.lockedToPreferredHour;
+  if (/(?:꼭|반드시|무조건|이 시간에는 가야|이 시간에 가야|이 시간엔 가야|이 시간에 출발)/u.test(text)) {
+    lockedToPreferredHour = true;
+  } else if (/(?:다른 시간|여유로운 시간|한산한 시간|언제가 괜찮|추천해줘)/u.test(text)) {
+    lockedToPreferredHour = false;
+  } else if (preferredHour && !previousState.preferredHour) {
+    lockedToPreferredHour = false;
+  }
+
+  return {
+    departureStop: stopInfo.departureStop,
+    destinationStop: stopInfo.destinationStop,
+    preferredHour,
+    lockedToPreferredHour,
+    detectedStops: stopInfo.detectedStops,
+    latestUserMessage: text,
+  };
+}
+
+function buildClarificationMessage(state) {
+  if (!state.departureStop && !state.destinationStop) {
+    return '출발지와 도착지를 함께 말해주시면 추천할 수 있어요. 예: "서울역에서 강남역까지 8시에 가야 해."';
+  }
+
+  if (!state.departureStop) {
+    return '출발 정류장을 알려주세요. 예: "서울역에서 ...".';
+  }
+
+  if (!state.destinationStop) {
+    return '도착 정류장을 알려주세요. 예: "... 강남역까지".';
+  }
+
+  if (!state.preferredHour) {
+    return '원하시는 시간이 있으면 같이 말해 주세요. 없으면 덜 붐비는 시간대를 기준으로 추천할게요.';
+  }
+
+  return '조건을 확인했어요. 추천을 계산해볼게요.';
 }
 
 function buildTravelCandidates({ routes, selectedDate, hours, busCapacity, query, selectedRouteName, departureStop, destinationStop }) {
@@ -292,6 +452,7 @@ function formatPercent(value) {
 }
 
 function App() {
+  const vworldApiKey = import.meta.env.VITE_VWORLD_API_KEY;
   const [dataset, setDataset] = useState(null);
   const [selectedRouteName, setSelectedRouteName] = useState('');
   const [selectedDate, setSelectedDate] = useState('');
@@ -300,16 +461,35 @@ function App() {
   const [viewState, setViewState] = useState(null);
   const [errorMessage, setErrorMessage] = useState('');
   const [activeView, setActiveView] = useState(VIEW_MODES.MAP);
-  const [departureStop, setDepartureStop] = useState('');
-  const [destinationStop, setDestinationStop] = useState('');
-  const [travelTime, setTravelTime] = useState('');
-
-  const travelPrompt = (departureStop.trim() && destinationStop.trim() && travelTime.trim())
-    ? `난 ${travelTime}시에 ${departureStop} 정류장에서 버스를 타고 ${destinationStop}까지 갈 거야.`
-    : '';
+  const [chatState, setChatState] = useState({
+    departureStop: '',
+    destinationStop: '',
+    preferredHour: null,
+    lockedToPreferredHour: false,
+    detectedStops: [],
+    latestUserMessage: '',
+  });
+  const [chatInput, setChatInput] = useState('');
+  const [chatMessages, setChatMessages] = useState([
+    createChatMessage('assistant', '출발지, 도착지, 시간대를 자연스럽게 말해주시면 추천해드릴게요. 예: "서울역에서 강남역까지 8시에 가야 해."'),
+  ]);
   const [llmLoadingAction, setLlmLoadingAction] = useState('');
   const [llmError, setLlmError] = useState('');
-  const [llmResponse, setLlmResponse] = useState(null);
+  const vworldMapStyle = useMemo(() => buildVworldMapStyle(vworldApiKey), [vworldApiKey]);
+  const departureStop = chatState.departureStop;
+  const destinationStop = chatState.destinationStop;
+  const travelTime = chatState.preferredHour ? String(chatState.preferredHour.hour) : '';
+  const travelPromptParts = [];
+  if (departureStop) {
+    travelPromptParts.push(`${departureStop}에서`);
+  }
+  if (destinationStop) {
+    travelPromptParts.push(`${destinationStop}까지`);
+  }
+  if (travelTime) {
+    travelPromptParts.push(`${travelTime}시에`);
+  }
+  const travelPrompt = travelPromptParts.length ? `난 ${travelPromptParts.join(' ')} 가야 해.` : '';
 
   useEffect(() => {
     let active = true;
@@ -427,39 +607,9 @@ function App() {
       query: travelPrompt,
       selectedRouteName,
       departureStop,
-      destinationStop,
+    destinationStop,
     });
   }, [dataset, hours, routes, selectedDate, selectedRouteName, travelPrompt, departureStop, destinationStop]);
-
-  const llmPayload = useMemo(() => {
-    if (!dataset || !summary || !travelCandidates) {
-      return null;
-    }
-
-    return {
-      type: 'travel_recommendation',
-      userQuery: travelPrompt,
-      forecast: {
-        date: selectedDate,
-        label: timeline.find((item) => item.date === selectedDate)?.label ?? selectedDate,
-        selectedHour,
-        latestActualDate: dataset.latestActualDate,
-        model: dataset.model,
-      },
-      currentSelection: {
-        routeName: selectedRoute?.routeName ?? '',
-        stopName: selectedStop?.localStopName ?? '',
-        stopCrowding: selectedStop?.crowding ?? 0,
-        routeAverageCrowding: Number(summary.avgCrowding),
-      },
-      querySignals: {
-        preferredHour: travelCandidates.preferredHour,
-        mentionedStops: travelCandidates.mentionedStopNames,
-      },
-      routeOptions: travelCandidates.routeOptions,
-      fallbackRoute: travelCandidates.fallbackRoute,
-    };
-  }, [dataset, selectedDate, selectedHour, selectedRoute, selectedStop, summary, timeline, travelCandidates, travelPrompt]);
 
   const layers = useMemo(() => {
     if (!selectedRoute) return [];
@@ -527,8 +677,78 @@ function App() {
     setSelectedDate(event.target.value);
   }
 
-  async function runTravelRecommendation() {
-    if (!llmPayload) {
+  function buildRecommendationPayload(nextState, userText, nextCandidates) {
+    return {
+      type: 'travel_recommendation',
+      userQuery: userText,
+      conversationState: nextState,
+      forecast: {
+        date: selectedDate,
+        label: timeline.find((item) => item.date === selectedDate)?.label ?? selectedDate,
+        selectedHour,
+        latestActualDate: dataset.latestActualDate,
+        model: dataset.model,
+      },
+      currentSelection: {
+        routeName: selectedRoute?.routeName ?? '',
+        stopName: selectedStop?.localStopName ?? '',
+        stopCrowding: selectedStop?.crowding ?? 0,
+        routeAverageCrowding: Number(summary.avgCrowding),
+      },
+      querySignals: {
+        preferredHour: nextCandidates.preferredHour,
+        mentionedStops: nextState.detectedStops,
+        lockedToPreferredHour: nextState.lockedToPreferredHour,
+      },
+      routeOptions: nextCandidates.routeOptions,
+      fallbackRoute: nextCandidates.fallbackRoute,
+    };
+  }
+
+  function buildAssistantText(result, nextState, nextCandidates) {
+    const recommendationLine = result?.recommendation ? result.recommendation : '';
+    const summaryLine = result?.summary ? result.summary : buildClarificationMessage(nextState);
+    const routeLine = nextCandidates?.routeOptions?.length
+      ? `추천 후보는 ${nextCandidates.routeOptions[0].routeName}번 ${nextCandidates.routeOptions[0].hour}시입니다.`
+      : '';
+    return [summaryLine, recommendationLine, routeLine, result?.caution ? `참고: ${result.caution}` : '']
+      .filter(Boolean)
+      .join(' ');
+  }
+
+  function focusRecommendedOption(option) {
+    const route = routes.find((item) => item.routeName === option.routeName);
+    if (!route) {
+      return;
+    }
+
+    setSelectedRouteName(route.routeName);
+    setSelectedHourIndex(option.hourIndex);
+    setSelectedStopSequence(option.originSequence);
+    setViewState(buildViewState(route));
+  }
+
+  async function requestRecommendation(nextState, userText) {
+    const nextPrompt = nextState.departureStop && nextState.destinationStop
+      ? `난 ${nextState.preferredHour ? `${nextState.preferredHour.hour}시에 ` : ''}${nextState.departureStop} 정류장에서 버스를 타고 ${nextState.destinationStop}까지 갈 거야.`
+      : userText;
+    const nextCandidates = buildTravelCandidates({
+      routes,
+      selectedDate,
+      hours,
+      busCapacity: dataset.busCapacity,
+      query: nextPrompt,
+      selectedRouteName,
+      departureStop: nextState.departureStop,
+      destinationStop: nextState.destinationStop,
+    });
+
+    if (!nextCandidates.routeOptions.length) {
+      const clarificationMessage = buildClarificationMessage(nextState);
+      setChatMessages((current) => [
+        ...current,
+        createChatMessage('assistant', clarificationMessage),
+      ]);
       return;
     }
 
@@ -536,6 +756,7 @@ function App() {
     setLlmError('');
 
     try {
+      const payload = buildRecommendationPayload(nextState, userText, nextCandidates);
       const response = await fetch('/api/llm-analysis', {
         method: 'POST',
         headers: {
@@ -543,7 +764,7 @@ function App() {
         },
         body: JSON.stringify({
           action: LLM_ACTION,
-          context: llmPayload,
+          context: payload,
         }),
       });
 
@@ -552,16 +773,57 @@ function App() {
         throw new Error(json.error || '맞춤 추천 요청에 실패했습니다.');
       }
 
-      setLlmResponse(json);
+      const assistantText = buildAssistantText(json, nextState, nextCandidates);
+      setChatMessages((current) => [
+        ...current,
+        createChatMessage('assistant', assistantText, {
+          options: nextCandidates.routeOptions.slice(0, 3),
+          insight: json,
+        }),
+      ]);
+      const bestOption = nextCandidates.routeOptions[0];
+      if (bestOption) {
+        focusRecommendedOption(bestOption);
+      }
     } catch (error) {
       setLlmError(error.message);
+      setChatMessages((current) => [
+        ...current,
+        createChatMessage('assistant', '추천을 계산하는 중 오류가 발생했습니다. 잠시 후 다시 시도해 주세요.'),
+      ]);
     } finally {
       setLlmLoadingAction('');
     }
   }
 
+  async function handleSendMessage(rawText) {
+    const userText = rawText.trim();
+    if (!userText || !dataset) {
+      return;
+    }
+
+    const nextState = deriveChatState(chatState, userText, routes, hours);
+    setChatInput('');
+    setChatState(nextState);
+    setChatMessages((current) => [...current, createChatMessage('user', userText)]);
+
+    if (!nextState.departureStop || !nextState.destinationStop) {
+      setChatMessages((current) => [
+        ...current,
+        createChatMessage('assistant', buildClarificationMessage(nextState)),
+      ]);
+      return;
+    }
+
+    await requestRecommendation(nextState, userText);
+  }
+
   if (errorMessage) {
     return <div className="loading">{errorMessage}</div>;
+  }
+
+  if (!vworldApiKey) {
+    return <div className="loading">VITE_VWORLD_API_KEY가 설정되지 않았습니다. `frontend/.env` 또는 `frontend/.env.local`에 추가하세요.</div>;
   }
 
   if (!dataset || !selectedRoute || !selectedSnapshot || !summary || !viewState) {
@@ -606,9 +868,9 @@ function App() {
             <small>{formatPercent(summary.peakStop.crowding)}</small>
           </div>
           <div className="stat-card dark">
-            <span>예측 모델</span>
-            <strong>{dataset.model.name}</strong>
-            <small>{dataset.model.description}</small>
+            <span>혼잡도 정의</span>
+            <strong>승차 인원 / 정원 45명 비율</strong>
+            <small>혼잡도(%) = (승차 인원 / 45) x 100</small>
           </div>
         </div>
       </header>
@@ -770,7 +1032,7 @@ function App() {
                     : null
                 }
               >
-                <Map mapStyle="https://basemaps.cartocdn.com/gl/positron-gl-style/style.json" reuseMaps />
+                <Map mapStyle={vworldMapStyle} reuseMaps />
               </DeckGL>
             </div>
           </section>
@@ -841,124 +1103,94 @@ function App() {
           <section className="llm-panel glass">
             <div className="panel-head">
               <div>
-                <p className="section-title">LLM Agent</p>
-                <h3>출발/도착 정류장과 시간대를 입력하면 덜 붐비는 시간과 노선을 추천합니다.</h3>
+                <p className="section-title">AI Chat Bot</p>
               </div>
               <span>{dataset.model.name}</span>
             </div>
 
-            <p className="chart-description">
-              오른쪽 패널에서 출발지, 도착지, 시간대를 입력하고, 데이터에 맞는 노선과 시간대를 추천받을 수 있습니다.
-            </p>
+            <div className="chat-memory">
+              <div>
+                <span>출발</span>
+                <strong>{departureStop || '미정'}</strong>
+              </div>
+              <div>
+                <span>도착</span>
+                <strong>{destinationStop || '미정'}</strong>
+              </div>
+              <div>
+                <span>시간</span>
+                <strong>{travelTime ? `${travelTime}시` : '미정'}</strong>
+              </div>
+              <div>
+                <span>상태</span>
+                <strong>
+                  {travelCandidates?.routeOptions?.length
+                    ? `${travelCandidates.routeOptions.length}개 후보 확인`
+                    : travelPrompt
+                      ? '추천 준비 완료'
+                      : '정보 입력 필요'}
+                </strong>
+              </div>
+            </div>
 
-            <div className="prompt-card">
-              <label>출발 정류장</label>
-              <input
-                type="text"
-                className="prompt-input-single"
-                value={departureStop}
-                onChange={(event) => setDepartureStop(event.target.value)}
-                placeholder="예: 창경궁"
-              />
-              <label>도착 정류장</label>
-              <input
-                type="text"
-                className="prompt-input-single"
-                value={destinationStop}
-                onChange={(event) => setDestinationStop(event.target.value)}
-                placeholder="예: 광장시장"
-              />
-              <label>시간대 (시)</label>
-              <input
-                type="number"
-                className="prompt-input-single"
-                value={travelTime}
-                onChange={(event) => setTravelTime(event.target.value)}
-                placeholder="예: 14"
-                min="0"
-                max="23"
+            <div className="chat-thread">
+              {chatMessages.map((message) => (
+                <article key={message.id} className={`chat-bubble ${message.role}${message.options?.length ? ' has-options' : ''}`}>
+                  <p>{message.text}</p>
+                  {message.options?.length ? (
+                    <div className="chat-option-list">
+                      {message.options.map((option) => (
+                        <button
+                          key={`${message.id}-${option.routeName}-${option.hour}`}
+                          type="button"
+                          className="chat-option-card"
+                          onClick={() => focusRecommendedOption(option)}
+                        >
+                          <strong>{`${option.routeName}번 · ${option.hour}`}</strong>
+                          <span>{`${option.originStopName} → ${option.destinationStopName}`}</span>
+                          <small>{`출발 혼잡 ${formatPercent(option.originCrowding)} / 노선 평균 ${formatPercent(option.routeCrowding)}`}</small>
+                        </button>
+                      ))}
+                    </div>
+                  ) : null}
+                </article>
+              ))}
+              {llmLoadingAction === LLM_ACTION ? (
+                <article className="chat-bubble assistant pending">
+                  <p>추천 경로와 시간대를 계산하는 중입니다.</p>
+                </article>
+              ) : null}
+              {llmError ? (
+                <article className="chat-bubble assistant error">
+                  <p>{llmError}</p>
+                </article>
+              ) : null}
+            </div>
+
+            <form
+              className="chat-composer"
+              onSubmit={(event) => {
+                event.preventDefault();
+                handleSendMessage(chatInput);
+              }}
+            >
+              <label htmlFor="chatInput">메시지</label>
+              <textarea
+                id="chatInput"
+                className="prompt-input-single chat-input"
+                value={chatInput}
+                onChange={(event) => setChatInput(event.target.value)}
+                placeholder='예: "이 시간에 가야 하는데 언제가 괜찮아?"'
+                rows={4}
               />
               <button
-                type="button"
+                type="submit"
                 className="action-button primary-action"
-                onClick={runTravelRecommendation}
-                disabled={!travelPrompt || llmLoadingAction === LLM_ACTION}
+                disabled={!chatInput.trim() || llmLoadingAction === LLM_ACTION}
               >
-                {llmLoadingAction === LLM_ACTION ? '추천 계산 중...' : '맞춤 추천 받기'}
+                {llmLoadingAction === LLM_ACTION ? '답변 생성 중...' : '보내기'}
               </button>
-            </div>
-
-            <div className="candidate-strip">
-              <article className="candidate-card">
-                <span>감지된 정류장</span>
-                <strong>{travelCandidates?.mentionedStopNames.join(', ') || '아직 감지되지 않음'}</strong>
-              </article>
-              <article className="candidate-card">
-                <span>희망 시간</span>
-                <strong>{travelCandidates?.preferredHour ? `${travelCandidates.preferredHour.hour}시대` : '문장에서 찾지 못함'}</strong>
-              </article>
-              <article className="candidate-card">
-                <span>후보 노선 수</span>
-                <strong>{travelCandidates?.candidateCount ?? 0}개</strong>
-              </article>
-            </div>
-
-            {travelCandidates?.routeOptions?.length ? (
-              <div className="option-preview">
-                {travelCandidates.routeOptions.slice(0, 3).map((option) => (
-                  <article key={`${option.routeName}-${option.hour}`} className="option-card">
-                    <div className="option-head">
-                      <strong>{option.routeName}번</strong>
-                      <span>{option.hour}</span>
-                    </div>
-                    <p>{`${option.originStopName} -> ${option.destinationStopName}`}</p>
-                    <small>{`출발 혼잡 ${formatPercent(option.originCrowding)} / 노선 평균 ${formatPercent(option.routeCrowding)}`}</small>
-                  </article>
-                ))}
-              </div>
-            ) : (
-              <div className="llm-placeholder compact">
-                같은 노선에 포함된 출발지와 도착지를 찾으면 후보를 자동으로 비교합니다.
-              </div>
-            )}
-
-            {llmError ? <div className="llm-error">{llmError}</div> : null}
-
-            {llmResponse ? (
-              <div className="llm-result">
-                <div className="llm-summary">
-                  <p className="section-title">{llmResponse.modeLabel}</p>
-                  {llmResponse.fallback ? <small>규칙 기반 fallback 응답</small> : null}
-                  <h4>{llmResponse.headline}</h4>
-                  <p>{llmResponse.summary}</p>
-                </div>
-
-                <div className="llm-metrics">
-                  {llmResponse.metrics.map((metric) => (
-                    <article key={metric.label} className="llm-metric-card">
-                      <span>{metric.label}</span>
-                      <strong>{metric.value}</strong>
-                    </article>
-                  ))}
-                </div>
-
-                <div className="llm-columns">
-                  <article className="llm-list-card">
-                    <h4>추천 근거</h4>
-                    <ul>
-                      {llmResponse.bullets.map((item) => (
-                        <li key={item}>{item}</li>
-                      ))}
-                    </ul>
-                  </article>
-                  <article className="llm-list-card">
-                    <h4>권장 이동</h4>
-                    <p>{llmResponse.recommendation}</p>
-                    <small>{llmResponse.caution}</small>
-                  </article>
-                </div>
-              </div>
-            ) : null}
+            </form>
           </section>
         </aside>
       </main>
